@@ -137,7 +137,7 @@ export default function WellnessPortal() {
         >
           <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full glass-panel">
             <Sparkles className="w-3.5 h-3.5 text-pampa-oro" />
-            <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-pampa-oro">Exclusividades</span>
+            <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-pampa-oro">Reservas</span>
           </div>
           
           <h1 className="text-5xl sm:text-7xl font-serif text-foreground drop-shadow-sm uppercase italic">
