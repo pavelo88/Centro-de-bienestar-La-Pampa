@@ -1,0 +1,10 @@
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="50" r="44" stroke="#C5A059" stroke-width="2" stroke-dasharray="4 4" />
+  <circle cx="50" cy="50" r="39" stroke="#C5A059" stroke-width="1.5" />
+  
+  <path d="M50 72 C42 60, 36 50, 36 38 C44 48, 48 55, 50 72 Z" stroke="#C5A059" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M50 72 C58 60, 64 50, 64 38 C56 48, 52 55, 50 72 Z" stroke="#C5A059" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M50 72 C46 52, 44 40, 50 24 C56 40, 54 52, 50 72 Z" stroke="#C5A059" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <circle cx="50" cy="18" r="2.5" fill="#C5A059" />
+</svg>

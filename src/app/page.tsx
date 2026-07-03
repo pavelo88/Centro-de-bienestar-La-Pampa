@@ -106,14 +106,14 @@ export default function Home() {
   };
 
   return (
-    <div className="relative bg-[#FDFBF7] text-[#333333] min-h-screen overflow-x-hidden selection:bg-[#C5A059]/20 selection:text-[#333333] transition-colors duration-700">
+    <div className="relative bg-background text-foreground min-h-screen overflow-x-hidden selection:bg-pampa-oro/20 selection:text-foreground transition-colors duration-700">
       
       {/* Symmetrical fine geometric lines in background for minimalist luxury feel */}
       <div className="absolute inset-0 pointer-events-none z-0 opacity-[0.03]">
-        <div className="absolute left-[10%] top-0 bottom-0 w-px bg-[#C5A059]" />
-        <div className="absolute right-[10%] top-0 bottom-0 w-px bg-[#C5A059]" />
-        <div className="absolute left-0 right-0 top-[20%] h-px bg-[#C5A059]" />
-        <div className="absolute left-0 right-0 top-[60%] h-px bg-[#C5A059]" />
+        <div className="absolute left-[10%] top-0 bottom-0 w-px bg-pampa-oro" />
+        <div className="absolute right-[10%] top-0 bottom-0 w-px bg-pampa-oro" />
+        <div className="absolute left-0 right-0 top-[20%] h-px bg-pampa-oro" />
+        <div className="absolute left-0 right-0 top-[60%] h-px bg-pampa-oro" />
       </div>
 
       <Navbar />
@@ -128,19 +128,19 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, ease: 'easeOut' }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#C5A059]/30 bg-[#FDFBF7] shadow-sm"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-pampa-oro/30 bg-background shadow-sm"
             >
-              <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
-              <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-[#C5A059]">
+              <Sparkles className="w-3.5 h-3.5 text-pampa-oro" />
+              <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-pampa-oro">
                 Santuario de Ultra Lujo
               </span>
             </motion.div>
 
             <h1 className="text-[3.5rem] sm:text-[5.5rem] lg:text-[7.5rem] font-serif leading-[0.95] tracking-tighter select-none">
-              <span className="block font-light italic text-[#C5A059] opacity-90">
+              <span className="block font-light italic text-pampa-oro opacity-90">
                 <TextReveal delay={0.1}>la pampa</TextReveal>
               </span>
-              <span className="block font-normal uppercase text-[#333333] mt-3">
+              <span className="block font-normal uppercase text-foreground mt-3">
                 <TextReveal delay={0.3}>Centro de Bienestar</TextReveal>
               </span>
             </h1>
@@ -149,7 +149,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, delay: 0.8 }}
-              className="max-w-xl mx-auto text-sm sm:text-base text-[#777777] font-light leading-relaxed tracking-wide"
+              className="max-w-xl mx-auto text-sm sm:text-base text-muted-foreground font-light leading-relaxed tracking-wide"
             >
               Un espacio purificado diseñado para el balance absoluto. Experiencias holísticas y tecnología biométrica integradas para un acceso seguro, fluido e inteligente.
             </motion.p>
@@ -163,7 +163,7 @@ export default function Home() {
               <MagneticButton className="w-full sm:w-auto">
                 <Link 
                   href="/portal"
-                  className="w-full sm:w-auto h-12 px-8 rounded-none bg-[#333333] text-[#FDFBF7] border border-[#333333] flex items-center justify-center gap-3 font-semibold uppercase tracking-widest text-[9px] hover:bg-transparent hover:text-[#333333] transition-all duration-500"
+                  className="w-full sm:w-auto h-12 px-8 rounded-none bg-foreground text-background border border-foreground flex items-center justify-center gap-3 font-semibold uppercase tracking-widest text-[9px] hover:bg-transparent hover:text-foreground transition-all duration-500"
                 >
                   <span>Portal Residentes</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -173,7 +173,7 @@ export default function Home() {
               <MagneticButton className="w-full sm:w-auto">
                 <Link 
                   href="#disciplinas"
-                  className="w-full sm:w-auto h-12 px-8 rounded-none border border-[#C5A059] text-[#333333] bg-transparent flex items-center justify-center gap-2 font-semibold uppercase tracking-widest text-[9px] hover:bg-[#C5A059]/5 transition-all duration-500"
+                  className="w-full sm:w-auto h-12 px-8 rounded-none border border-pampa-oro text-foreground bg-transparent flex items-center justify-center gap-2 font-semibold uppercase tracking-widest text-[9px] hover:bg-pampa-oro/5 transition-all duration-500"
                 >
                   <span>Explorar Disciplinas</span>
                 </Link>
@@ -184,17 +184,17 @@ export default function Home() {
         </section>
 
         {/* WELLNESS DISCIPLINES PRESENTATION */}
-        <section id="disciplinas" className="py-32 px-4 sm:px-6 relative border-t border-[#C5A059]/20 bg-[#FDFBF7]">
+        <section id="disciplinas" className="py-32 px-4 sm:px-6 relative border-t border-pampa-oro/20 bg-background">
           <div className="max-w-6xl mx-auto">
             
             <div className="text-center max-w-2xl mx-auto space-y-4 mb-24">
-              <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-[#C5A059] block">
+              <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-pampa-oro block">
                 Disciplinas Exclusivas
               </span>
-              <h2 className="text-3xl sm:text-5xl font-serif text-[#333333]">
-                Armonía del <span className="font-light italic text-[#C5A059]">Cuerpo y la Mente</span>
+              <h2 className="text-3xl sm:text-5xl font-serif text-foreground">
+                Armonía del <span className="font-light italic text-pampa-oro">Cuerpo y la Mente</span>
               </h2>
-              <div className="w-12 h-px bg-[#C5A059] mx-auto mt-6" />
+              <div className="w-12 h-px bg-pampa-oro mx-auto mt-6" />
             </div>
 
             {/* Grid of disciplines using Custom Monoline icons, elegant typography & zero stock images */}
@@ -227,26 +227,26 @@ export default function Home() {
               ].map((item, idx) => (
                 <div 
                   key={idx}
-                  className="group bg-[#FDFBF7] border border-[#C5A059]/20 p-8 rounded-none transition-all duration-500 hover:border-[#C5A059] hover:shadow-[0_10px_30px_rgba(197,160,89,0.05)] relative flex flex-col justify-between min-h-[300px]"
+                  className="group bg-background border border-pampa-oro/20 p-8 rounded-none transition-all duration-500 hover:border-pampa-oro hover:shadow-[0_10px_30px_rgba(197,160,89,0.05)] relative flex flex-col justify-between min-h-[300px]"
                 >
                   <div className="space-y-6">
-                    <div className="text-[#C5A059] transition-transform duration-500 group-hover:scale-105">
+                    <div className="text-pampa-oro transition-transform duration-500 group-hover:scale-105">
                       <item.icon className="w-10 h-10 stroke-[0.75]" />
                     </div>
                     <div className="space-y-2">
-                      <span className="text-[9px] font-bold uppercase tracking-widest text-[#C5A059]">
+                      <span className="text-[9px] font-bold uppercase tracking-widest text-pampa-oro">
                         {item.subtitle}
                       </span>
-                      <h3 className="text-xl font-medium text-[#333333] font-serif tracking-tight">
+                      <h3 className="text-xl font-medium text-foreground font-serif tracking-tight">
                         {item.title}
                       </h3>
                     </div>
-                    <p className="text-xs text-[#777777] font-light leading-relaxed">
+                    <p className="text-xs text-muted-foreground font-light leading-relaxed">
                       {item.desc}
                     </p>
                   </div>
-                  <div className="pt-6 border-t border-[#C5A059]/10 mt-6 flex justify-between items-center">
-                    <Link href="/bienestar" className="text-[9px] font-bold uppercase tracking-wider text-[#333333] hover:text-[#C5A059] transition-colors flex items-center gap-1.5">
+                  <div className="pt-6 border-t border-pampa-oro/10 mt-6 flex justify-between items-center">
+                    <Link href="/bienestar" className="text-[9px] font-bold uppercase tracking-wider text-foreground hover:text-pampa-oro transition-colors flex items-center gap-1.5">
                       Agendar Sesión
                       <ArrowRight className="w-3 h-3" />
                     </Link>
@@ -259,32 +259,32 @@ export default function Home() {
         </section>
 
         {/* BIOMETRIC & MEMBERSHIP GATEWAY FLOW */}
-        <section className="py-24 px-4 sm:px-6 bg-[#FDFBF7] border-t border-[#C5A059]/20">
-          <div className="max-w-5xl mx-auto border border-[#C5A059]/30 p-8 sm:p-16 relative overflow-hidden">
+        <section className="py-24 px-4 sm:px-6 bg-background border-t border-pampa-oro/20">
+          <div className="max-w-5xl mx-auto border border-pampa-oro/30 p-8 sm:p-16 relative overflow-hidden">
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
-                <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-[#C5A059] block">
+                <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-pampa-oro block">
                   Seguridad Sin Fricciones
                 </span>
-                <h2 className="text-3xl sm:text-4xl font-serif text-[#333333] leading-tight">
+                <h2 className="text-3xl sm:text-4xl font-serif text-foreground leading-tight">
                   Acceso Biométrico Automatizado
                 </h2>
-                <p className="text-xs sm:text-sm text-[#777777] font-light leading-relaxed">
+                <p className="text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
                   Nuestra estación de control inteligente está directamente vinculada con la validación de membresía en tiempo real. Al liquidar sus expensas ordinarias, la terminal de reconocimiento facial se activa al instante permitiendo un ingreso automatizado y seguro.
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
                   <Link 
                     href="/biometrico" 
-                    className="h-11 px-6 bg-[#C5A059] text-[#FDFBF7] flex items-center justify-center gap-2 font-semibold uppercase tracking-widest text-[9px] hover:bg-[#333333] transition-colors"
+                    className="h-11 px-6 bg-pampa-oro text-background flex items-center justify-center gap-2 font-semibold uppercase tracking-widest text-[9px] hover:bg-foreground transition-colors"
                   >
                     <Fingerprint className="w-4 h-4" />
                     Terminal de Acceso
                   </Link>
                   <Link 
                     href="/admin" 
-                    className="h-11 px-6 border border-[#333333] text-[#333333] flex items-center justify-center gap-2 font-semibold uppercase tracking-widest text-[9px] hover:bg-[#333333]/5 transition-colors"
+                    className="h-11 px-6 border border-foreground text-foreground flex items-center justify-center gap-2 font-semibold uppercase tracking-widest text-[9px] hover:bg-foreground/5 transition-colors"
                   >
                     <LayoutDashboard className="w-4 h-4" />
                     Panel Administrativo
@@ -293,17 +293,17 @@ export default function Home() {
               </div>
 
               {/* Symmetrical fine geometric layout as graphic asset */}
-              <div className="relative border border-[#C5A059]/20 p-8 flex flex-col items-center justify-center min-h-[250px] bg-[#FDFBF7]">
-                <div className="absolute top-2 left-2 text-[9px] font-mono text-[#C5A059]/40">SYS-OK-2026</div>
-                <div className="absolute bottom-2 right-2 text-[9px] font-mono text-[#C5A059]/40">V-F-01</div>
+              <div className="relative border border-pampa-oro/20 p-8 flex flex-col items-center justify-center min-h-[250px] bg-background">
+                <div className="absolute top-2 left-2 text-[9px] font-mono text-pampa-oro/40">SYS-OK-2026</div>
+                <div className="absolute bottom-2 right-2 text-[9px] font-mono text-pampa-oro/40">V-F-01</div>
                 
-                <div className="w-20 h-20 rounded-full border border-dashed border-[#C5A059] flex items-center justify-center text-[#C5A059] animate-pulse">
+                <div className="w-20 h-20 rounded-full border border-dashed border-pampa-oro flex items-center justify-center text-pampa-oro animate-pulse">
                   <Fingerprint className="w-10 h-10 stroke-[0.75]" />
                 </div>
                 
                 <div className="text-center mt-6 space-y-1">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-[#333333]">Validación Biométrica Activa</p>
-                  <p className="text-[9px] text-[#C5A059]">Sincronización en tiempo real con pasarela de pagos</p>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-foreground">Validación Biométrica Activa</p>
+                  <p className="text-[9px] text-pampa-oro">Sincronización en tiempo real con pasarela de pagos</p>
                 </div>
               </div>
             </div>
@@ -312,17 +312,17 @@ export default function Home() {
         </section>
 
         {/* CONTACT & RESERVATIONS (MINIMALIST FORM) */}
-        <section id="contacto" className="py-32 px-4 sm:px-6 relative bg-[#FDFBF7] border-t border-[#C5A059]/20">
-          <div className="max-w-4xl mx-auto border border-[#C5A059]/20 p-8 sm:p-16 relative">
+        <section id="contacto" className="py-32 px-4 sm:px-6 relative bg-background border-t border-pampa-oro/20">
+          <div className="max-w-4xl mx-auto border border-pampa-oro/20 p-8 sm:p-16 relative">
 
             <div className="text-center max-w-2xl mx-auto space-y-4 mb-16">
-              <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-[#C5A059]">
+              <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-pampa-oro">
                 Atención Preferente
               </span>
-              <h2 className="text-3xl sm:text-4xl font-serif text-[#333333]">
+              <h2 className="text-3xl sm:text-4xl font-serif text-foreground">
                 Agende una Visita Guiada
               </h2>
-              <p className="text-xs text-[#777777] font-light leading-relaxed">
+              <p className="text-xs text-muted-foreground font-light leading-relaxed">
                 Descubra la exclusividad y los espacios privados diseñados para el bienestar integral.
               </p>
             </div>
@@ -334,15 +334,15 @@ export default function Home() {
                 transition={{ type: 'spring', stiffness: 200, damping: 15 }}
                 className="flex flex-col items-center justify-center py-12 space-y-4"
               >
-                <CheckCircle2 className="w-12 h-12 text-[#C5A059]" />
-                <h3 className="text-lg font-medium text-[#333333]">Solicitud Recibida</h3>
-                <p className="text-xs text-[#777777]">Un asesor de nuestro equipo se comunicará con usted en breve.</p>
+                <CheckCircle2 className="w-12 h-12 text-pampa-oro" />
+                <h3 className="text-lg font-medium text-foreground">Solicitud Recibida</h3>
+                <p className="text-xs text-muted-foreground">Un asesor de nuestro equipo se comunicará con usted en breve.</p>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div className="space-y-1">
-                    <label className="text-[9px] font-bold uppercase text-[#C5A059] tracking-widest">Nombre Completo</label>
+                    <label className="text-[9px] font-bold uppercase text-pampa-oro tracking-widest">Nombre Completo</label>
                     <input 
                       type="text" 
                       required 
@@ -351,11 +351,11 @@ export default function Home() {
                       placeholder="Ej. Alejandro Valenzuela"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full h-12 px-4 bg-transparent border border-[#C5A059]/30 rounded-none text-[#333333] placeholder-[#777777]/50 text-xs focus:outline-none focus:border-[#C5A059] transition-colors"
+                      className="w-full h-12 px-4 bg-transparent border border-pampa-oro/30 rounded-none text-foreground placeholder-muted-foreground/50 text-xs focus:outline-none focus:border-pampa-oro transition-colors"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[9px] font-bold uppercase text-[#C5A059] tracking-widest">Teléfono de Contacto</label>
+                    <label className="text-[9px] font-bold uppercase text-pampa-oro tracking-widest">Teléfono de Contacto</label>
                     <input 
                       type="tel" 
                       required
@@ -367,13 +367,13 @@ export default function Home() {
                       placeholder="Ej. +593 999 999 999"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full h-12 px-4 bg-transparent border border-[#C5A059]/30 rounded-none text-[#333333] placeholder-[#777777]/50 text-xs focus:outline-none focus:border-[#C5A059] transition-colors"
+                      className="w-full h-12 px-4 bg-transparent border border-pampa-oro/30 rounded-none text-foreground placeholder-muted-foreground/50 text-xs focus:outline-none focus:border-pampa-oro transition-colors"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold uppercase text-[#C5A059] tracking-widest">Correo Electrónico</label>
+                  <label className="text-[9px] font-bold uppercase text-pampa-oro tracking-widest">Correo Electrónico</label>
                   <input 
                     type="email" 
                     required 
@@ -381,12 +381,12 @@ export default function Home() {
                     placeholder="ejemplo@correo.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full h-12 px-4 bg-transparent border border-[#C5A059]/30 rounded-none text-[#333333] placeholder-[#777777]/50 text-xs focus:outline-none focus:border-[#C5A059] transition-colors"
+                    className="w-full h-12 px-4 bg-transparent border border-pampa-oro/30 rounded-none text-foreground placeholder-muted-foreground/50 text-xs focus:outline-none focus:border-pampa-oro transition-colors"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold uppercase text-[#C5A059] tracking-widest">Mensaje o Espacio de Interés</label>
+                  <label className="text-[9px] font-bold uppercase text-pampa-oro tracking-widest">Mensaje o Espacio de Interés</label>
                   <textarea 
                     rows={4} 
                     required
@@ -394,7 +394,7 @@ export default function Home() {
                     placeholder="Detalles adicionales..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full p-4 bg-transparent border border-[#C5A059]/30 rounded-none text-[#333333] placeholder-[#777777]/50 text-xs focus:outline-none focus:border-[#C5A059] transition-colors resize-none"
+                    className="w-full p-4 bg-transparent border border-pampa-oro/30 rounded-none text-foreground placeholder-muted-foreground/50 text-xs focus:outline-none focus:border-pampa-oro transition-colors resize-none"
                   />
                 </div>
 
@@ -402,13 +402,13 @@ export default function Home() {
                   <button 
                     type="submit"
                     disabled={loading}
-                    className="w-full h-12 bg-[#333333] text-[#FDFBF7] border border-[#333333] font-bold uppercase tracking-widest text-[9px] rounded-none hover:bg-transparent hover:text-[#333333] transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                    className="w-full h-12 bg-foreground text-background border border-foreground font-bold uppercase tracking-widest text-[9px] rounded-none hover:bg-transparent hover:text-foreground transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                   >
                     {loading ? (
-                      <span className="w-4 h-4 border border-[#FDFBF7] border-t-transparent rounded-full animate-spin" />
+                      <span className="w-4 h-4 border border-background border-t-transparent rounded-full animate-spin" />
                     ) : (
                       <>
-                        <Calendar className="w-3.5 h-3.5 text-[#C5A059]" />
+                        <Calendar className="w-3.5 h-3.5 text-pampa-oro" />
                         Solicitar Visita
                       </>
                     )}

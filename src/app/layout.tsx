@@ -1,6 +1,6 @@
 import ModernBackground from '@/components/site/ModernBackground';
 import PageTransition from '@/components/site/PageTransition';
-import ParticleBackground from '@/components/site/ParticleBackground';
+import FluidBackground from '@/components/site/FluidBackground';
 import SEOStructuredData from '@/components/site/seo-structured-data';
 import { ThemeProvider } from '@/components/site/theme-provider';
 import SmartAssistant from '@/components/site/SmartAssistant';
@@ -33,6 +33,7 @@ export const metadata: Metadata = {
     title: 'La Pampa',
   },
   icons: {
+    icon: '/favicon.svg',
     apple: '/icon-192.png',
   },
   openGraph: {
@@ -86,7 +87,7 @@ export default function RootLayout({
           <FirebaseClientProvider>
 
             {/* Los fondos se renderizan detrás de todo */}
-            <ParticleBackground />
+            <FluidBackground />
             <ModernBackground />
             <SEOStructuredData />
 

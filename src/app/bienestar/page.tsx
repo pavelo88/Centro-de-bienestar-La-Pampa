@@ -110,7 +110,7 @@ export default function WellnessPortal() {
   };
 
   return (
-    <div className="relative bg-[#FDFBF7] text-[#333333] min-h-screen overflow-x-hidden pt-28 pb-16 selection:bg-[#C5A059]/20 selection:text-[#333333] transition-colors duration-700">
+    <div className="relative bg-background text-foreground min-h-screen overflow-x-hidden pt-28 pb-16 selection:bg-pampa-oro/20 selection:text-foreground transition-colors duration-700">
       <Navbar />
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
@@ -122,16 +122,16 @@ export default function WellnessPortal() {
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           className="text-center max-w-3xl mx-auto mt-8 mb-20 space-y-6"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#C5A059]/30 bg-[#FDFBF7] shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
-            <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-[#C5A059]">Santuario Wellness & Spa</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-pampa-oro/30 bg-background shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-pampa-oro" />
+            <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-pampa-oro">Santuario Wellness & Spa</span>
           </div>
           
-          <h1 className="text-4xl sm:text-6xl font-serif text-[#333333] uppercase italic">
+          <h1 className="text-4xl sm:text-6xl font-serif text-foreground uppercase italic">
             Clases de Bienestar
           </h1>
           
-          <p className="text-sm text-[#777777] font-light leading-relaxed max-w-xl mx-auto">
+          <p className="text-sm text-muted-foreground font-light leading-relaxed max-w-xl mx-auto">
             Disfrute de disciplinas diseñadas para el rejuvenecimiento y la vitalidad del cuerpo. Reserve su lugar con confirmación instantánea.
           </p>
         </motion.div>
@@ -141,7 +141,7 @@ export default function WellnessPortal() {
           
           {/* List of Disciplines Selector */}
           <div className="lg:col-span-5 space-y-4">
-            <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#C5A059] mb-6">Disciplinas Disponibles</h2>
+            <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-pampa-oro mb-6">Disciplinas Disponibles</h2>
             <div className="space-y-3">
               {disciplines.map((d) => {
                 const isActive = selectedDiscipline.id === d.id;
@@ -154,21 +154,21 @@ export default function WellnessPortal() {
                     whileTap={{ scale: 0.99 }}
                     className={`w-full text-left p-6 rounded-none border transition-all duration-500 relative overflow-hidden group ${
                       isActive 
-                        ? 'border-[#C5A059] bg-[#FDFBF7] shadow-[0_10px_30px_rgba(197,160,89,0.06)]' 
-                        : 'border-[#C5A059]/20 bg-transparent hover:border-[#C5A059]/50'
+                        ? 'border-pampa-oro bg-background shadow-[0_10px_30px_rgba(197,160,89,0.06)]' 
+                        : 'border-pampa-oro/20 bg-transparent hover:border-pampa-oro/50'
                     }`}
                   >
                     <div className="relative z-10 flex items-center justify-between">
                       <div className="flex items-center gap-4">
-                        <div className={`p-2 border rounded-none ${isActive ? 'border-[#C5A059] text-[#C5A059]' : 'border-[#C5A059]/20 text-[#777777]'}`}>
+                        <div className={`p-2 border rounded-none ${isActive ? 'border-pampa-oro text-pampa-oro' : 'border-pampa-oro/20 text-muted-foreground'}`}>
                           <DisciplineIcon className="w-6 h-6 stroke-[0.75]" />
                         </div>
                         <div className="space-y-0.5">
-                          <span className="text-[8px] font-bold tracking-widest text-[#C5A059] uppercase">{d.intensity} • {d.duration}</span>
-                          <h3 className="text-lg font-medium text-[#333333] font-serif">{d.title}</h3>
+                          <span className="text-[8px] font-bold tracking-widest text-pampa-oro uppercase">{d.intensity} • {d.duration}</span>
+                          <h3 className="text-lg font-medium text-foreground font-serif">{d.title}</h3>
                         </div>
                       </div>
-                      <ChevronRight className={`w-4 h-4 text-[#C5A059] transition-transform duration-300 ${isActive ? 'rotate-90' : 'group-hover:translate-x-1'}`} />
+                      <ChevronRight className={`w-4 h-4 text-pampa-oro transition-transform duration-300 ${isActive ? 'rotate-90' : 'group-hover:translate-x-1'}`} />
                     </div>
                   </motion.button>
                 );
@@ -185,33 +185,33 @@ export default function WellnessPortal() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
                 transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-                className="bg-[#FDFBF7] border border-[#C5A059]/30 rounded-none p-8 sm:p-10 shadow-sm flex flex-col justify-between relative overflow-hidden min-h-[500px]"
+                className="bg-background border border-pampa-oro/30 rounded-none p-8 sm:p-10 shadow-sm flex flex-col justify-between relative overflow-hidden min-h-[500px]"
               >
                 <div className="space-y-8 relative z-10">
-                  <div className="flex justify-between items-start flex-wrap gap-4 border-b border-[#C5A059]/10 pb-4">
-                    <span className="px-3 py-1 border border-[#C5A059]/30 text-[#C5A059] text-[9px] font-bold uppercase tracking-wider">
+                  <div className="flex justify-between items-start flex-wrap gap-4 border-b border-pampa-oro/10 pb-4">
+                    <span className="px-3 py-1 border border-pampa-oro/30 text-pampa-oro text-[9px] font-bold uppercase tracking-wider">
                       {selectedDiscipline.duration}
                     </span>
-                    <span className="flex items-center gap-1.5 text-xs text-[#777777] font-light">
-                      <User className="w-3.5 h-3.5 text-[#C5A059]" />
+                    <span className="flex items-center gap-1.5 text-xs text-muted-foreground font-light">
+                      <User className="w-3.5 h-3.5 text-pampa-oro" />
                       {selectedDiscipline.instructor}
                     </span>
                   </div>
 
                   <div className="space-y-3">
-                    <h2 className="text-3xl font-serif text-[#333333] tracking-tight uppercase italic">{selectedDiscipline.title}</h2>
-                    <p className="text-xs sm:text-sm text-[#777777] font-light leading-relaxed">
+                    <h2 className="text-3xl font-serif text-foreground tracking-tight uppercase italic">{selectedDiscipline.title}</h2>
+                    <p className="text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
                       {selectedDiscipline.description}
                     </p>
                   </div>
                   
                   {/* Benefits list */}
                   <div className="space-y-3">
-                    <h4 className="text-[9px] font-bold uppercase tracking-widest text-[#C5A059]">Beneficios Destacados</h4>
+                    <h4 className="text-[9px] font-bold uppercase tracking-widest text-pampa-oro">Beneficios Destacados</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       {selectedDiscipline.benefits.map((b, i) => (
-                        <div key={i} className="flex items-center gap-2 p-3 border border-[#C5A059]/20 rounded-none text-xs text-[#333333]">
-                          <Heart className="w-3.5 h-3.5 text-[#C5A059] shrink-0 stroke-[1.5]" />
+                        <div key={i} className="flex items-center gap-2 p-3 border border-pampa-oro/20 rounded-none text-xs text-foreground">
+                          <Heart className="w-3.5 h-3.5 text-pampa-oro shrink-0 stroke-[1.5]" />
                           <span className="font-light text-[11px]">{b}</span>
                         </div>
                       ))}
@@ -219,18 +219,18 @@ export default function WellnessPortal() {
                   </div>
 
                   {/* Horarios info */}
-                  <div className="flex items-center gap-3 p-4 border border-[#C5A059]/20 rounded-none bg-[#FDFBF7]">
-                    <Clock className="w-4 h-4 text-[#C5A059] shrink-0" />
+                  <div className="flex items-center gap-3 p-4 border border-pampa-oro/20 rounded-none bg-background">
+                    <Clock className="w-4 h-4 text-pampa-oro shrink-0" />
                     <div className="text-xs">
-                      <p className="text-[#777777] font-bold uppercase tracking-wider text-[8px]">Horarios Programados</p>
-                      <p className="text-[#333333] font-medium mt-0.5">{selectedDiscipline.schedule}</p>
+                      <p className="text-muted-foreground font-bold uppercase tracking-wider text-[8px]">Horarios Programados</p>
+                      <p className="text-foreground font-medium mt-0.5">{selectedDiscipline.schedule}</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Quick RSVP Form */}
-                <div className="mt-8 pt-8 border-t border-[#C5A059]/20 relative z-10">
-                  <h3 className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#C5A059] mb-4">Reserva Privada de Sesión</h3>
+                <div className="mt-8 pt-8 border-t border-pampa-oro/20 relative z-10">
+                  <h3 className="text-[9px] font-bold uppercase tracking-[0.2em] text-pampa-oro mb-4">Reserva Privada de Sesión</h3>
                   <form onSubmit={handleBookingSubmit} className="grid grid-cols-1 sm:grid-cols-12 gap-4">
                     <div className="sm:col-span-5 relative">
                       <input
@@ -239,7 +239,7 @@ export default function WellnessPortal() {
                         placeholder="Nombre Completo / Lote"
                         value={bookingName}
                         onChange={(e) => setBookingName(e.target.value)}
-                        className="w-full h-11 px-4 bg-transparent border border-[#C5A059]/30 rounded-none text-[#333333] placeholder-[#777777]/50 text-xs focus:outline-none focus:border-[#C5A059] transition-colors"
+                        className="w-full h-11 px-4 bg-transparent border border-pampa-oro/30 rounded-none text-foreground placeholder-muted-foreground/50 text-xs focus:outline-none focus:border-pampa-oro transition-colors"
                       />
                     </div>
                     <div className="sm:col-span-4 relative">
@@ -248,17 +248,17 @@ export default function WellnessPortal() {
                         required
                         value={bookingDate}
                         onChange={(e) => setBookingDate(e.target.value)}
-                        className="w-full h-11 px-4 bg-transparent border border-[#C5A059]/30 rounded-none text-[#333333] text-xs focus:outline-none focus:border-[#C5A059] transition-colors"
+                        className="w-full h-11 px-4 bg-transparent border border-pampa-oro/30 rounded-none text-foreground text-xs focus:outline-none focus:border-pampa-oro transition-colors"
                       />
                     </div>
                     <div className="sm:col-span-3">
                       <button
                         type="submit"
                         disabled={bookingStatus === 'loading'}
-                        className="w-full h-11 bg-[#333333] text-[#FDFBF7] border border-[#333333] font-bold uppercase tracking-widest text-[9px] rounded-none hover:bg-transparent hover:text-[#333333] transition-colors flex items-center justify-center gap-2"
+                        className="w-full h-11 bg-foreground text-background border border-foreground font-bold uppercase tracking-widest text-[9px] rounded-none hover:bg-transparent hover:text-foreground transition-colors flex items-center justify-center gap-2"
                       >
                         {bookingStatus === 'loading' ? (
-                          <span className="w-4 h-4 border border-[#FDFBF7] border-t-transparent rounded-full animate-spin" />
+                          <span className="w-4 h-4 border border-background border-t-transparent rounded-full animate-spin" />
                         ) : bookingStatus === 'success' ? (
                           <>
                             <Check className="w-4 h-4" />
@@ -275,17 +275,17 @@ export default function WellnessPortal() {
                   </form>
 
                   {bookingStatus === 'success' && qrData && (
-                    <div className="mt-8 p-6 border border-[#C5A059] rounded-none bg-[#FDFBF7] flex flex-col sm:flex-row items-center gap-6 animate-in zoom-in-95 duration-500">
-                      <div className="bg-white p-2 border border-[#C5A059]/30 rounded-none shrink-0">
+                    <div className="mt-8 p-6 border border-pampa-oro rounded-none bg-background flex flex-col sm:flex-row items-center gap-6 animate-in zoom-in-95 duration-500">
+                      <div className="bg-white p-2 border border-pampa-oro/30 rounded-none shrink-0">
                         <QRCode value={qrData} size={90} level="H" />
                       </div>
                       <div className="text-center sm:text-left space-y-2">
                         <div className="flex items-center gap-2 justify-center sm:justify-start">
-                          <Sparkles className="w-4 h-4 text-[#C5A059] animate-bounce" />
-                          <h4 className="font-bold text-[#C5A059] uppercase tracking-wider text-[11px]">¡Sesión Reservada VIP!</h4>
+                          <Sparkles className="w-4 h-4 text-pampa-oro animate-bounce" />
+                          <h4 className="font-bold text-pampa-oro uppercase tracking-wider text-[11px]">¡Sesión Reservada VIP!</h4>
                         </div>
-                        <p className="text-[11px] text-[#777777] font-light">Su pase ha sido generado. Presente el código QR en la entrada del Wellness Spa.</p>
-                        <p className="text-[9px] font-mono text-[#333333] bg-[#C5A059]/10 inline-block px-2.5 py-1">ID: {qrData}</p>
+                        <p className="text-[11px] text-muted-foreground font-light">Su pase ha sido generado. Presente el código QR en la entrada del Wellness Spa.</p>
+                        <p className="text-[9px] font-mono text-foreground bg-pampa-oro/10 inline-block px-2.5 py-1">ID: {qrData}</p>
                       </div>
                     </div>
                   )}

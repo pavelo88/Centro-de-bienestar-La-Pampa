@@ -4,64 +4,64 @@
 
 @layer base {
   :root {
-    /* LUXURY MINIMALIST PALETTE */
-    --background: 36 33% 98%; /* #FDFBF7 Blanco Hueso */
-    --foreground: 0 0% 20%; /* #333333 Gris Neutro */
-    --card: 36 33% 99%;
-    --card-foreground: 0 0% 20%;
-    --popover: 36 33% 99%;
-    --popover-foreground: 0 0% 20%;
-    --primary: 39 48% 56%; /* #C5A059 Bronce Metálico */
-    --primary-foreground: 36 33% 98%;
-    --secondary: 36 20% 93%;
-    --secondary-foreground: 0 0% 20%;
-    --muted: 36 20% 95%;
-    --muted-foreground: 0 0% 45%;
-    --accent: 39 48% 56%;
-    --accent-foreground: 36 33% 98%;
+    /* LUXURY MINIMALIST PALETTE - OCEANO ZEN (LIGHT) */
+    --background: 210 20% 98%; /* Pearl White / Ice */
+    --foreground: 220 40% 15%; /* Deep Slate Blue */
+    --card: 210 20% 99%;
+    --card-foreground: 220 40% 15%;
+    --popover: 210 20% 99%;
+    --popover-foreground: 220 40% 15%;
+    --primary: 190 70% 35%; /* Deep Cyan */
+    --primary-foreground: 210 20% 98%;
+    --secondary: 190 20% 93%;
+    --secondary-foreground: 220 40% 15%;
+    --muted: 190 20% 95%;
+    --muted-foreground: 210 15% 45%;
+    --accent: 190 70% 35%;
+    --accent-foreground: 210 20% 98%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
-    --border: 39 30% 88%; /* Soft bronze border */
-    --input: 39 30% 88%;
-    --ring: 39 48% 56%;
+    --border: 190 30% 88%;
+    --input: 190 30% 88%;
+    --ring: 190 70% 35%;
     --radius: 0.75rem;
 
     /* La Pampa Brand Tokens */
-    --pampa-bosque: #333333;
-    --pampa-seda: #FDFBF7;
-    --pampa-oro: #C5A059;
-    --pampa-arena: #EAE0CC;
-    --pampa-card: rgba(197, 160, 89, 0.04);
+    --pampa-bosque: #101c2b; /* Ocean deep */
+    --pampa-seda: #f5f8fa;
+    --pampa-oro: #C5A059; /* Keep gold for accents */
+    --pampa-arena: #e6f0f5;
+    --pampa-card: rgba(16, 28, 43, 0.04);
   }
 
   .dark {
-    /* UNIFIED LUXURY BRANDING (No aggressive dark modes) */
-    --background: 36 33% 98%;
-    --foreground: 0 0% 20%;
-    --card: 36 33% 99%;
-    --card-foreground: 0 0% 20%;
-    --popover: 36 33% 99%;
-    --popover-foreground: 0 0% 20%;
-    --primary: 39 48% 56%;
-    --primary-foreground: 36 33% 98%;
-    --secondary: 36 20% 93%;
-    --secondary-foreground: 0 0% 20%;
-    --muted: 36 20% 95%;
-    --muted-foreground: 0 0% 45%;
-    --accent: 39 48% 56%;
-    --accent-foreground: 36 33% 98%;
+    /* LUXURY MINIMALIST PALETTE - OCEANO ZEN (DARK) */
+    --background: 220 50% 6%; /* Deep Abyss Blue */
+    --foreground: 210 20% 95%; /* Pearl */
+    --card: 220 45% 8%;
+    --card-foreground: 210 20% 95%;
+    --popover: 220 45% 8%;
+    --popover-foreground: 210 20% 95%;
+    --primary: 190 90% 50%; /* Glowing Cyan */
+    --primary-foreground: 220 50% 6%;
+    --secondary: 220 30% 15%;
+    --secondary-foreground: 210 20% 95%;
+    --muted: 220 30% 12%;
+    --muted-foreground: 210 20% 70%;
+    --accent: 190 90% 50%;
+    --accent-foreground: 220 50% 6%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
-    --border: 39 30% 88%;
-    --input: 39 30% 88%;
-    --ring: 39 48% 56%;
+    --border: 220 30% 15%;
+    --input: 220 30% 15%;
+    --ring: 190 90% 50%;
 
     /* La Pampa Brand Tokens */
-    --pampa-bosque: #333333;
-    --pampa-seda: #FDFBF7;
+    --pampa-bosque: #f5f8fa; /* Inverted for dark mode text */
+    --pampa-seda: #08101a;
     --pampa-oro: #C5A059;
-    --pampa-arena: #EAE0CC;
-    --pampa-card: rgba(197, 160, 89, 0.04);
+    --pampa-arena: #0f1c2b;
+    --pampa-card: rgba(197, 160, 89, 0.05);
   }
 }
 

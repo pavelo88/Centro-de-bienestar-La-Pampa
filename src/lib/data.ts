@@ -100,7 +100,7 @@ export const socialLinks = {
 };
 
 export const navLinks = [
-  { href: "/#entorno", label: "Servicios" },
+  { href: "/#disciplinas", label: "Servicios" },
   { href: "/bienestar", label: "Exclusividades" },
   { href: "/#contacto", label: "Contacto" },
 ];
