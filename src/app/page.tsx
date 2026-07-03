@@ -157,7 +157,7 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }} 
               animate={{ opacity: 1, scale: 1, y: 0 }} 
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-4xl bg-[#0A1A12] border border-pampa-oro/30 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row z-10"
+              className="relative w-full max-w-4xl bg-slate-950 border border-pampa-oro/30 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row z-10"
             >
               <button 
                 onClick={() => setSelectedDiscipline(null)}
@@ -215,19 +215,19 @@ export default function Home() {
         {/* HERO SECTION */}
         <section className="relative min-h-screen flex flex-col justify-center items-center px-4 pt-32 pb-20 overflow-hidden">
           <div 
-            className="absolute inset-0 z-0 opacity-60 dark:opacity-40"
+            className="absolute inset-0 z-0"
             style={{ transform: `translateY(${scrollY * 0.3}px)` }}
           >
             <Image 
               src="/images/hero-spa.png" 
               alt="La Pampa Spa Interior" 
               fill 
-              className="object-cover mix-blend-luminosity" 
+              className="object-cover" 
               priority
             />
           </div>
-          <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background z-0"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-transparent to-background/80 z-0"></div>
+          <div className="absolute inset-0 bg-background/40 dark:bg-background/60 z-0"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/20 z-0"></div>
 
           <div className="max-w-6xl mx-auto text-center space-y-12 z-20 relative w-full">
             <motion.div 
@@ -291,52 +291,78 @@ export default function Home() {
           </div>
         </section>
 
-        {/* WELLNESS DISCIPLINES PRESENTATION - INFINITE CAROUSEL */}
-        <section id="disciplinas" className="py-32 relative bg-background/60 backdrop-blur-2xl border-t border-white/10 overflow-hidden">
+        {/* WELLNESS DISCIPLINES PRESENTATION - 2x2 GRID & LEFT IMAGE */}
+        <section id="disciplinas" className="py-32 relative bg-background/90 backdrop-blur-2xl border-t border-white/10 overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
-            <div className="text-center max-w-3xl mx-auto space-y-4 mb-24">
-              <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-pampa-oro block">
-                Disciplinas Exclusivas
-              </span>
-              <h2 className="text-4xl sm:text-6xl font-serif text-foreground drop-shadow-sm">
-                Armonía del <span className="font-light italic text-transparent bg-clip-text bg-gradient-to-r from-pampa-oro to-cyan-500">Cuerpo y la Mente</span>
-              </h2>
-              <div className="w-16 h-px bg-gradient-to-r from-transparent via-pampa-oro to-transparent mx-auto mt-8" />
-            </div>
-          </div>
-
-          {/* Tarjetas: Grid en Desktop, Scroll Horizontal en Móvil */}
-          <div className="w-full max-w-7xl mx-auto pb-16">
-            <div className="flex overflow-x-auto sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-6 snap-x snap-mandatory custom-scrollbar pb-8">
-              {disciplinesData.map((item, idx) => (
-                <div 
-                  key={idx}
-                  onClick={() => setSelectedDiscipline(item)}
-                  className="w-[280px] sm:w-auto shrink-0 snap-center glass-panel bg-white/5 dark:bg-black/20 rounded-2xl p-8 transition-all duration-500 hover:border-pampa-oro/80 hover:shadow-[0_10px_40px_rgba(197,160,89,0.3)] hover:-translate-y-2 cursor-pointer relative flex flex-col justify-between min-h-[320px] border border-pampa-oro/20"
-                >
-                  <div className="space-y-6">
-                    <div className="text-pampa-oro p-3 bg-pampa-oro/10 rounded-xl w-fit">
-                      <item.icon className="w-10 h-10 stroke-[0.75]" />
-                    </div>
-                    <div className="space-y-2">
-                      <span className="text-[9px] font-bold uppercase tracking-widest text-cyan-600 dark:text-cyan-400 drop-shadow-sm">
-                        {item.subtitle}
-                      </span>
-                      <h3 className="text-2xl font-medium text-foreground font-serif tracking-tight drop-shadow-sm">
-                        {item.title}
-                      </h3>
-                    </div>
-                    <p className="text-sm text-foreground/80 font-light leading-relaxed">
-                      {item.desc}
-                    </p>
-                  </div>
-                  
-                  <div className="mt-8 flex items-center justify-between opacity-70 group-hover:opacity-100 transition-opacity">
-                    <span className="text-[9px] uppercase tracking-widest text-pampa-oro font-bold">Abrir Galería</span>
-                    <ArrowRight className="w-4 h-4 text-pampa-oro" />
-                  </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+              
+              {/* Texto y Foto a la izquierda (Desktop) */}
+              <div className="lg:col-span-5 space-y-8 text-center lg:text-left">
+                <div>
+                  <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-pampa-oro block mb-4">
+                    Disciplinas Exclusivas
+                  </span>
+                  <h2 className="text-4xl sm:text-5xl font-serif text-foreground drop-shadow-sm">
+                    Armonía del <br className="hidden lg:block"/>
+                    <span className="font-light italic text-transparent bg-clip-text bg-gradient-to-r from-pampa-oro to-cyan-500">
+                      Cuerpo y la Mente
+                    </span>
+                  </h2>
                 </div>
-              ))}
+                <div className="hidden lg:block relative w-full h-[500px] rounded-3xl overflow-hidden shadow-2xl border border-pampa-oro/20 group">
+                  <Image src="/images/hero-spa.png" fill className="object-cover transition-transform duration-1000 group-hover:scale-110" alt="Wellness" />
+                  <div className="absolute inset-0 bg-cyan-900/10 mix-blend-overlay"></div>
+                </div>
+              </div>
+
+              {/* Tarjetas 2x2 Desktop / Carousel Mobile */}
+              <div className="lg:col-span-7">
+                <div className="flex overflow-x-auto lg:grid lg:grid-cols-2 gap-6 snap-x snap-mandatory custom-scrollbar pb-8 lg:pb-0">
+                  {disciplinesData.map((item, idx) => (
+                    <div 
+                      key={idx}
+                      onClick={() => setSelectedDiscipline(item)}
+                      className="w-[280px] lg:w-auto shrink-0 snap-center glass-panel bg-white/5 dark:bg-black/20 rounded-2xl overflow-hidden transition-all duration-500 hover:border-pampa-oro/80 hover:shadow-[0_10px_40px_rgba(197,160,89,0.3)] hover:-translate-y-2 cursor-pointer relative flex flex-col min-h-[380px] border border-pampa-oro/20 group"
+                    >
+                      {/* Imagen dentro de cada tarjeta */}
+                      <div className="relative w-full h-40 shrink-0 overflow-hidden">
+                        <Image src={item.image} fill className="object-cover transition-transform duration-700 group-hover:scale-110" alt={item.title} />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent"></div>
+                      </div>
+
+                      <div className="p-6 flex flex-col justify-between grow space-y-4 relative z-10 -mt-6">
+                        <div className="space-y-4">
+                          <div className="flex justify-between items-end">
+                            <div className="text-pampa-oro p-3 bg-background/80 backdrop-blur-md rounded-xl w-fit shadow-lg border border-white/5">
+                              <item.icon className="w-8 h-8 stroke-[0.75]" />
+                            </div>
+                          </div>
+                          
+                          <div className="space-y-1 mt-2">
+                            <span className="text-[9px] font-bold uppercase tracking-widest text-cyan-600 dark:text-cyan-400 drop-shadow-sm">
+                              {item.subtitle}
+                            </span>
+                            <h3 className="text-2xl font-medium text-foreground font-serif tracking-tight drop-shadow-sm">
+                              {item.title}
+                            </h3>
+                          </div>
+                          
+                          <p className="text-sm text-foreground/80 font-light leading-relaxed line-clamp-3">
+                            {item.desc}
+                          </p>
+                        </div>
+                        
+                        <div className="pt-4 flex items-center justify-between opacity-70 group-hover:opacity-100 transition-opacity border-t border-white/10 mt-4">
+                          <span className="text-[9px] uppercase tracking-widest text-pampa-oro font-bold mt-4">Abrir Galería</span>
+                          <ArrowRight className="w-4 h-4 text-pampa-oro mt-4" />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
             </div>
           </div>
 
@@ -410,10 +436,10 @@ export default function Home() {
             {isSubmitted ? (
               <motion.div 
                 initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-                className="flex flex-col items-center justify-center py-16 space-y-6 bg-green-500/5 rounded-2xl"
+                className="flex flex-col items-center justify-center py-16 space-y-6 bg-cyan-900/10 rounded-2xl"
               >
-                <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center">
-                  <CheckCircle2 className="w-10 h-10 text-green-600 dark:text-green-400" />
+                <div className="w-20 h-20 bg-cyan-900/20 rounded-full flex items-center justify-center border border-cyan-500/30">
+                  <CheckCircle2 className="w-10 h-10 text-cyan-500" />
                 </div>
                 <h3 className="text-2xl font-serif text-foreground">Solicitud Recibida Exitosamente</h3>
                 <p className="text-sm text-foreground/70 text-center max-w-sm">Un asesor de la junta directiva se comunicará con usted de forma preferente para coordinar su visita.</p>

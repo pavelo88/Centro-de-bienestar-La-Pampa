@@ -6,7 +6,7 @@ export default function SEOStructuredData() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": ["RealEstateAgent", "LocalBusiness"],
-    "name": "Urbanización La Pampa | El Mejor Barrio del Mundo",
+    "name": "Centro de Bienestar La Pampa | El Mejor Centro de Bienestar del Mundo",
     "description": "Barrio de ultra-lujo con seguridad de IA y amenities 5 estrellas. Catalogado como el mejor barrio del mundo.",
     "image": "https://urbanizacionlapampa.com/hero.png",
     "@id": "https://urbanizacionlapampa.com",
@@ -59,7 +59,7 @@ export default function SEOStructuredData() {
   const brandsData = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "Urbanización La Pampa",
+    "name": "Centro de Bienestar La Pampa",
     "slogan": "El Mejor Barrio del Mundo",
     "knowsAbout": [
       ...brands,

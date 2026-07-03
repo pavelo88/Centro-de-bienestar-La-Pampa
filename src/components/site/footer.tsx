@@ -20,7 +20,7 @@ export default function Footer() {
           </p>
 
           <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 text-xs font-medium text-slate-600 dark:text-slate-400">
-            <p>© {new Date().getFullYear()} Urbanización La Pampa</p>
+            <p>© {new Date().getFullYear()} Centro de Bienestar La Pampa</p>
             <span className="hidden md:inline text-slate-300 dark:text-white/10">|</span>
             <p className="uppercase tracking-widest text-[10px]">Todos los derechos reservados</p>
           </div>

@@ -87,7 +87,7 @@ export const brands: string[] = [
 ];
 
 export const contactInfo = {
-  address: "Av. Principal del Bosque, Lote 1, Urbanización La Pampa",
+  address: "Av. Principal del Bosque, Lote 1, Centro de Bienestar La Pampa",
   phone: "900 100 200",
   emails: ["administracion@urbanizacionlapampa.com", "concierge@urbanizacionlapampa.com"],
   mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12000!2d-3.6247125!3d39.9064799!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzlCsDU0JzIzLjMiTiAzwrAzNycyOS4wIlc!5e0!3m2!1ses!2ses!4v1617200000000!5m2!1ses!2ses",

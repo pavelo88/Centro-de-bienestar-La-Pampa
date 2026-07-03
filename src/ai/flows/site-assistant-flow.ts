@@ -13,7 +13,7 @@ export const siteAssistantFlow = ai.defineFlow(
   },
   async ({ message, pathname, role }) => {
     let contextPrompt = `
-Eres el "Conserje Virtual de Lujo" de la "Urbanización La Pampa", el barrio cerrado más exclusivo y seguro.
+Eres el "Conserje Virtual de Lujo" del "Centro de Bienestar La Pampa", el santuario más exclusivo y seguro.
 Tu propósito principal es brindar asistencia inmediata, elegante y precisa a las personas que interactúan con el sistema, adaptando tu tono y conocimiento según quién pregunta y en qué parte de la plataforma se encuentra.
 
 =========================================

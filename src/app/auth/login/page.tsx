@@ -192,7 +192,7 @@ export default function LoginPage() {
           </div>
           <CardTitle className="text-3xl font-serif text-white tracking-tight">Iniciar Sesión</CardTitle>
           <CardDescription className="text-white/50 text-xs font-light">
-            Bienvenido al portal exclusivo de la Urbanización La Pampa.
+            Bienvenido al portal exclusivo del Centro de Bienestar La Pampa.
           </CardDescription>
         </CardHeader>
 
