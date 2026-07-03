@@ -5,10 +5,11 @@ import Navbar from '@/components/site/navbar';
 import Footer from '@/components/site/footer';
 import { 
   Fingerprint, Camera, ShieldAlert, CheckCircle2, 
-  Calendar, Clock, ChevronDown, Lock, ShieldX
+  Calendar, Clock, ChevronDown, Lock, ShieldX, ScanFace
 } from 'lucide-react';
 import { useFirestore } from '@/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface BiometricLog {
   id: string;
@@ -83,7 +84,6 @@ export default function BiometricPortal() {
     return () => stopCamera();
   }, []);
 
-  // SINCRO REALTIME: Validar acceso en base a membresía / pago
   const handleScan = () => {
     if (scanStatus === 'scanning') return;
     setScanStatus('scanning');
@@ -94,7 +94,6 @@ export default function BiometricPortal() {
       let accessResult: 'Aprobado' | 'Denegado' = 'Aprobado';
       let denyReason = '';
 
-      // Check payment status if it is the Resident
       if (staffName.includes('Residente')) {
         const paymentStatus = localStorage.getItem('pampa_membership_payment_status');
         if (paymentStatus !== 'paid') {
@@ -115,7 +114,6 @@ export default function BiometricPortal() {
         motivo: denyReason
       };
 
-      // Add to Firestore collection 'registros_biometricos' for admin tracking
       if (db) {
         try {
           await addDoc(collection(db, 'registros_biometricos'), {
@@ -138,29 +136,29 @@ export default function BiometricPortal() {
       setTimeout(() => {
         setScanStatus('idle');
       }, 4000);
-    }, 2000);
+    }, 2500); // 2.5s escaneo futurista
   };
 
   const todayLogs = logs.filter(l => l.fechaDia === todayStr);
   const historyLogs = logs.filter(l => l.fechaDia !== todayStr);
 
   return (
-    <div className="bg-[#FDFBF7] text-[#333333] min-h-screen overflow-x-hidden pt-28 pb-16 selection:bg-[#C5A059]/20 selection:text-[#333333] relative">
+    <div className="relative bg-transparent text-foreground min-h-screen overflow-x-hidden pt-28 pb-16 selection:bg-cyan-500/20 selection:text-foreground transition-colors duration-700">
       <Navbar />
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mt-8 mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#C5A059]/30 bg-[#FDFBF7]">
-            <Fingerprint className="w-3.5 h-3.5 text-[#C5A059] animate-pulse" />
-            <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-[#C5A059]">Terminal de Control Biométrico</span>
+          <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full glass-panel border-cyan-500/30">
+            <Fingerprint className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+            <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-cyan-400">Terminal de Control Biométrico</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-serif text-[#333333] uppercase italic">
-            Escáner de Acceso
+          <h1 className="text-4xl sm:text-6xl font-serif text-foreground uppercase italic drop-shadow-md">
+            Escáner de <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pampa-oro">Acceso</span>
           </h1>
-          <p className="text-xs sm:text-sm text-[#777777] font-light max-w-xl mx-auto leading-relaxed">
-            Verificación facial integrada en tiempo real. La terminal consulta automáticamente la solvencia de membresía para autorizar el ingreso al club wellness.
+          <p className="text-xs sm:text-sm text-foreground/70 font-light max-w-xl mx-auto leading-relaxed">
+            Verificación facial integrada en tiempo real. La terminal consulta automáticamente la solvencia de membresía para autorizar el ingreso al Santuario Wellness.
           </p>
         </div>
 
@@ -168,10 +166,10 @@ export default function BiometricPortal() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
           
           {/* Left Panel: Camera scanner */}
-          <div className="lg:col-span-7 border border-[#C5A059]/30 p-6 sm:p-8 bg-[#FDFBF7] flex flex-col justify-between relative overflow-hidden">
+          <div className="lg:col-span-7 glass-panel border border-white/10 p-6 sm:p-8 rounded-3xl flex flex-col justify-between relative overflow-hidden shadow-2xl">
             
             {/* The Camera Feed Box */}
-            <div className="relative aspect-video w-full border border-[#C5A059]/40 bg-[#FDFBF7] overflow-hidden flex items-center justify-center">
+            <div className="relative aspect-video w-full rounded-2xl bg-black/50 overflow-hidden flex items-center justify-center border border-cyan-500/30 shadow-[0_0_50px_rgba(6,182,212,0.15)]">
               
               {cameraActive ? (
                 <>
@@ -180,76 +178,86 @@ export default function BiometricPortal() {
                     autoPlay
                     playsInline
                     muted
-                    className="w-full h-full object-cover transform -scale-x-100"
+                    className="w-full h-full object-cover transform -scale-x-100 opacity-70 mix-blend-screen"
                   />
                   
                   {/* Digital overlay frame */}
-                  <div className="absolute inset-0 border border-[#C5A059]/20 m-6 rounded-none pointer-events-none" />
+                  <div className="absolute inset-0 border-2 border-cyan-500/20 m-6 rounded-xl pointer-events-none" />
                   
                   {/* Face box tracker simulator */}
-                  <div className="absolute w-40 h-40 border border-[#C5A059] rounded-full flex items-center justify-center animate-pulse pointer-events-none">
-                    <div className="w-1.5 h-1.5 bg-[#C5A059] rounded-full" />
-                  </div>
-
-                  {/* Scanning line */}
-                  {scanStatus === 'scanning' && (
-                    <div className="absolute left-0 w-full h-0.5 bg-[#C5A059] shadow-[0_0_8px_#C5A059] animate-bounce z-10" 
-                         style={{ top: '10%', animationDuration: '2s' }} />
-                  )}
+                  <div className="absolute w-48 h-48 border border-dashed border-cyan-400 rounded-full flex items-center justify-center animate-[spin-slow_10s_linear_infinite] pointer-events-none"></div>
+                  
+                  <div className="absolute w-4 h-4 border-t-2 border-l-2 border-cyan-400 top-[20%] left-[25%] pointer-events-none" />
+                  <div className="absolute w-4 h-4 border-t-2 border-r-2 border-cyan-400 top-[20%] right-[25%] pointer-events-none" />
+                  <div className="absolute w-4 h-4 border-b-2 border-l-2 border-cyan-400 bottom-[20%] left-[25%] pointer-events-none" />
+                  <div className="absolute w-4 h-4 border-b-2 border-r-2 border-cyan-400 bottom-[20%] right-[25%] pointer-events-none" />
                 </>
               ) : (
-                <div className="text-center p-8 space-y-4">
-                  <div className="w-16 h-16 rounded-full border border-[#C5A059]/30 flex items-center justify-center mx-auto text-[#C5A059]">
-                    <Camera className="w-8 h-8 stroke-[0.75]" />
+                <div className="text-center p-8 space-y-6 relative z-10">
+                  <div className="w-24 h-24 rounded-full border border-cyan-400/30 flex items-center justify-center mx-auto text-cyan-400 bg-cyan-400/5 relative">
+                    <div className="absolute inset-0 rounded-full border border-cyan-400 animate-ping opacity-20"></div>
+                    <ScanFace className="w-12 h-12 stroke-[1]" />
                   </div>
                   <div>
-                    <p className="text-[10px] text-[#333333] uppercase tracking-widest font-bold">Simulación de Video Activa</p>
-                    <p className="text-[9px] text-[#777777] mt-1 font-light">Listo para mapeo tridimensional de facciones</p>
+                    <p className="text-[11px] text-foreground uppercase tracking-widest font-bold">Simulación de Escáner</p>
+                    <p className="text-[9px] text-cyan-400 mt-2 font-light uppercase tracking-widest">Listo para mapeo tridimensional</p>
                   </div>
                 </div>
+              )}
+
+              {/* Scanning animation (Laser) */}
+              {scanStatus === 'scanning' && (
+                <>
+                  <div className="absolute left-0 w-full h-[1px] bg-cyan-400 shadow-[0_0_15px_#22d3ee,0_0_30px_#22d3ee] z-20 animate-[scan_2s_ease-in-out_infinite]" />
+                  <div className="absolute inset-0 bg-cyan-500/10 flex flex-col items-center justify-center gap-3 backdrop-blur-[2px]">
+                    <div className="w-12 h-12 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
+                    <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-cyan-400 animate-pulse drop-shadow-md">Analizando Biometría...</span>
+                  </div>
+                </>
               )}
 
               {/* Status overlays */}
-              {scanStatus === 'scanning' && (
-                <div className="absolute inset-0 bg-[#FDFBF7]/90 flex flex-col items-center justify-center gap-3">
-                  <div className="w-8 h-8 border-2 border-[#C5A059] border-t-transparent rounded-full animate-spin" />
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#C5A059] animate-pulse">Escaneando Rostro...</span>
-                </div>
-              )}
+              <AnimatePresence>
+                {scanStatus === 'success' && (
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
+                    className="absolute inset-0 bg-green-500/20 backdrop-blur-md border-2 border-green-500 flex flex-col items-center justify-center gap-3"
+                  >
+                    <CheckCircle2 className="w-16 h-16 text-green-400 stroke-[1] drop-shadow-md" />
+                    <span className="text-lg font-bold uppercase tracking-[0.15em] text-white drop-shadow-md">Acceso Autorizado</span>
+                    <span className="text-[10px] text-green-300 uppercase tracking-widest">{eventType} validado correctamente</span>
+                  </motion.div>
+                )}
 
-              {scanStatus === 'success' && (
-                <div className="absolute inset-0 bg-[#FDFBF7] border-2 border-emerald-600 flex flex-col items-center justify-center gap-3 animate-in fade-in duration-300">
-                  <CheckCircle2 className="w-14 h-14 text-emerald-600 stroke-[1]" />
-                  <span className="text-sm font-bold uppercase tracking-[0.15em] text-[#333333]">Acceso Autorizado</span>
-                  <span className="text-[9px] text-[#777777] uppercase tracking-widest">{eventType} registrado correctamente</span>
-                </div>
-              )}
-
-              {scanStatus === 'denied' && (
-                <div className="absolute inset-0 bg-[#FDFBF7] border-2 border-red-500 flex flex-col items-center justify-center gap-3 animate-in fade-in duration-300">
-                  <ShieldX className="w-14 h-14 text-red-500 stroke-[1]" />
-                  <span className="text-sm font-bold uppercase tracking-[0.15em] text-[#333333]">Ingreso Rechazado</span>
-                  <span className="text-[9px] text-red-500 uppercase tracking-widest font-bold">Mora Financiera Detectada</span>
-                </div>
-              )}
+                {scanStatus === 'denied' && (
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
+                    className="absolute inset-0 bg-red-500/20 backdrop-blur-md border-2 border-red-500 flex flex-col items-center justify-center gap-3"
+                  >
+                    <ShieldX className="w-16 h-16 text-red-500 stroke-[1] drop-shadow-md" />
+                    <span className="text-lg font-bold uppercase tracking-[0.15em] text-white drop-shadow-md">Ingreso Rechazado</span>
+                    <span className="text-[10px] text-red-300 uppercase tracking-widest font-bold">Mora Financiera Detectada</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             {/* Error Message Box */}
             {errorMessage && (
-              <div className="mt-4 p-3 border border-red-200 bg-red-50/50 text-red-700 text-xs flex items-center gap-2">
-                <ShieldAlert className="w-4 h-4 text-red-500 shrink-0" />
+              <div className="mt-6 p-4 rounded-xl border border-red-500/30 bg-red-500/10 text-red-200 text-xs flex items-center gap-3 animate-in fade-in">
+                <ShieldAlert className="w-5 h-5 text-red-400 shrink-0" />
                 <span>{errorMessage}</span>
               </div>
             )}
 
             {/* Selector panel */}
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-12 gap-6 items-end">
-              <div className="sm:col-span-5 space-y-1">
-                <label className="text-[9px] font-bold uppercase text-[#C5A059] tracking-widest">Sujeto a Validar</label>
+              <div className="sm:col-span-5 space-y-2">
+                <label className="text-[9px] font-bold uppercase text-pampa-oro tracking-widest">Sujeto a Validar</label>
                 <select
                   value={staffName}
                   onChange={(e) => setStaffName(e.target.value)}
-                  className="w-full h-11 px-4 bg-[#FDFBF7] border border-[#C5A059]/30 rounded-none text-[#333333] text-xs focus:outline-none focus:border-[#C5A059] transition-colors"
+                  className="w-full h-12 px-4 bg-background/50 border border-white/10 rounded-xl text-foreground text-xs focus:outline-none focus:border-pampa-oro transition-colors backdrop-blur-md"
                 >
                   {mockStaff.map((s, idx) => (
                     <option key={idx} value={s}>{s}</option>
@@ -257,9 +265,9 @@ export default function BiometricPortal() {
                 </select>
               </div>
 
-              <div className="sm:col-span-4 space-y-1">
-                <label className="text-[9px] font-bold uppercase text-[#C5A059] tracking-widest">Tipo de Registro</label>
-                <div className="grid grid-cols-2 gap-2 bg-[#FDFBF7] p-1 border border-[#C5A059]/30">
+              <div className="sm:col-span-4 space-y-2">
+                <label className="text-[9px] font-bold uppercase text-pampa-oro tracking-widest">Tipo de Registro</label>
+                <div className="grid grid-cols-2 gap-2 bg-background/50 p-1 border border-white/10 rounded-xl backdrop-blur-md">
                   {(['Ingreso', 'Salida'] as const).map((type) => {
                     const isSel = eventType === type;
                     return (
@@ -267,8 +275,8 @@ export default function BiometricPortal() {
                         key={type}
                         type="button"
                         onClick={() => setEventType(type)}
-                        className={`h-9 text-[9px] font-bold uppercase tracking-wider transition-all ${
-                          isSel ? 'bg-[#333333] text-[#FDFBF7]' : 'text-[#777777] hover:text-[#333333]'
+                        className={`h-9 text-[9px] font-bold uppercase tracking-wider rounded-lg transition-all ${
+                          isSel ? 'bg-pampa-oro text-white shadow-md' : 'text-foreground/50 hover:text-foreground'
                         }`}
                       >
                         {type}
@@ -283,9 +291,9 @@ export default function BiometricPortal() {
                   type="button"
                   onClick={handleScan}
                   disabled={scanStatus !== 'idle'}
-                  className="w-full h-11 bg-[#333333] text-[#FDFBF7] border border-[#333333] font-bold uppercase tracking-widest text-[9px] rounded-none hover:bg-transparent hover:text-[#333333] transition-colors flex items-center justify-center gap-2"
+                  className="w-full h-12 bg-cyan-600 text-white font-bold uppercase tracking-widest text-[10px] rounded-xl hover:bg-cyan-500 transition-colors flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(6,182,212,0.4)] disabled:opacity-50 disabled:shadow-none"
                 >
-                  <Fingerprint className="w-4 h-4 text-[#C5A059]" />
+                  <ScanFace className="w-4 h-4" />
                   Escanear
                 </button>
               </div>
@@ -296,71 +304,76 @@ export default function BiometricPortal() {
           {/* Right Panel: Today's Registry Logs */}
           <div className="lg:col-span-5 flex flex-col gap-6">
             
-            <div className="border border-[#C5A059]/30 p-6 sm:p-8 bg-[#FDFBF7] flex-1">
-              <h2 className="text-xs font-bold uppercase tracking-[0.25em] text-[#C5A059] mb-6 flex justify-between items-center">
+            <div className="glass-panel border border-white/10 p-6 sm:p-8 rounded-3xl flex-1 shadow-2xl">
+              <h2 className="text-[10px] font-bold uppercase tracking-[0.25em] text-pampa-oro mb-6 flex justify-between items-center">
                 <span>Sesiones del Día</span>
-                <span className="px-2.5 py-1 border border-[#C5A059]/30 text-[9px] font-bold tracking-normal text-[#C5A059]">
+                <span className="px-3 py-1 bg-pampa-oro/10 rounded-full text-pampa-oro text-[10px] font-bold tracking-normal border border-pampa-oro/30">
                   {todayLogs.length} Registros
                 </span>
               </h2>
 
-              <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+              <div className="space-y-3 max-h-[350px] overflow-y-auto pr-2 custom-scrollbar">
                 {todayLogs.length > 0 ? (
                   todayLogs.map((log) => (
-                    <div key={log.id} className="border border-[#C5A059]/20 p-4 bg-[#FDFBF7] flex justify-between items-center hover:border-[#C5A059] transition-all">
-                      <div className="space-y-1">
-                        <h4 className="text-xs font-semibold text-[#333333] leading-none">{log.nombre.split(' (')[0]}</h4>
-                        <span className={`text-[8px] font-bold uppercase tracking-wider ${
-                          log.estadoAcceso === 'Aprobado' ? 'text-emerald-600' : 'text-red-500'
+                    <div key={log.id} className="glass-panel border border-white/5 p-4 rounded-xl flex justify-between items-center hover:border-cyan-500/50 transition-all">
+                      <div className="space-y-1.5">
+                        <h4 className="text-xs font-semibold text-foreground leading-none">{log.nombre.split(' (')[0]}</h4>
+                        <span className={`text-[9px] font-bold uppercase tracking-wider ${
+                          log.estadoAcceso === 'Aprobado' ? 'text-green-400' : 'text-red-400'
                         }`}>
                           {log.estadoAcceso} {log.motivo && ` - ${log.motivo}`}
                         </span>
                       </div>
-                      <div className="text-right space-y-1">
-                        <span className="text-xs font-semibold text-[#C5A059] leading-none">{log.hora}</span>
-                        <span className="block text-[8px] font-bold uppercase tracking-wider text-[#777777]">{log.evento}</span>
+                      <div className="text-right space-y-1.5">
+                        <span className="text-[10px] font-mono text-cyan-400 leading-none bg-cyan-400/10 px-2 py-0.5 rounded">{log.hora}</span>
+                        <span className="block text-[8px] font-bold uppercase tracking-widest text-foreground/50">{log.evento}</span>
                       </div>
                     </div>
                   ))
                 ) : (
-                  <div className="text-center py-12 opacity-40 text-xs">Sin registros de accesos hoy.</div>
+                  <div className="text-center py-12 text-foreground/40 text-xs">Sin registros de accesos hoy.</div>
                 )}
               </div>
             </div>
 
-            <div className="border border-[#C5A059]/20 p-4 bg-[#FDFBF7]">
+            <div className="glass-panel border border-white/10 p-4 rounded-2xl">
               <button 
                 onClick={() => setShowHistory(!showHistory)}
-                className="w-full flex items-center justify-between text-xs font-bold uppercase tracking-wider text-[#333333] hover:text-[#C5A059] transition-colors"
+                className="w-full flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-foreground hover:text-pampa-oro transition-colors"
               >
                 <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-[#C5A059]" />
-                  <span>Historial de Accesos</span>
+                  <Calendar className="w-4 h-4 text-pampa-oro" />
+                  <span>Historial de Accesos Antiguos</span>
                 </div>
                 <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${showHistory ? 'rotate-180' : ''}`} />
               </button>
 
-              {showHistory && (
-                <div className="mt-4 pt-4 border-t border-[#C5A059]/10 space-y-3 max-h-[180px] overflow-y-auto custom-scrollbar animate-in fade-in duration-300">
-                  {historyLogs.length > 0 ? (
-                    historyLogs.map((log) => (
-                      <div key={log.id} className="flex justify-between items-center text-xs text-[#777777] py-1.5 border-b border-[#C5A059]/10 last:border-b-0">
-                        <div className="truncate pr-4 max-w-[180px]">
-                          <span className="font-semibold text-[#333333]">{log.nombre.split(' (')[0]}</span>
+              <AnimatePresence>
+                {showHistory && (
+                  <motion.div 
+                    initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}
+                    className="mt-4 pt-4 border-t border-white/10 space-y-3 max-h-[180px] overflow-y-auto custom-scrollbar overflow-hidden"
+                  >
+                    {historyLogs.length > 0 ? (
+                      historyLogs.map((log) => (
+                        <div key={log.id} className="flex justify-between items-center text-xs text-foreground/70 py-2 border-b border-white/5 last:border-b-0">
+                          <div className="truncate pr-4 max-w-[180px]">
+                            <span className="font-semibold text-foreground/90">{log.nombre.split(' (')[0]}</span>
+                          </div>
+                          <div className="text-right shrink-0">
+                            <span className="text-[9px] text-pampa-oro">{log.fechaDia} • {log.hora}</span>
+                            <span className={`font-bold uppercase text-[8px] ml-2 ${
+                              log.estadoAcceso === 'Aprobado' ? 'text-green-400' : 'text-red-400'
+                            }`}>{log.estadoAcceso}</span>
+                          </div>
                         </div>
-                        <div className="text-right shrink-0">
-                          <span className="text-[9px] text-[#C5A059]">{log.fechaDia} • {log.hora}</span>
-                          <span className={`font-bold uppercase text-[8px] ml-2 ${
-                            log.estadoAcceso === 'Aprobado' ? 'text-emerald-600' : 'text-red-500'
-                          }`}>{log.estadoAcceso}</span>
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="text-center py-4 opacity-40">Historial vacío.</div>
-                  )}
-                </div>
-              )}
+                      ))
+                    ) : (
+                      <div className="text-center py-4 text-foreground/40 text-[10px]">Historial vacío.</div>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
           </div>

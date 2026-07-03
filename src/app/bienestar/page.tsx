@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useFirestore } from '@/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import QRCode from 'react-qr-code';
+import Image from 'next/image';
 import { YogaIcon, TaiChiIcon, BungeeIcon, KangooIcon } from '@/components/icons';
 
 interface Discipline {
@@ -19,6 +20,7 @@ interface Discipline {
   schedule: string;
   description: string;
   benefits: string[];
+  image: string;
   icon: React.ComponentType<{ className?: string }>;
 }
 
@@ -32,6 +34,7 @@ const disciplines: Discipline[] = [
     schedule: 'Lunes a Jueves • 07:00 & 18:30',
     description: 'Encuentre balance absoluto conectando cuerpo y mente a través del Hatha Yoga. Sesiones holísticas diseñadas para calmar el sistema nervioso en nuestro deck rodeado de naturaleza.',
     benefits: ['Reduce cortisol', 'Alineación postural', 'Fuerza isométrica'],
+    image: '/images/yoga-space.png',
     icon: YogaIcon
   },
   {
@@ -43,6 +46,7 @@ const disciplines: Discipline[] = [
     schedule: 'Martes & Viernes • 08:30',
     description: 'Meditación en movimiento. Mejore su balance, flexibilidad y canalización del Qi en una experiencia armoniosa de bajo impacto ideal para la longevidad.',
     benefits: ['Balance físico', 'Estimulación del Qi', 'Flexibilidad articular'],
+    image: '/images/hero-spa.png',
     icon: TaiChiIcon
   },
   {
@@ -54,6 +58,7 @@ const disciplines: Discipline[] = [
     schedule: 'Miércoles & Sábado • 09:30',
     description: 'Entrenamiento de resistencia suspendido. Experimente la gravedad cero, flote en el aire y active su núcleo en una sesión estimulante de bajo impacto articular.',
     benefits: ['Quema de 700 kcal', 'Cero impacto articular', 'Fuerza explosiva core'],
+    image: '/images/yoga-space.png',
     icon: BungeeIcon
   },
   {
@@ -65,6 +70,7 @@ const disciplines: Discipline[] = [
     schedule: 'Lunes a Viernes • 19:30',
     description: 'Cardio de alta densidad a través de botas de rebote. Estimule el drenaje linfático, tonifique glúteos y libere dopamina saltando al ritmo de música clubbing.',
     benefits: ['Drenaje linfático', 'Absorción de impacto', 'Alta liberación de dopamina'],
+    image: '/images/hero-spa.png',
     icon: KangooIcon
   }
 ];
@@ -110,10 +116,10 @@ export default function WellnessPortal() {
   };
 
   return (
-    <div className="relative bg-background text-foreground min-h-screen overflow-x-hidden pt-28 pb-16 selection:bg-pampa-oro/20 selection:text-foreground transition-colors duration-700">
+    <div className="relative bg-transparent text-foreground min-h-screen overflow-x-hidden pt-28 pb-16 selection:bg-pampa-oro/20 selection:text-foreground transition-colors duration-700">
       <Navbar />
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         
         {/* Header Hero Section */}
         <motion.div 
@@ -122,27 +128,27 @@ export default function WellnessPortal() {
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           className="text-center max-w-3xl mx-auto mt-8 mb-20 space-y-6"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-pampa-oro/30 bg-background shadow-sm">
+          <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full glass-panel">
             <Sparkles className="w-3.5 h-3.5 text-pampa-oro" />
-            <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-pampa-oro">Santuario Wellness & Spa</span>
+            <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-pampa-oro">Exclusividades</span>
           </div>
           
-          <h1 className="text-4xl sm:text-6xl font-serif text-foreground uppercase italic">
-            Clases de Bienestar
+          <h1 className="text-5xl sm:text-7xl font-serif text-foreground drop-shadow-sm uppercase italic">
+            Clases de <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-pampa-oro">Bienestar</span>
           </h1>
           
-          <p className="text-sm text-muted-foreground font-light leading-relaxed max-w-xl mx-auto">
+          <p className="text-base text-foreground/80 font-light leading-relaxed max-w-2xl mx-auto">
             Disfrute de disciplinas diseñadas para el rejuvenecimiento y la vitalidad del cuerpo. Reserve su lugar con confirmación instantánea.
           </p>
         </motion.div>
 
         {/* Dynamic Class Showcase & Grid Selector */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-20">
           
           {/* List of Disciplines Selector */}
           <div className="lg:col-span-5 space-y-4">
-            <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-pampa-oro mb-6">Disciplinas Disponibles</h2>
-            <div className="space-y-3">
+            <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-pampa-oro mb-6 px-2">Disciplinas Disponibles</h2>
+            <div className="space-y-4">
               {disciplines.map((d) => {
                 const isActive = selectedDiscipline.id === d.id;
                 const DisciplineIcon = d.icon;
@@ -150,25 +156,27 @@ export default function WellnessPortal() {
                   <motion.button
                     key={d.id}
                     onClick={() => setSelectedDiscipline(d)}
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
-                    className={`w-full text-left p-6 rounded-none border transition-all duration-500 relative overflow-hidden group ${
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`w-full text-left p-6 rounded-2xl transition-all duration-500 relative overflow-hidden group ${
                       isActive 
-                        ? 'border-pampa-oro bg-background shadow-[0_10px_30px_rgba(197,160,89,0.06)]' 
-                        : 'border-pampa-oro/20 bg-transparent hover:border-pampa-oro/50'
+                        ? 'bg-background/80 backdrop-blur-md border border-pampa-oro shadow-[0_10px_30px_rgba(197,160,89,0.15)]' 
+                        : 'glass-panel border-white/5 hover:border-pampa-oro/40'
                     }`}
                   >
                     <div className="relative z-10 flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <div className={`p-2 border rounded-none ${isActive ? 'border-pampa-oro text-pampa-oro' : 'border-pampa-oro/20 text-muted-foreground'}`}>
-                          <DisciplineIcon className="w-6 h-6 stroke-[0.75]" />
+                      <div className="flex items-center gap-5">
+                        <div className={`p-3 rounded-xl transition-colors duration-500 ${isActive ? 'bg-pampa-oro/10 text-pampa-oro border border-pampa-oro/50' : 'bg-background/50 text-foreground/50 border border-white/10 group-hover:text-pampa-oro'}`}>
+                          <DisciplineIcon className="w-8 h-8 stroke-[0.75]" />
                         </div>
-                        <div className="space-y-0.5">
-                          <span className="text-[8px] font-bold tracking-widest text-pampa-oro uppercase">{d.intensity} • {d.duration}</span>
-                          <h3 className="text-lg font-medium text-foreground font-serif">{d.title}</h3>
+                        <div className="space-y-1">
+                          <span className={`text-[9px] font-bold tracking-widest uppercase transition-colors duration-500 ${isActive ? 'text-cyan-500' : 'text-foreground/50'}`}>
+                            {d.intensity} • {d.duration}
+                          </span>
+                          <h3 className="text-2xl font-medium text-foreground font-serif">{d.title}</h3>
                         </div>
                       </div>
-                      <ChevronRight className={`w-4 h-4 text-pampa-oro transition-transform duration-300 ${isActive ? 'rotate-90' : 'group-hover:translate-x-1'}`} />
+                      <ChevronRight className={`w-5 h-5 transition-transform duration-300 ${isActive ? 'text-pampa-oro rotate-90' : 'text-foreground/20 group-hover:translate-x-1 group-hover:text-pampa-oro'}`} />
                     </div>
                   </motion.button>
                 );
@@ -185,52 +193,67 @@ export default function WellnessPortal() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
                 transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-                className="bg-background border border-pampa-oro/30 rounded-none p-8 sm:p-10 shadow-sm flex flex-col justify-between relative overflow-hidden min-h-[500px]"
+                className="glass-panel rounded-3xl p-6 sm:p-10 shadow-2xl flex flex-col justify-between relative overflow-hidden min-h-[600px] border border-white/10"
               >
+                {/* Imagen de fondo de la tarjeta */}
+                <div className="absolute inset-0 z-0">
+                  <Image 
+                    src={selectedDiscipline.image} 
+                    alt={selectedDiscipline.title} 
+                    fill 
+                    className="object-cover opacity-30 mix-blend-overlay"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent"></div>
+                </div>
+
                 <div className="space-y-8 relative z-10">
-                  <div className="flex justify-between items-start flex-wrap gap-4 border-b border-pampa-oro/10 pb-4">
-                    <span className="px-3 py-1 border border-pampa-oro/30 text-pampa-oro text-[9px] font-bold uppercase tracking-wider">
+                  <div className="flex justify-between items-start flex-wrap gap-4 pb-4">
+                    <span className="px-4 py-1.5 glass-panel border border-pampa-oro/30 text-pampa-oro text-[10px] font-bold uppercase tracking-wider rounded-full">
                       {selectedDiscipline.duration}
                     </span>
-                    <span className="flex items-center gap-1.5 text-xs text-muted-foreground font-light">
-                      <User className="w-3.5 h-3.5 text-pampa-oro" />
+                    <span className="flex items-center gap-2 text-sm text-foreground/80 font-light glass-panel px-4 py-1.5 rounded-full border border-white/5">
+                      <User className="w-4 h-4 text-cyan-500" />
                       {selectedDiscipline.instructor}
                     </span>
                   </div>
 
-                  <div className="space-y-3">
-                    <h2 className="text-3xl font-serif text-foreground tracking-tight uppercase italic">{selectedDiscipline.title}</h2>
-                    <p className="text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
+                  <div className="space-y-4">
+                    <h2 className="text-4xl sm:text-5xl font-serif text-foreground tracking-tight uppercase italic drop-shadow-md">
+                      {selectedDiscipline.title}
+                    </h2>
+                    <p className="text-sm sm:text-base text-foreground/80 font-light leading-relaxed max-w-xl">
                       {selectedDiscipline.description}
                     </p>
                   </div>
                   
                   {/* Benefits list */}
-                  <div className="space-y-3">
-                    <h4 className="text-[9px] font-bold uppercase tracking-widest text-pampa-oro">Beneficios Destacados</h4>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="space-y-4 pt-4">
+                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-pampa-oro">Beneficios Destacados</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       {selectedDiscipline.benefits.map((b, i) => (
-                        <div key={i} className="flex items-center gap-2 p-3 border border-pampa-oro/20 rounded-none text-xs text-foreground">
-                          <Heart className="w-3.5 h-3.5 text-pampa-oro shrink-0 stroke-[1.5]" />
-                          <span className="font-light text-[11px]">{b}</span>
+                        <div key={i} className="flex items-center gap-3 p-4 glass-panel border border-white/10 rounded-xl text-sm text-foreground hover:border-pampa-oro/30 transition-colors">
+                          <Heart className="w-4 h-4 text-cyan-500 shrink-0 stroke-[1.5]" />
+                          <span className="font-light">{b}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
                   {/* Horarios info */}
-                  <div className="flex items-center gap-3 p-4 border border-pampa-oro/20 rounded-none bg-background">
-                    <Clock className="w-4 h-4 text-pampa-oro shrink-0" />
-                    <div className="text-xs">
-                      <p className="text-muted-foreground font-bold uppercase tracking-wider text-[8px]">Horarios Programados</p>
-                      <p className="text-foreground font-medium mt-0.5">{selectedDiscipline.schedule}</p>
+                  <div className="flex items-center gap-4 p-5 glass-panel border border-white/10 rounded-xl">
+                    <div className="p-3 bg-pampa-oro/10 rounded-full text-pampa-oro">
+                      <Clock className="w-5 h-5 shrink-0" />
+                    </div>
+                    <div>
+                      <p className="text-cyan-500 font-bold uppercase tracking-wider text-[9px]">Horarios Programados</p>
+                      <p className="text-foreground text-lg font-medium mt-1">{selectedDiscipline.schedule}</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Quick RSVP Form */}
-                <div className="mt-8 pt-8 border-t border-pampa-oro/20 relative z-10">
-                  <h3 className="text-[9px] font-bold uppercase tracking-[0.2em] text-pampa-oro mb-4">Reserva Privada de Sesión</h3>
+                <div className="mt-8 pt-8 border-t border-white/10 relative z-10">
+                  <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-pampa-oro mb-6">Reserva Privada de Sesión</h3>
                   <form onSubmit={handleBookingSubmit} className="grid grid-cols-1 sm:grid-cols-12 gap-4">
                     <div className="sm:col-span-5 relative">
                       <input
@@ -239,7 +262,7 @@ export default function WellnessPortal() {
                         placeholder="Nombre Completo / Lote"
                         value={bookingName}
                         onChange={(e) => setBookingName(e.target.value)}
-                        className="w-full h-11 px-4 bg-transparent border border-pampa-oro/30 rounded-none text-foreground placeholder-muted-foreground/50 text-xs focus:outline-none focus:border-pampa-oro transition-colors"
+                        className="w-full h-14 px-5 bg-background/50 border border-white/10 rounded-xl text-foreground placeholder-foreground/40 text-sm focus:outline-none focus:border-pampa-oro transition-colors backdrop-blur-md"
                       />
                     </div>
                     <div className="sm:col-span-4 relative">
@@ -248,20 +271,20 @@ export default function WellnessPortal() {
                         required
                         value={bookingDate}
                         onChange={(e) => setBookingDate(e.target.value)}
-                        className="w-full h-11 px-4 bg-transparent border border-pampa-oro/30 rounded-none text-foreground text-xs focus:outline-none focus:border-pampa-oro transition-colors"
+                        className="w-full h-14 px-5 bg-background/50 border border-white/10 rounded-xl text-foreground text-sm focus:outline-none focus:border-pampa-oro transition-colors backdrop-blur-md [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert"
                       />
                     </div>
                     <div className="sm:col-span-3">
                       <button
                         type="submit"
                         disabled={bookingStatus === 'loading'}
-                        className="w-full h-11 bg-foreground text-background border border-foreground font-bold uppercase tracking-widest text-[9px] rounded-none hover:bg-transparent hover:text-foreground transition-colors flex items-center justify-center gap-2"
+                        className="w-full h-14 bg-pampa-oro text-white border border-pampa-oro font-bold uppercase tracking-widest text-[10px] rounded-xl hover:bg-foreground hover:border-foreground transition-all flex items-center justify-center gap-2 shadow-lg"
                       >
                         {bookingStatus === 'loading' ? (
-                          <span className="w-4 h-4 border border-background border-t-transparent rounded-full animate-spin" />
+                          <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                         ) : bookingStatus === 'success' ? (
                           <>
-                            <Check className="w-4 h-4" />
+                            <Check className="w-5 h-5" />
                             Listo
                           </>
                         ) : (
@@ -275,17 +298,17 @@ export default function WellnessPortal() {
                   </form>
 
                   {bookingStatus === 'success' && qrData && (
-                    <div className="mt-8 p-6 border border-pampa-oro rounded-none bg-background flex flex-col sm:flex-row items-center gap-6 animate-in zoom-in-95 duration-500">
-                      <div className="bg-white p-2 border border-pampa-oro/30 rounded-none shrink-0">
-                        <QRCode value={qrData} size={90} level="H" />
+                    <div className="mt-8 p-6 border border-green-500/30 rounded-2xl bg-green-500/10 flex flex-col sm:flex-row items-center gap-6 animate-in zoom-in-95 duration-500 backdrop-blur-md">
+                      <div className="bg-white p-3 border border-white/20 rounded-xl shrink-0 shadow-xl">
+                        <QRCode value={qrData} size={100} level="H" />
                       </div>
                       <div className="text-center sm:text-left space-y-2">
                         <div className="flex items-center gap-2 justify-center sm:justify-start">
-                          <Sparkles className="w-4 h-4 text-pampa-oro animate-bounce" />
-                          <h4 className="font-bold text-pampa-oro uppercase tracking-wider text-[11px]">¡Sesión Reservada VIP!</h4>
+                          <Sparkles className="w-5 h-5 text-green-400 animate-bounce" />
+                          <h4 className="font-bold text-green-400 uppercase tracking-wider text-[12px]">¡Sesión Reservada VIP!</h4>
                         </div>
-                        <p className="text-[11px] text-muted-foreground font-light">Su pase ha sido generado. Presente el código QR en la entrada del Wellness Spa.</p>
-                        <p className="text-[9px] font-mono text-foreground bg-pampa-oro/10 inline-block px-2.5 py-1">ID: {qrData}</p>
+                        <p className="text-xs text-foreground/80 font-light max-w-sm">Su pase ha sido generado. Presente el código QR en la entrada del Wellness Spa.</p>
+                        <p className="text-[10px] font-mono text-foreground bg-background/50 inline-block px-3 py-1.5 rounded-md border border-white/10 mt-2">ID: {qrData}</p>
                       </div>
                     </div>
                   )}

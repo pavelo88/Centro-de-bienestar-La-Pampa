@@ -7,11 +7,11 @@ import { useFirestore } from '@/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { 
   ArrowRight, Sparkles, Calendar, CheckCircle2,
-  Lock, Fingerprint, LayoutDashboard
+  Lock, Fingerprint, LayoutDashboard, X
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
 import { YogaIcon, TaiChiIcon, BungeeIcon, KangooIcon } from '@/components/icons';
 
 // Magnetic Button effect for premium UX/UI
@@ -67,11 +67,44 @@ function TextReveal({ children, className = '', delay = 0 }: { children: string;
   );
 }
 
+const disciplinesData = [
+  { 
+    icon: YogaIcon, 
+    title: "Yoga", 
+    subtitle: "Hatha Yoga Zen", 
+    desc: "Meditación profunda y posturas fluidas diseñadas para reequilibrar el sistema nervioso en armonía con la naturaleza.",
+    image: "/images/yoga-space.png"
+  },
+  { 
+    icon: TaiChiIcon, 
+    title: "Tai Chi", 
+    subtitle: "Tai Chi Chuan", 
+    desc: "El arte de la meditación en movimiento. Canalice su energía vital mediante secuencias simétricas de bajo impacto.",
+    image: "/images/hero-spa.png"
+  },
+  { 
+    icon: BungeeIcon, 
+    title: "Bungee Jam", 
+    subtitle: "Bungee Fitness VIP", 
+    desc: "Desafíe la gravedad en suspensión. Entrenamiento aeróbico que cuida sus articulaciones con un control absoluto.",
+    image: "/images/yoga-space.png" // Podríamos generar más imágenes, pero reusamos por ahora
+  },
+  { 
+    icon: KangooIcon, 
+    title: "Kangu", 
+    subtitle: "Kangoo Jumps Pro", 
+    desc: "Reactiva la circulación y el tono muscular con botas de rebote patentadas en entrenamientos de alto vigor.",
+    image: "/images/hero-spa.png"
+  }
+];
+
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({ name: '', phone: '', email: '', message: '' });
+  const [selectedDiscipline, setSelectedDiscipline] = useState<any>(null);
+  
   const db = useFirestore();
 
   useEffect(() => {
@@ -107,10 +140,68 @@ export default function Home() {
   };
 
   return (
-    // IMPORTANTE: bg-transparent permite que el FluidBackground se vea en toda la página
     <div className="relative bg-transparent text-foreground min-h-screen overflow-x-hidden selection:bg-pampa-oro/20 selection:text-foreground transition-colors duration-700">
       
-      {/* Symmetrical fine geometric lines in background for minimalist luxury feel */}
+      {/* Pop-up / Modal para Disciplinas */}
+      <AnimatePresence>
+        {selectedDiscipline && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              exit={{ opacity: 0 }} 
+              onClick={() => setSelectedDiscipline(null)}
+              className="absolute inset-0 bg-background/80 backdrop-blur-xl"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, y: 20 }} 
+              animate={{ opacity: 1, scale: 1, y: 0 }} 
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-2xl bg-background border border-pampa-oro/30 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row z-10"
+            >
+              <button 
+                onClick={() => setSelectedDiscipline(null)}
+                className="absolute top-4 right-4 p-2 bg-background/50 hover:bg-pampa-oro hover:text-white rounded-full backdrop-blur-md transition-colors z-20"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              
+              <div className="w-full md:w-1/2 h-64 md:h-auto relative">
+                <Image 
+                  src={selectedDiscipline.image} 
+                  alt={selectedDiscipline.title} 
+                  fill 
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-background to-transparent md:to-background/20" />
+              </div>
+              
+              <div className="w-full md:w-1/2 p-8 flex flex-col justify-center space-y-4 relative z-10">
+                <div className="text-pampa-oro">
+                  <selectedDiscipline.icon className="w-10 h-10 stroke-[0.75]" />
+                </div>
+                <div>
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-cyan-600 dark:text-cyan-400">
+                    {selectedDiscipline.subtitle}
+                  </span>
+                  <h3 className="text-3xl font-serif text-foreground tracking-tight mt-1">
+                    {selectedDiscipline.title}
+                  </h3>
+                </div>
+                <p className="text-sm text-foreground/70 font-light leading-relaxed">
+                  {selectedDiscipline.desc}
+                </p>
+                <div className="pt-4">
+                  <Link href="/bienestar" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-pampa-oro hover:text-foreground transition-colors">
+                    Ver más detalles <ArrowRight className="w-3 h-3" />
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       <div className="absolute inset-0 pointer-events-none z-0 opacity-[0.05]">
         <div className="absolute left-[10%] top-0 bottom-0 w-px bg-pampa-oro" />
         <div className="absolute right-[10%] top-0 bottom-0 w-px bg-pampa-oro" />
@@ -122,9 +213,8 @@ export default function Home() {
 
       <main className="relative z-10">
         
-        {/* HERO SECTION - REDISEÑADO */}
+        {/* HERO SECTION */}
         <section className="relative min-h-screen flex flex-col justify-center items-center px-4 pt-32 pb-20 overflow-hidden">
-          {/* Fondo de Imagen Premium (Parallax) */}
           <div 
             className="absolute inset-0 z-0 opacity-60 dark:opacity-40"
             style={{ transform: `translateY(${scrollY * 0.3}px)` }}
@@ -137,12 +227,10 @@ export default function Home() {
               priority
             />
           </div>
-          {/* Gradientes sutiles para integrar la imagen con la animación fluida */}
           <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background z-0"></div>
           <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-transparent to-background/80 z-0"></div>
 
           <div className="max-w-6xl mx-auto text-center space-y-12 z-20 relative w-full">
-            
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -155,7 +243,6 @@ export default function Home() {
               </span>
             </motion.div>
 
-            {/* Título Principal Centrado y Elegante */}
             <h1 className="text-[4rem] sm:text-[6rem] lg:text-[8.5rem] font-serif leading-[0.9] tracking-tighter select-none drop-shadow-2xl">
               <span className="block font-light italic text-pampa-oro mb-2 sm:mb-6">
                 <TextReveal delay={0.1}>la pampa</TextReveal>
@@ -202,15 +289,12 @@ export default function Home() {
                 </Link>
               </MagneticButton>
             </motion.div>
-
           </div>
         </section>
 
-        {/* WELLNESS DISCIPLINES PRESENTATION */}
-        {/* bg-background/70 y backdrop-blur para dejar ver el FluidBackground */}
-        <section id="disciplinas" className="py-32 px-4 sm:px-6 relative bg-background/60 backdrop-blur-2xl border-t border-white/10">
-          <div className="max-w-7xl mx-auto">
-            
+        {/* WELLNESS DISCIPLINES PRESENTATION - INFINITE CAROUSEL */}
+        <section id="disciplinas" className="py-32 relative bg-background/60 backdrop-blur-2xl border-t border-white/10 overflow-hidden">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="text-center max-w-3xl mx-auto space-y-4 mb-24">
               <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-pampa-oro block">
                 Disciplinas Exclusivas
@@ -220,89 +304,62 @@ export default function Home() {
               </h2>
               <div className="w-16 h-px bg-gradient-to-r from-transparent via-pampa-oro to-transparent mx-auto mt-8" />
             </div>
+          </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-              <div className="relative h-[600px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
-                 <Image 
-                   src="/images/yoga-space.png" 
-                   alt="Yoga Studio" 
-                   fill 
-                   className="object-cover transition-transform duration-1000 hover:scale-105"
-                 />
-                 <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent"></div>
-                 <div className="absolute bottom-8 left-8 right-8 text-left">
-                   <h3 className="text-3xl font-serif text-foreground mb-2">Santuario Interior</h3>
-                   <p className="text-sm font-light text-foreground/80">Espacios diseñados para potenciar tu conexión espiritual con el entorno oceánico.</p>
-                 </div>
-              </div>
-
-              {/* Grid of disciplines using Custom Monoline icons & Glassmorphism cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {[
-                  { 
-                    icon: YogaIcon, 
-                    title: "Yoga", 
-                    subtitle: "Hatha Yoga Zen", 
-                    desc: "Meditación profunda y posturas fluidas diseñadas para reequilibrar el sistema nervioso en armonía con la naturaleza." 
-                  },
-                  { 
-                    icon: TaiChiIcon, 
-                    title: "Tai Chi", 
-                    subtitle: "Tai Chi Chuan", 
-                    desc: "El arte de la meditación en movimiento. Canalice su energía vital mediante secuencias simétricas de bajo impacto." 
-                  },
-                  { 
-                    icon: BungeeIcon, 
-                    title: "Bungee Jam", 
-                    subtitle: "Bungee Fitness VIP", 
-                    desc: "Desafíe la gravedad en suspensión. Entrenamiento aeróbico que cuida sus articulaciones con un control absoluto." 
-                  },
-                  { 
-                    icon: KangooIcon, 
-                    title: "Kangu", 
-                    subtitle: "Kangoo Jumps Pro", 
-                    desc: "Reactiva la circulación y el tono muscular con botas de rebote patentadas en entrenamientos de alto vigor." 
-                  }
-                ].map((item, idx) => (
-                  <div 
-                    key={idx}
-                    className="group glass-panel rounded-2xl p-8 transition-all duration-500 hover:border-pampa-oro/50 hover:shadow-[0_10px_40px_rgba(197,160,89,0.15)] relative flex flex-col justify-between min-h-[280px]"
-                  >
-                    <div className="space-y-6">
-                      <div className="text-pampa-oro transition-transform duration-500 group-hover:scale-110 group-hover:-translate-y-1">
-                        <item.icon className="w-12 h-12 stroke-[0.75] drop-shadow-md" />
-                      </div>
-                      <div className="space-y-2">
-                        <span className="text-[9px] font-bold uppercase tracking-widest text-cyan-600 dark:text-cyan-400">
-                          {item.subtitle}
-                        </span>
-                        <h3 className="text-2xl font-medium text-foreground font-serif tracking-tight">
-                          {item.title}
-                        </h3>
-                      </div>
-                      <p className="text-sm text-foreground/70 font-light leading-relaxed">
-                        {item.desc}
-                      </p>
+          {/* Carrusel Infinito */}
+          <div className="relative w-full flex overflow-x-hidden group pb-16">
+            <motion.div 
+              className="flex gap-6 px-3"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ 
+                repeat: Infinity, 
+                ease: "linear", 
+                duration: 25 // Velocidad del carrusel
+              }}
+            >
+              {[...disciplinesData, ...disciplinesData].map((item, idx) => (
+                <div 
+                  key={idx}
+                  onClick={() => setSelectedDiscipline(item)}
+                  className="w-[280px] sm:w-[350px] shrink-0 glass-panel rounded-2xl p-8 transition-all duration-500 hover:border-pampa-oro/50 hover:shadow-[0_10px_40px_rgba(197,160,89,0.2)] hover:-translate-y-2 cursor-pointer relative flex flex-col justify-between min-h-[300px]"
+                >
+                  <div className="space-y-6">
+                    <div className="text-pampa-oro">
+                      <item.icon className="w-12 h-12 stroke-[0.75] drop-shadow-md" />
                     </div>
+                    <div className="space-y-2">
+                      <span className="text-[9px] font-bold uppercase tracking-widest text-cyan-600 dark:text-cyan-400">
+                        {item.subtitle}
+                      </span>
+                      <h3 className="text-2xl font-medium text-foreground font-serif tracking-tight">
+                        {item.title}
+                      </h3>
+                    </div>
+                    <p className="text-sm text-foreground/70 font-light leading-relaxed">
+                      {item.desc}
+                    </p>
                   </div>
-                ))}
-              </div>
-            </div>
+                  
+                  <div className="mt-8 flex items-center justify-between opacity-50 group-hover:opacity-100 transition-opacity">
+                    <span className="text-[9px] uppercase tracking-widest text-pampa-oro font-bold">Ver Detalles</span>
+                    <ArrowRight className="w-4 h-4 text-pampa-oro" />
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
 
-            <div className="flex justify-center mt-12">
-              <Link href="/bienestar" className="inline-flex items-center gap-3 px-8 py-4 rounded-full border border-pampa-oro/50 text-foreground hover:bg-pampa-oro hover:text-white transition-all duration-500 uppercase text-[10px] tracking-widest font-bold">
-                Agendar Sesión Privada
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-
+          <div className="flex justify-center mt-8 px-4">
+            <Link href="/bienestar" className="inline-flex items-center gap-3 px-8 py-4 rounded-full border border-pampa-oro/50 text-foreground hover:bg-pampa-oro hover:text-white transition-all duration-500 uppercase text-[10px] tracking-widest font-bold">
+              Agendar Sesión Privada
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </section>
 
         {/* BIOMETRIC & MEMBERSHIP GATEWAY FLOW */}
         <section className="py-24 px-4 sm:px-6 bg-background/80 backdrop-blur-3xl border-t border-pampa-oro/20">
           <div className="max-w-6xl mx-auto glass-panel rounded-3xl p-8 sm:p-16 relative overflow-hidden">
-            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
               <div className="space-y-8">
                 <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-pampa-oro block">
@@ -314,7 +371,6 @@ export default function Home() {
                 <p className="text-sm sm:text-base text-foreground/70 font-light leading-relaxed">
                   Nuestra estación de control inteligente está directamente vinculada con la validación de membresía en tiempo real. Al liquidar sus expensas ordinarias, la terminal de reconocimiento facial se activa al instante permitiendo un ingreso fluido e inteligente.
                 </p>
-                
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
                   <Link 
                     href="/biometrico" 
@@ -333,7 +389,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Symmetrical fine geometric layout as graphic asset */}
               <div className="relative border border-pampa-oro/30 rounded-2xl p-10 flex flex-col items-center justify-center min-h-[350px] bg-background/40 backdrop-blur-md shadow-2xl">
                 <div className="absolute top-4 left-4 text-[10px] font-mono text-pampa-oro/60">SYS-OK-2026</div>
                 <div className="absolute bottom-4 right-4 text-[10px] font-mono text-pampa-oro/60">V-F-01</div>
@@ -349,31 +404,21 @@ export default function Home() {
                 </div>
               </div>
             </div>
-
           </div>
         </section>
 
-        {/* CONTACT & RESERVATIONS (MINIMALIST FORM) */}
+        {/* CONTACT & RESERVATIONS */}
         <section id="contacto" className="py-32 px-4 sm:px-6 relative bg-background border-t border-pampa-oro/20">
           <div className="max-w-4xl mx-auto glass-panel rounded-3xl p-8 sm:p-16 relative shadow-2xl">
-
             <div className="text-center max-w-2xl mx-auto space-y-4 mb-16">
-              <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-pampa-oro">
-                Atención Preferente
-              </span>
-              <h2 className="text-4xl sm:text-5xl font-serif text-foreground drop-shadow-sm">
-                Agende una Visita Guiada
-              </h2>
-              <p className="text-sm text-foreground/70 font-light leading-relaxed">
-                Descubra la exclusividad y los espacios privados diseñados para el bienestar integral.
-              </p>
+              <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-pampa-oro">Atención Preferente</span>
+              <h2 className="text-4xl sm:text-5xl font-serif text-foreground drop-shadow-sm">Agende una Visita Guiada</h2>
+              <p className="text-sm text-foreground/70 font-light leading-relaxed">Descubra la exclusividad y los espacios privados diseñados para el bienestar integral.</p>
             </div>
 
             {isSubmitted ? (
               <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+                initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ type: 'spring', stiffness: 200, damping: 15 }}
                 className="flex flex-col items-center justify-center py-16 space-y-6 bg-green-500/5 rounded-2xl"
               >
                 <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center">
@@ -387,83 +432,30 @@ export default function Home() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                   <div className="space-y-2">
                     <label className="text-[10px] font-bold uppercase text-pampa-oro tracking-widest">Nombre Completo</label>
-                    <input 
-                      type="text" 
-                      required 
-                      maxLength={80}
-                      pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"
-                      placeholder="Ej. Alejandro Valenzuela"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full h-14 px-5 bg-background/50 border-b-2 border-transparent border-b-pampa-oro/30 rounded-t-lg text-foreground placeholder-foreground/30 text-sm focus:outline-none focus:border-b-pampa-oro focus:bg-background/80 transition-all"
-                    />
+                    <input type="text" required maxLength={80} pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$" placeholder="Ej. Alejandro Valenzuela" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full h-14 px-5 bg-background/50 border-b-2 border-transparent border-b-pampa-oro/30 rounded-t-lg text-foreground placeholder-foreground/30 text-sm focus:outline-none focus:border-b-pampa-oro focus:bg-background/80 transition-all"/>
                   </div>
                   <div className="space-y-2">
                     <label className="text-[10px] font-bold uppercase text-pampa-oro tracking-widest">Teléfono de Contacto</label>
-                    <input 
-                      type="tel" 
-                      required
-                      maxLength={20}
-                      pattern="^\+?[0-9\s]{7,15}$"
-                      onInput={(e) => {
-                        e.currentTarget.value = e.currentTarget.value.replace(/[^\d\s\+]/g, '');
-                      }}
-                      placeholder="Ej. +593 999 999 999"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full h-14 px-5 bg-background/50 border-b-2 border-transparent border-b-pampa-oro/30 rounded-t-lg text-foreground placeholder-foreground/30 text-sm focus:outline-none focus:border-b-pampa-oro focus:bg-background/80 transition-all"
-                    />
+                    <input type="tel" required maxLength={20} pattern="^\+?[0-9\s]{7,15}$" onInput={(e) => { e.currentTarget.value = e.currentTarget.value.replace(/[^\d\s\+]/g, ''); }} placeholder="Ej. +593 999 999 999" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full h-14 px-5 bg-background/50 border-b-2 border-transparent border-b-pampa-oro/30 rounded-t-lg text-foreground placeholder-foreground/30 text-sm focus:outline-none focus:border-b-pampa-oro focus:bg-background/80 transition-all"/>
                   </div>
                 </div>
-
                 <div className="space-y-2">
                   <label className="text-[10px] font-bold uppercase text-pampa-oro tracking-widest">Correo Electrónico</label>
-                  <input 
-                    type="email" 
-                    required 
-                    maxLength={100}
-                    placeholder="ejemplo@correo.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full h-14 px-5 bg-background/50 border-b-2 border-transparent border-b-pampa-oro/30 rounded-t-lg text-foreground placeholder-foreground/30 text-sm focus:outline-none focus:border-b-pampa-oro focus:bg-background/80 transition-all"
-                  />
+                  <input type="email" required maxLength={100} placeholder="ejemplo@correo.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full h-14 px-5 bg-background/50 border-b-2 border-transparent border-b-pampa-oro/30 rounded-t-lg text-foreground placeholder-foreground/30 text-sm focus:outline-none focus:border-b-pampa-oro focus:bg-background/80 transition-all"/>
                 </div>
-
                 <div className="space-y-2">
                   <label className="text-[10px] font-bold uppercase text-pampa-oro tracking-widest">Mensaje o Espacio de Interés</label>
-                  <textarea 
-                    rows={4} 
-                    required
-                    maxLength={1000}
-                    placeholder="Escriba aquí los detalles de su interés en el Centro de Bienestar..."
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full p-5 bg-background/50 border-b-2 border-transparent border-b-pampa-oro/30 rounded-t-lg text-foreground placeholder-foreground/30 text-sm focus:outline-none focus:border-b-pampa-oro focus:bg-background/80 transition-all resize-none"
-                  />
+                  <textarea rows={4} required maxLength={1000} placeholder="Escriba aquí los detalles de su interés en el Centro de Bienestar..." value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="w-full p-5 bg-background/50 border-b-2 border-transparent border-b-pampa-oro/30 rounded-t-lg text-foreground placeholder-foreground/30 text-sm focus:outline-none focus:border-b-pampa-oro focus:bg-background/80 transition-all resize-none"/>
                 </div>
-
                 <MagneticButton className="w-full">
-                  <button 
-                    type="submit"
-                    disabled={loading}
-                    className="w-full h-16 mt-4 bg-foreground text-background font-bold uppercase tracking-[0.3em] text-[11px] rounded-full hover:bg-pampa-oro hover:text-white transition-all duration-500 flex items-center justify-center gap-3 disabled:opacity-50 shadow-xl"
-                  >
-                    {loading ? (
-                      <span className="w-5 h-5 border-2 border-background border-t-transparent rounded-full animate-spin" />
-                    ) : (
-                      <>
-                        <Calendar className="w-4 h-4" />
-                        Solicitar Visita Privada
-                      </>
-                    )}
+                  <button type="submit" disabled={loading} className="w-full h-16 mt-4 bg-foreground text-background font-bold uppercase tracking-[0.3em] text-[11px] rounded-full hover:bg-pampa-oro hover:text-white transition-all duration-500 flex items-center justify-center gap-3 disabled:opacity-50 shadow-xl">
+                    {loading ? <span className="w-5 h-5 border-2 border-background border-t-transparent rounded-full animate-spin" /> : <><Calendar className="w-4 h-4" /> Solicitar Visita Privada</>}
                   </button>
                 </MagneticButton>
               </form>
             )}
-
           </div>
         </section>
-
       </main>
 
       <Footer />
