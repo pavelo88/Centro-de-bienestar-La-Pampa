@@ -217,54 +217,58 @@ export default function WellnessPortal() {
                 transition={{ type: 'spring', stiffness: 200, damping: 20 }}
                 className="rounded-3xl shadow-2xl flex flex-col lg:flex-row relative overflow-hidden bg-background border border-border"
               >
-                {/* Lado Izquierdo (Centro de la pantalla): Imagen */}
-                <div className="w-full lg:w-[55%] min-h-[300px] lg:min-h-[600px] relative z-0">
-                  <motion.div
-                    initial={{ scale: 1.05, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ duration: 1 }}
-                    className="absolute inset-0"
-                  >
-                    <Image 
-                      src={selectedDiscipline.image} 
-                      alt={selectedDiscipline.title} 
-                      fill 
-                      className="object-cover object-center"
-                    />
-                  </motion.div>
-                </div>
-
-                {/* Lado Derecho: Contenido y Textos */}
-                <div className="w-full lg:w-[45%] flex flex-col justify-between p-6 sm:p-8 lg:p-10 relative z-10 bg-background/95 backdrop-blur-xl">
-                  <div className="space-y-6 relative z-10">
-                  <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="flex justify-between items-start flex-wrap gap-4 pb-2 border-b border-border/50"
-                  >
-                    <span className="text-[#C5A059] text-[10px] font-bold uppercase tracking-[0.2em]">
-                      {selectedDiscipline.duration}
-                    </span>
-                    <span className="flex items-center gap-2 text-xs text-foreground/70 font-medium">
+                {/* Lado Izquierdo: Imagen y Textos Principales */}
+                <div className="w-full lg:w-[55%] flex flex-col relative z-0 border-r border-border/10">
+                  <div className="w-full h-[300px] lg:h-[380px] relative shrink-0 overflow-hidden">
+                    <motion.div
+                      initial={{ scale: 1.05, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ duration: 1 }}
+                      className="absolute inset-0"
+                    >
+                      <Image 
+                        src={selectedDiscipline.image} 
+                        alt={selectedDiscipline.title} 
+                        fill 
+                        className="object-cover object-center"
+                      />
+                    </motion.div>
+                  </div>
+                  
+                  {/* Instructor, Título y Descripción debajo de la imagen */}
+                  <div className="p-6 sm:p-8 lg:p-10 flex flex-col gap-4 bg-background/50 backdrop-blur-sm grow">
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1 }}
+                      className="flex items-center gap-2 text-xs text-foreground/70 font-medium"
+                    >
                       <User className="w-3.5 h-3.5 text-[#C5A059]" />
                       {selectedDiscipline.instructor}
-                    </span>
-                  </motion.div>
+                      <span className="mx-2 text-border">•</span>
+                      <span className="text-[#C5A059] text-[10px] font-bold uppercase tracking-[0.2em]">
+                        {selectedDiscipline.duration}
+                      </span>
+                    </motion.div>
 
-                  <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="space-y-3"
-                  >
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-foreground tracking-tight uppercase italic leading-[1.1]">
-                      {selectedDiscipline.title}
-                    </h2>
-                    <p className="text-sm text-foreground/70 font-light leading-relaxed">
-                      {selectedDiscipline.description}
-                    </p>
-                  </motion.div>
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.2 }}
+                    >
+                      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-foreground tracking-tight uppercase italic leading-[1.1] mb-3">
+                        {selectedDiscipline.title}
+                      </h2>
+                      <p className="text-sm text-foreground/70 font-light leading-relaxed">
+                        {selectedDiscipline.description}
+                      </p>
+                    </motion.div>
+                  </div>
+                </div>
+
+                {/* Lado Derecho: Detalles y Formulario */}
+                <div className="w-full lg:w-[45%] flex flex-col justify-between p-6 sm:p-8 lg:p-10 relative z-10 bg-background/95 backdrop-blur-xl">
+                  <div className="space-y-6 relative z-10">
                   
                   {/* Benefits list */}
                   <motion.div 
