@@ -12,6 +12,8 @@ import { useFirebase } from '@/firebase';
 import { collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, updateDoc, increment } from 'firebase/firestore';
 import AgendaView from '@/components/portal/AgendaView';
 import { motion, AnimatePresence } from 'framer-motion';
+import { QRCodeSVG } from 'qrcode.react';
+import { generateDynamicQRToken } from '@/lib/qr-utils';
 
 type UserRole = 'Administrador' | 'Guardia' | 'Contador' | 'Residente';
 
@@ -170,14 +172,22 @@ export default function ResidentPortal() {
     const interval = setInterval(() => {
       setQrTimeLeft((prev) => {
         if (prev <= 1) {
-          setGeneratedCode(`VIP-${vipDni}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`);
-          return 300;
+          // Generamos un nuevo token dinámico (rotación)
+          const newToken = generateDynamicQRToken('residente_05', vipDni);
+          setGeneratedCode(newToken);
+          
+          if (db) {
+            try {
+              updateDoc(doc(db, 'accesos_vip', newToken), { updatedAt: serverTimestamp() }).catch(() => {});
+            } catch(e) {}
+          }
+          return 60;
         }
         return prev - 1;
       });
     }, 1000);
     return () => clearInterval(interval);
-  }, [generatedCode, vipDni]);
+  }, [generatedCode, vipDni, db]);
 
   // Actions
   const handleCreatePost = async (e: React.FormEvent) => {
@@ -304,14 +314,15 @@ export default function ResidentPortal() {
     e.preventDefault();
     if (!vipName || !vipDni) return;
 
-    const token = `VIP-${vipDni}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+    // Generamos el primer token dinámico (duración 60 segundos antes de rotar)
+    const token = generateDynamicQRToken('residente_05', vipDni);
 
     if (db) {
       try {
         await addDoc(collection(db, 'accesos_vip'), {
           invitado: vipName,
           documento: vipDni,
-          token,
+          token_inicial: token,
           residente: 'Lote 05',
           fechaCreacion: serverTimestamp(),
           usado: false
@@ -322,7 +333,7 @@ export default function ResidentPortal() {
     }
 
     setGeneratedCode(token);
-    setQrTimeLeft(300);
+    setQrTimeLeft(60);
   };
 
   return (
@@ -714,10 +725,11 @@ export default function ResidentPortal() {
                     </div>
 
                     <div className="relative p-6 bg-white border border-[#C5A059]/40 rounded-none mx-auto w-48 h-48 flex items-center justify-center">
-                      <img 
-                        src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(generatedCode)}`} 
-                        alt="VIP QR"
-                        className="w-full h-full object-contain"
+                      <QRCodeSVG 
+                        value={generatedCode} 
+                        size={140}
+                        fgColor="#333333"
+                        bgColor="#FFFFFF"
                       />
                     </div>
 

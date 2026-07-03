@@ -3,10 +3,13 @@
 import { useState, useEffect } from 'react';
 import Navbar from '@/components/site/navbar';
 import Footer from '@/components/site/footer';
-import { Sparkles, Heart, Clock, User, Calendar, Check, ChevronRight } from 'lucide-react';
+import { Calendar, Clock, MapPin, Sparkles, CheckCircle2, QrCode, User, Check, ChevronRight, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useFirestore } from '@/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { QRCodeSVG } from 'qrcode.react';
+import { generateDynamicQRToken } from '@/lib/qr-utils';
+import { bookWellnessSession } from '@/lib/reservations';
 import QRCode from 'react-qr-code';
 import Image from 'next/image';
 import { YogaIcon, TaiChiIcon, BungeeIcon, KangooIcon } from '@/components/icons';
@@ -89,15 +92,19 @@ export default function WellnessPortal() {
     setBookingStatus('loading');
     
     try {
-      const docRef = await addDoc(collection(db, 'reservas_wellness'), {
-        disciplina: selectedDiscipline.title,
-        disciplinaId: selectedDiscipline.id,
-        nombre: bookingName,
-        fechaReserva: bookingDate,
-        createdAt: serverTimestamp()
-      });
+      // Create a unique session ID based on date and discipline
+      const sessionId = `${selectedDiscipline.id}_${bookingDate.replace(/[^a-zA-Z0-9]/g, '-')}`;
       
-      const payload = `PampaVIP-${docRef.id.substring(0, 8).toUpperCase()}-${selectedDiscipline.id}`;
+      const res = await bookWellnessSession(bookingName, sessionId, 25);
+      
+      if (!res.success) {
+        alert(res.message);
+        setBookingStatus('idle');
+        return;
+      }
+      
+      // Use dynamic QR for wellness reservation
+      const payload = generateDynamicQRToken(bookingName, sessionId);
       setQrData(payload);
       setBookingStatus('success');
       
