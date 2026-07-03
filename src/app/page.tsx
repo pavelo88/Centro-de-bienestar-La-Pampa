@@ -6,11 +6,12 @@ import { useState, useEffect } from 'react';
 import { useFirestore } from '@/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { 
-  ArrowRight, Shield, Sparkles, Trees, 
-  MapPin, Phone, Mail, Calendar, CheckCircle2 
+  ArrowRight, Sparkles, Calendar, CheckCircle2,
+  Lock, Fingerprint, LayoutDashboard
 } from 'lucide-react';
 import Link from 'next/link';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { YogaIcon, TaiChiIcon, BungeeIcon, KangooIcon } from '@/components/icons';
 
 // Magnetic Button effect for premium UX/UI
 function MagneticButton({ children, className, ...props }: any) {
@@ -105,225 +106,243 @@ export default function Home() {
   };
 
   return (
-    <div className="relative bg-[#FAF9F6] text-[#062113] dark:bg-[#082117] dark:text-[#E5DED4] min-h-screen overflow-x-hidden selection:bg-[#C5B39C] selection:text-black transition-colors duration-700">
+    <div className="relative bg-[#FDFBF7] text-[#333333] min-h-screen overflow-x-hidden selection:bg-[#C5A059]/20 selection:text-[#333333] transition-colors duration-700">
       
-      {/* Dynamic Background Glows */}
-      <div 
-        className="absolute top-[-10%] left-[-20%] w-[80vw] h-[80vw] bg-[#D4AF37]/5 rounded-full blur-[160px] pointer-events-none transition-transform duration-1000 ease-out"
-        style={{ transform: `translateY(${scrollY * 0.2}px)` }}
-      />
-      <div 
-        className="absolute top-[40%] right-[-20%] w-[70vw] h-[70vw] bg-[#144229]/20 rounded-full blur-[180px] pointer-events-none transition-transform duration-1000 ease-out"
-        style={{ transform: `translateY(${scrollY * -0.1}px)` }}
-      />
+      {/* Symmetrical fine geometric lines in background for minimalist luxury feel */}
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-[0.03]">
+        <div className="absolute left-[10%] top-0 bottom-0 w-px bg-[#C5A059]" />
+        <div className="absolute right-[10%] top-0 bottom-0 w-px bg-[#C5A059]" />
+        <div className="absolute left-0 right-0 top-[20%] h-px bg-[#C5A059]" />
+        <div className="absolute left-0 right-0 top-[60%] h-px bg-[#C5A059]" />
+      </div>
 
       <Navbar />
 
       <main className="relative z-10">
         
         {/* HERO SECTION */}
-        <section className="relative min-h-screen flex flex-col justify-center items-center px-4 pt-32 pb-20">
-          <div className="max-w-6xl mx-auto text-center space-y-8 z-20">
+        <section className="relative min-h-[90vh] flex flex-col justify-center items-center px-4 pt-40 pb-20">
+          <div className="max-w-5xl mx-auto text-center space-y-10 z-20">
             
             <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, ease: 'easeOut' }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#062113]/5 border border-[#062113]/10 dark:bg-white/5 dark:border-white/10 backdrop-blur-md"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#C5A059]/30 bg-[#FDFBF7] shadow-sm"
             >
-              <Sparkles className="w-4 h-4 text-[#D4AF37]" />
-              <span className="text-[10px] font-black tracking-[0.3em] uppercase text-[#C5B39C]">
-                Santuario Residencial Privado
+              <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
+              <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-[#C5A059]">
+                Santuario de Ultra Lujo
               </span>
             </motion.div>
 
-            <h1 className="text-[3rem] sm:text-[5rem] lg:text-[7.5rem] font-serif leading-[0.9] tracking-tight select-none">
-              <span className="block font-light italic opacity-85">
-                <TextReveal delay={0.1}>La Pampa</TextReveal>
+            <h1 className="text-[3.5rem] sm:text-[5.5rem] lg:text-[7.5rem] font-serif leading-[0.95] tracking-tighter select-none">
+              <span className="block font-light italic text-[#C5A059] opacity-90">
+                <TextReveal delay={0.1}>la pampa</TextReveal>
               </span>
-              <span className="block font-black uppercase text-transparent bg-clip-text bg-gradient-to-r from-[#062113] via-[#D4AF37] to-[#062113] dark:from-[#FAF9F6] dark:via-[#DFD3C3] dark:to-[#D4AF37] mt-2">
-                <TextReveal delay={0.3}>El Mejor Barrio</TextReveal>
-              </span>
-              <span className="block font-light italic text-[#C5B39C] mt-2">
-                <TextReveal delay={0.5}>del Mundo</TextReveal>
+              <span className="block font-normal uppercase text-[#333333] mt-3">
+                <TextReveal delay={0.3}>Centro de Bienestar</TextReveal>
               </span>
             </h1>
 
             <motion.p 
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, delay: 0.8 }}
-              className="max-w-2xl mx-auto text-sm sm:text-base text-slate-700 dark:text-slate-300 font-light leading-relaxed tracking-wide"
+              className="max-w-xl mx-auto text-sm sm:text-base text-[#777777] font-light leading-relaxed tracking-wide"
             >
-              Ubicado en el exclusivo valle de Pomasqui, un entorno country club rodeado de naturaleza majestuosa, seguridad privada de nivel absoluto y confort cinco estrellas.
+              Un espacio purificado diseñado para el balance absoluto. Experiencias holísticas y tecnología biométrica integradas para un acceso seguro, fluido e inteligente.
             </motion.p>
 
             <motion.div 
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, delay: 1 }}
-              className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-6"
+              className="flex flex-col sm:flex-row justify-center items-center gap-6 pt-8"
             >
               <MagneticButton className="w-full sm:w-auto">
                 <Link 
                   href="/portal"
-                  className="w-full sm:w-auto h-14 px-8 rounded-full bg-gradient-to-r from-[#144229] to-[#0b2616] text-[#E5DED4] border border-[#D4AF37]/50 flex items-center justify-center gap-3 font-bold uppercase tracking-widest text-[10px] shadow-[0_4px_25px_rgba(20,66,41,0.4)] hover:shadow-[0_4px_35px_rgba(20,66,41,0.6)] transition-all duration-500 group"
+                  className="w-full sm:w-auto h-12 px-8 rounded-none bg-[#333333] text-[#FDFBF7] border border-[#333333] flex items-center justify-center gap-3 font-semibold uppercase tracking-widest text-[9px] hover:bg-transparent hover:text-[#333333] transition-all duration-500"
                 >
-                  <span>Acceder al Portal</span>
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  <span>Portal Residentes</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </MagneticButton>
               
               <MagneticButton className="w-full sm:w-auto">
                 <Link 
-                  href="#entorno"
-                  className="w-full sm:w-auto h-14 px-8 rounded-full bg-[#062113]/5 border border-[#062113]/10 text-[#062113] dark:bg-white/5 dark:border-white/10 dark:text-white flex items-center justify-center gap-2 font-bold uppercase tracking-widest text-[10px] hover:bg-[#062113]/10 dark:hover:bg-white/10 transition-all duration-500"
+                  href="#disciplinas"
+                  className="w-full sm:w-auto h-12 px-8 rounded-none border border-[#C5A059] text-[#333333] bg-transparent flex items-center justify-center gap-2 font-semibold uppercase tracking-widest text-[9px] hover:bg-[#C5A059]/5 transition-all duration-500"
                 >
-                  <span>Explorar Entorno</span>
+                  <span>Explorar Disciplinas</span>
                 </Link>
               </MagneticButton>
             </motion.div>
 
           </div>
-
-          {/* Interactive Parallax Background Image */}
-          <div 
-            className="absolute inset-0 -z-10 w-full h-full opacity-40 transition-transform duration-1000 ease-out"
-            style={{ transform: `scale(${1 + scrollY * 0.0005}) translateY(${scrollY * 0.1}px)` }}
-          >
-            <img 
-              src="/images/hero_bg_luxury.png" 
-              alt="Mansión de lujo La Pampa" 
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#FAF9F6] via-[#FAF9F6]/40 to-[#FAF9F6] dark:from-[#082117] dark:via-[#082117]/40 dark:to-[#082117]" />
-          </div>
-
         </section>
 
-        {/* ENTORNO & AMENIDADES (GRID PARALLAX) */}
-        <section id="entorno" className="py-32 px-4 sm:px-6 relative border-t border-white/5 bg-white/60 dark:bg-[#030d07]/60 backdrop-blur-2xl">
-          <div className="max-w-7xl mx-auto">
+        {/* WELLNESS DISCIPLINES PRESENTATION */}
+        <section id="disciplinas" className="py-32 px-4 sm:px-6 relative border-t border-[#C5A059]/20 bg-[#FDFBF7]">
+          <div className="max-w-6xl mx-auto">
             
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center mb-24">
-              <div className="lg:col-span-5 space-y-6">
-                <span className="text-[10px] font-black tracking-[0.25em] uppercase text-[#D4AF37] block">
-                  Estilo de Vida Excepcional
-                </span>
-                <h2 className="text-4xl sm:text-6xl font-serif text-[#062113] dark:text-white leading-tight">
-                  Un santuario rodeado de <span className="font-light italic text-[#C5B39C]">naturaleza y distinción</span>
-                </h2>
-                <p className="text-slate-700 dark:text-slate-400 font-light text-sm sm:text-base leading-relaxed">
-                  La Pampa redefine el concepto de comunidad de ultra-lujo. Extensos campos verdes, seguridad biométrica, canchas privadas y un centro wellness 5 estrellas se integran en un microclima cálido único en el norte de Quito.
-                </p>
-              </div>
-
-              {/* Parallax Image Collage */}
-              <div className="lg:col-span-7 grid grid-cols-12 gap-4 relative">
-                <motion.div 
-                  initial={{ opacity: 0, x: 50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1 }}
-                  className="col-span-8 rounded-[2rem] overflow-hidden aspect-video relative shadow-2xl"
-                >
-                  <img 
-                    src="/images/clubhouse_luxury.png" 
-                    alt="Club de Campo" 
-                    className="w-full h-full object-cover hover:scale-105 premium-transition"
-                  />
-                </motion.div>
-                <motion.div 
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1.2, delay: 0.2 }}
-                  className="col-span-4 rounded-[1.5rem] overflow-hidden aspect-square relative shadow-2xl mt-12"
-                >
-                  <img 
-                    src="/images/wellness_luxury.png" 
-                    alt="Wellness Club" 
-                    className="w-full h-full object-cover hover:scale-105 premium-transition"
-                  />
-                </motion.div>
-              </div>
+            <div className="text-center max-w-2xl mx-auto space-y-4 mb-24">
+              <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-[#C5A059] block">
+                Disciplinas Exclusivas
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-serif text-[#333333]">
+                Armonía del <span className="font-light italic text-[#C5A059]">Cuerpo y la Mente</span>
+              </h2>
+              <div className="w-12 h-px bg-[#C5A059] mx-auto mt-6" />
             </div>
 
-            {/* Premium Amenity Cards with Framer Motion hover & floats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Grid of disciplines using Custom Monoline icons, elegant typography & zero stock images */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               {[
                 { 
-                  icon: Shield, 
-                  title: "Seguridad Absoluta", 
-                  desc: "Control biométrico facial en garitas y monitoreo perimetral activo 24/7.", 
-                  tag: "Protección" 
+                  icon: YogaIcon, 
+                  title: "Yoga", 
+                  subtitle: "Hatha Yoga Zen", 
+                  desc: "Meditación profunda y posturas fluidas diseñadas para reequilibrar el sistema nervioso en armonía con la naturaleza." 
                 },
                 { 
-                  icon: Trees, 
-                  title: "Áreas Verdes Infinitas", 
-                  desc: "Parques arbolados, senderos ecológicos y paisajes diseñados por arquitectos paisajistas.", 
-                  tag: "Naturaleza" 
+                  icon: TaiChiIcon, 
+                  title: "Tai Chi", 
+                  subtitle: "Tai Chi Chuan", 
+                  desc: "El arte de la meditación en movimiento. Canalice su energía vital mediante secuencias simétricas de bajo impacto." 
                 },
                 { 
-                  icon: Sparkles, 
-                  title: "Club House & Wellness", 
-                  desc: "Gimnasio de última tecnología, saunas secas y húmedas, y canchas deportivas de primer nivel.", 
-                  tag: "Bienestar" 
+                  icon: BungeeIcon, 
+                  title: "Bungee Jam", 
+                  subtitle: "Bungee Fitness VIP", 
+                  desc: "Desafíe la gravedad en suspensión. Entrenamiento aeróbico que cuida sus articulaciones con un control absoluto." 
+                },
+                { 
+                  icon: KangooIcon, 
+                  title: "Kangu", 
+                  subtitle: "Kangoo Jumps Pro", 
+                  desc: "Reactiva la circulación y el tono muscular con botas de rebote patentadas en entrenamientos de alto vigor." 
                 }
               ].map((item, idx) => (
-                <motion.div 
+                <div 
                   key={idx}
-                  whileHover={{ y: -8, scale: 1.02 }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                  className="group glass-panel dark:glass-panel-dark hover:border-[#D4AF37]/40 premium-transition rounded-[2.5rem] p-8 relative overflow-hidden"
+                  className="group bg-[#FDFBF7] border border-[#C5A059]/20 p-8 rounded-none transition-all duration-500 hover:border-[#C5A059] hover:shadow-[0_10px_30px_rgba(197,160,89,0.05)] relative flex flex-col justify-between min-h-[300px]"
                 >
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-[#D4AF37]/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-700" />
-                  <span className="text-[9px] font-black uppercase tracking-widest text-[#D4AF37] bg-[#D4AF37]/10 px-3 py-1 rounded-full border border-[#D4AF37]/20">
-                    {item.tag}
-                  </span>
-                  <item.icon className="w-10 h-10 text-[#C5B39C] mt-8 mb-6 group-hover:scale-110 group-hover:text-[#062113] dark:group-hover:text-white transition-all duration-500" />
-                  <h3 className="text-xl font-bold text-[#062113] dark:text-white mb-3">{item.title}</h3>
-                  <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-400 font-light leading-relaxed">{item.desc}</p>
-                </motion.div>
+                  <div className="space-y-6">
+                    <div className="text-[#C5A059] transition-transform duration-500 group-hover:scale-105">
+                      <item.icon className="w-10 h-10 stroke-[0.75]" />
+                    </div>
+                    <div className="space-y-2">
+                      <span className="text-[9px] font-bold uppercase tracking-widest text-[#C5A059]">
+                        {item.subtitle}
+                      </span>
+                      <h3 className="text-xl font-medium text-[#333333] font-serif tracking-tight">
+                        {item.title}
+                      </h3>
+                    </div>
+                    <p className="text-xs text-[#777777] font-light leading-relaxed">
+                      {item.desc}
+                    </p>
+                  </div>
+                  <div className="pt-6 border-t border-[#C5A059]/10 mt-6 flex justify-between items-center">
+                    <Link href="/bienestar" className="text-[9px] font-bold uppercase tracking-wider text-[#333333] hover:text-[#C5A059] transition-colors flex items-center gap-1.5">
+                      Agendar Sesión
+                      <ArrowRight className="w-3 h-3" />
+                    </Link>
+                  </div>
+                </div>
               ))}
             </div>
 
           </div>
         </section>
 
-        {/* CONTACT & RESERVATIONS (MINIMALIST FORM) */}
-        <section id="contacto" className="py-32 px-4 sm:px-6 relative bg-transparent">
-          <div className="max-w-4xl mx-auto glass-panel dark:glass-panel-dark rounded-[3rem] p-8 sm:p-12 md:p-16 relative overflow-hidden">
-            <div className="absolute top-[-10%] right-[-10%] w-[300px] h-[300px] bg-[#D4AF37]/10 rounded-full blur-[100px] pointer-events-none" />
+        {/* BIOMETRIC & MEMBERSHIP GATEWAY FLOW */}
+        <section className="py-24 px-4 sm:px-6 bg-[#FDFBF7] border-t border-[#C5A059]/20">
+          <div className="max-w-5xl mx-auto border border-[#C5A059]/30 p-8 sm:p-16 relative overflow-hidden">
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+              <div className="space-y-6">
+                <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-[#C5A059] block">
+                  Seguridad Sin Fricciones
+                </span>
+                <h2 className="text-3xl sm:text-4xl font-serif text-[#333333] leading-tight">
+                  Acceso Biométrico Automatizado
+                </h2>
+                <p className="text-xs sm:text-sm text-[#777777] font-light leading-relaxed">
+                  Nuestra estación de control inteligente está directamente vinculada con la validación de membresía en tiempo real. Al liquidar sus expensas ordinarias, la terminal de reconocimiento facial se activa al instante permitiendo un ingreso automatizado y seguro.
+                </p>
+                
+                <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                  <Link 
+                    href="/biometrico" 
+                    className="h-11 px-6 bg-[#C5A059] text-[#FDFBF7] flex items-center justify-center gap-2 font-semibold uppercase tracking-widest text-[9px] hover:bg-[#333333] transition-colors"
+                  >
+                    <Fingerprint className="w-4 h-4" />
+                    Terminal de Acceso
+                  </Link>
+                  <Link 
+                    href="/admin" 
+                    className="h-11 px-6 border border-[#333333] text-[#333333] flex items-center justify-center gap-2 font-semibold uppercase tracking-widest text-[9px] hover:bg-[#333333]/5 transition-colors"
+                  >
+                    <LayoutDashboard className="w-4 h-4" />
+                    Panel Administrativo
+                  </Link>
+                </div>
+              </div>
 
-            <div className="text-center max-w-2xl mx-auto space-y-4 mb-12">
-              <span className="text-[10px] font-black tracking-[0.25em] uppercase text-[#D4AF37]">
+              {/* Symmetrical fine geometric layout as graphic asset */}
+              <div className="relative border border-[#C5A059]/20 p-8 flex flex-col items-center justify-center min-h-[250px] bg-[#FDFBF7]">
+                <div className="absolute top-2 left-2 text-[9px] font-mono text-[#C5A059]/40">SYS-OK-2026</div>
+                <div className="absolute bottom-2 right-2 text-[9px] font-mono text-[#C5A059]/40">V-F-01</div>
+                
+                <div className="w-20 h-20 rounded-full border border-dashed border-[#C5A059] flex items-center justify-center text-[#C5A059] animate-pulse">
+                  <Fingerprint className="w-10 h-10 stroke-[0.75]" />
+                </div>
+                
+                <div className="text-center mt-6 space-y-1">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-[#333333]">Validación Biométrica Activa</p>
+                  <p className="text-[9px] text-[#C5A059]">Sincronización en tiempo real con pasarela de pagos</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        {/* CONTACT & RESERVATIONS (MINIMALIST FORM) */}
+        <section id="contacto" className="py-32 px-4 sm:px-6 relative bg-[#FDFBF7] border-t border-[#C5A059]/20">
+          <div className="max-w-4xl mx-auto border border-[#C5A059]/20 p-8 sm:p-16 relative">
+
+            <div className="text-center max-w-2xl mx-auto space-y-4 mb-16">
+              <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-[#C5A059]">
                 Atención Preferente
               </span>
-              <h2 className="text-3xl sm:text-5xl font-serif text-[#062113] dark:text-white">
-                Agende una Visita Privada
+              <h2 className="text-3xl sm:text-4xl font-serif text-[#333333]">
+                Agende una Visita Guiada
               </h2>
-              <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-400 font-light leading-relaxed">
-                Descubra la exclusividad y los lotes premium disponibles en la urbanización más cotizada de Pomasqui.
+              <p className="text-xs text-[#777777] font-light leading-relaxed">
+                Descubra la exclusividad y los espacios privados diseñados para el bienestar integral.
               </p>
             </div>
 
             {isSubmitted ? (
               <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ type: 'spring', stiffness: 200, damping: 15 }}
                 className="flex flex-col items-center justify-center py-12 space-y-4"
               >
-                <CheckCircle2 className="w-16 h-16 text-[#D4AF37]" />
-                <h3 className="text-xl font-bold text-white">Solicitud Recibida</h3>
-                <p className="text-xs text-slate-400">Un asesor concierge se comunicará con usted en menos de 24 horas.</p>
+                <CheckCircle2 className="w-12 h-12 text-[#C5A059]" />
+                <h3 className="text-lg font-medium text-[#333333]">Solicitud Recibida</h3>
+                <p className="text-xs text-[#777777]">Un asesor de nuestro equipo se comunicará con usted en breve.</p>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div className="space-y-1">
-                    <label className="text-[9px] font-black uppercase text-[#C5B39C] tracking-widest">Nombre Completo</label>
+                    <label className="text-[9px] font-bold uppercase text-[#C5A059] tracking-widest">Nombre Completo</label>
                     <input 
                       type="text" 
                       required 
@@ -332,11 +351,11 @@ export default function Home() {
                       placeholder="Ej. Alejandro Valenzuela"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full h-12 px-4 bg-slate-100/50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl text-foreground placeholder-slate-500 text-xs focus:outline-none focus:border-pampa-oro transition-colors"
+                      className="w-full h-12 px-4 bg-transparent border border-[#C5A059]/30 rounded-none text-[#333333] placeholder-[#777777]/50 text-xs focus:outline-none focus:border-[#C5A059] transition-colors"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[9px] font-black uppercase text-[#C5B39C] tracking-widest">Teléfono de Contacto</label>
+                    <label className="text-[9px] font-bold uppercase text-[#C5A059] tracking-widest">Teléfono de Contacto</label>
                     <input 
                       type="tel" 
                       required
@@ -348,13 +367,13 @@ export default function Home() {
                       placeholder="Ej. +593 999 999 999"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full h-12 px-4 bg-slate-100/50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl text-foreground placeholder-slate-500 text-xs focus:outline-none focus:border-pampa-oro transition-colors"
+                      className="w-full h-12 px-4 bg-transparent border border-[#C5A059]/30 rounded-none text-[#333333] placeholder-[#777777]/50 text-xs focus:outline-none focus:border-[#C5A059] transition-colors"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[9px] font-black uppercase text-[#C5B39C] tracking-widest">Correo Electrónico</label>
+                  <label className="text-[9px] font-bold uppercase text-[#C5A059] tracking-widest">Correo Electrónico</label>
                   <input 
                     type="email" 
                     required 
@@ -362,20 +381,20 @@ export default function Home() {
                     placeholder="ejemplo@correo.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full h-12 px-4 bg-slate-100/50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl text-foreground placeholder-slate-500 text-xs focus:outline-none focus:border-pampa-oro transition-colors"
+                    className="w-full h-12 px-4 bg-transparent border border-[#C5A059]/30 rounded-none text-[#333333] placeholder-[#777777]/50 text-xs focus:outline-none focus:border-[#C5A059] transition-colors"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[9px] font-black uppercase text-[#C5B39C] tracking-widest">Mensaje o Detalles del Lote de Interés</label>
+                  <label className="text-[9px] font-bold uppercase text-[#C5A059] tracking-widest">Mensaje o Espacio de Interés</label>
                   <textarea 
                     rows={4} 
                     required
                     maxLength={1000}
-                    placeholder="Escriba aquí sus comentarios..."
+                    placeholder="Detalles adicionales..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full p-4 bg-slate-100/50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl text-foreground placeholder-slate-500 text-xs focus:outline-none focus:border-pampa-oro transition-colors resize-none"
+                    className="w-full p-4 bg-transparent border border-[#C5A059]/30 rounded-none text-[#333333] placeholder-[#777777]/50 text-xs focus:outline-none focus:border-[#C5A059] transition-colors resize-none"
                   />
                 </div>
 
@@ -383,14 +402,14 @@ export default function Home() {
                   <button 
                     type="submit"
                     disabled={loading}
-                    className="w-full h-14 bg-gradient-to-r from-[#144229] to-[#0b2616] border border-[#D4AF37]/50 text-white font-black uppercase tracking-widest text-[10px] rounded-xl hover:bg-[#0b2616] hover:border-[#D4AF37] transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                    className="w-full h-12 bg-[#333333] text-[#FDFBF7] border border-[#333333] font-bold uppercase tracking-widest text-[9px] rounded-none hover:bg-transparent hover:text-[#333333] transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                   >
                     {loading ? (
-                      <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <span className="w-4 h-4 border border-[#FDFBF7] border-t-transparent rounded-full animate-spin" />
                     ) : (
                       <>
-                        <Calendar className="w-4 h-4 text-[#D4AF37]" />
-                        Solicitar Cita
+                        <Calendar className="w-3.5 h-3.5 text-[#C5A059]" />
+                        Solicitar Visita
                       </>
                     )}
                   </button>

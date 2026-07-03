@@ -4,64 +4,64 @@
 
 @layer base {
   :root {
-    /* MODO CLARO - COUNTRY CLUB LUXURY */
-    --background: 36 30% 97%; /* Silk white/sand background */
-    --foreground: 150 62% 11%; /* Forest green text */
-    --card: 0 0% 99%;
-    --card-foreground: 150 62% 11%;
-    --popover: 0 0% 99%;
-    --popover-foreground: 150 62% 11%;
-    --primary: 150 62% 15%; /* Premium Forest Green primary */
-    --primary-foreground: 36 30% 97%;
-    --secondary: 150 30% 25%;
-    --secondary-foreground: 36 30% 97%;
-    --muted: 36 15% 90%;
-    --muted-foreground: 150 20% 40%;
-    --accent: 36 20% 93%;
-    --accent-foreground: 150 62% 11%;
+    /* LUXURY MINIMALIST PALETTE */
+    --background: 36 33% 98%; /* #FDFBF7 Blanco Hueso */
+    --foreground: 0 0% 20%; /* #333333 Gris Neutro */
+    --card: 36 33% 99%;
+    --card-foreground: 0 0% 20%;
+    --popover: 36 33% 99%;
+    --popover-foreground: 0 0% 20%;
+    --primary: 39 48% 56%; /* #C5A059 Bronce Metálico */
+    --primary-foreground: 36 33% 98%;
+    --secondary: 36 20% 93%;
+    --secondary-foreground: 0 0% 20%;
+    --muted: 36 20% 95%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 39 48% 56%;
+    --accent-foreground: 36 33% 98%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
-    --border: 36 15% 85%; /* Sand border */
-    --input: 36 15% 85%;
-    --ring: 150 62% 15%;
+    --border: 39 30% 88%; /* Soft bronze border */
+    --input: 39 30% 88%;
+    --ring: 39 48% 56%;
     --radius: 0.75rem;
 
     /* La Pampa Brand Tokens */
-    --pampa-bosque: #062113;
-    --pampa-seda: #FAF9F6;
-    --pampa-oro: #D4AF37;
-    --pampa-arena: #E5DED4;
-    --pampa-card: rgba(6, 33, 19, 0.05);
+    --pampa-bosque: #333333;
+    --pampa-seda: #FDFBF7;
+    --pampa-oro: #C5A059;
+    --pampa-arena: #EAE0CC;
+    --pampa-card: rgba(197, 160, 89, 0.04);
   }
 
   .dark {
-    /* MODO OSCURO - BOTANIC GREEN DE ULTRA LUJO */
-    --background: 157 61% 8%; /* #082117 Deep Botanic Green */
-    --foreground: 36 30% 97%; /* Silk White */
-    --card: 147 55% 10%; /* #0b2616 Forest dark card */
-    --card-foreground: 36 30% 97%;
-    --popover: 147 55% 10%;
-    --popover-foreground: 36 30% 97%;
-    --primary: 47 62% 53%; /* #D4AF37 Gold */
-    --primary-foreground: 157 61% 8%;
-    --secondary: 147 53% 17%;
-    --secondary-foreground: 36 30% 97%;
-    --muted: 147 30% 15%;
-    --muted-foreground: 36 20% 70%;
-    --accent: 147 53% 17%;
-    --accent-foreground: 47 62% 53%;
-    --destructive: 0 63% 31%;
+    /* UNIFIED LUXURY BRANDING (No aggressive dark modes) */
+    --background: 36 33% 98%;
+    --foreground: 0 0% 20%;
+    --card: 36 33% 99%;
+    --card-foreground: 0 0% 20%;
+    --popover: 36 33% 99%;
+    --popover-foreground: 0 0% 20%;
+    --primary: 39 48% 56%;
+    --primary-foreground: 36 33% 98%;
+    --secondary: 36 20% 93%;
+    --secondary-foreground: 0 0% 20%;
+    --muted: 36 20% 95%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 39 48% 56%;
+    --accent-foreground: 36 33% 98%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
-    --border: 147 53% 25%;
-    --input: 147 53% 25%;
-    --ring: 47 62% 53%;
+    --border: 39 30% 88%;
+    --input: 39 30% 88%;
+    --ring: 39 48% 56%;
 
-    /* La Pampa Brand Tokens (Dark) */
-    --pampa-bosque: #FAF9F6;
-    --pampa-seda: #082117;
-    --pampa-oro: #D4AF37;
-    --pampa-arena: #C5B39C;
-    --pampa-card: rgba(11, 38, 22, 0.25);
+    /* La Pampa Brand Tokens */
+    --pampa-bosque: #333333;
+    --pampa-seda: #FDFBF7;
+    --pampa-oro: #C5A059;
+    --pampa-arena: #EAE0CC;
+    --pampa-card: rgba(197, 160, 89, 0.04);
   }
 }
 
@@ -82,17 +82,15 @@
   /* ────────── CONFIGURACIÓN DEL CALENDARIO ────────── */
 
   input[type="date"] {
-    /* Esto pinta el círculo del día seleccionado y el "Hoy" de tu verde bosque */
-    accent-color: #144229;
+    accent-color: #C5A059;
     cursor: pointer;
   }
 
-  /* Esto cambia el color del ícono del calendario a tu verde bosque */
   input[type="date"]::-webkit-calendar-picker-indicator {
     cursor: pointer;
     opacity: 1;
-    /* Este filtro convierte el ícono negro original a tu verde bosque esmeralda */
-    filter: invert(19%) sepia(16%) saturate(2253%) hue-rotate(103deg) brightness(91%) contrast(92%);
+    /* Color filter adapted for bronze color (#C5A059) */
+    filter: invert(65%) sepia(35%) saturate(550%) hue-rotate(6deg) brightness(93%) contrast(85%);
   }
 }
 
