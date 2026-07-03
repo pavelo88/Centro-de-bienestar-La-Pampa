@@ -1,0 +1,124 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --- 1. FUNCIONES DE VALIDACIÓN ---
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isRealUser() {
+      return isAuthenticated() && request.auth.token.email != null;
+    }
+    
+    function userData() {
+      return get(/databases/$(database)/documents/usuarios/$(request.auth.token.email)).data;
+    }
+
+    function hasRole(role) {
+      return isRealUser() && 
+             exists(/databases/$(database)/documents/usuarios/$(request.auth.token.email)) &&
+             role in userData().roles;
+    }
+
+    function isAdmin() {
+      return hasRole('admin');
+    }
+
+    function isSecurity() {
+      return hasRole('seguridad') || isAdmin();
+    }
+
+    function isOwner() {
+      return hasRole('propietario');
+    }
+
+    function isWorker() {
+      return hasRole('trabajador');
+    }
+
+    function isPublicContactDataValid() {
+      let data = request.resource.data;
+      return data.keys().hasOnly(['name', 'phone', 'email', 'message', 'createdAt', 'status']) &&
+             data.keys().hasAll(['name', 'message', 'createdAt', 'status']) &&
+             data.name is string && data.name.size() > 0 && data.name.size() <= 80 &&
+             data.message is string && data.message.size() > 0 && data.message.size() <= 1000 &&
+             data.status == 'Pendiente' &&
+             data.createdAt == request.time &&
+             (!('phone' in data) || (data.phone is string && data.phone.size() <= 20)) &&
+             (!('email' in data) || (data.email is string && data.email.size() <= 100));
+    }
+
+    // --- 2. REGLAS DE COLECCIONES - LA PAMPA ---
+
+    match /usuarios/{usuarioId} {
+      allow get: if isAuthenticated();
+      allow list: if isAdmin();
+      allow create: if isAdmin();
+      allow delete: if isAdmin();
+
+      // Permitir actualizar campos propios de sesión o cambio de clave
+      allow update: if isAdmin() || (
+        isRealUser() && 
+        request.auth.token.email == usuarioId && 
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'activeSessionId', 'activeSessionAt', 'activeSessionDevice',
+          'forcePasswordChange', 'updatedAt'
+        ])
+      );
+    }
+
+    // Registros del terminal biométrico en garita
+    match /registros_biometricos/{id} {
+      allow read: if isSecurity();
+      allow create: if isSecurity();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Reportes de mantenimiento de la urbanización
+    match /tickets_mantenimiento/{id} {
+      allow read: if isOwner() || isWorker() || isAdmin();
+      allow create: if isOwner() || isWorker() || isAdmin();
+      allow update: if isOwner() || isWorker() || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Reservas de Spa, Yoga, Canchas (Centro Wellness)
+    match /reservas_wellness/{id} {
+      allow read: if isOwner() || isAdmin();
+      allow create: if isOwner();
+      allow update: if isOwner() || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Agenda de Visitas
+    match /agenda_visitas/{id} {
+      allow read: if isSecurity() || isOwner();
+      allow create: if isSecurity() || isOwner();
+      allow update: if isSecurity() || isOwner();
+      allow delete: if isAdmin();
+    }
+
+    // Foro de la Comunidad
+    match /mensajes_foro/{id} {
+      allow read: if isOwner() || isAdmin();
+      allow create: if isOwner() || isAdmin();
+      allow update: if isOwner() || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Formularios de contacto desde la Landing Page
+    match /contactos_landing/{id} {
+      allow create: if isPublicContactDataValid();
+      allow read, write: if isAdmin();
+    }
+
+    // Regla por defecto de seguridad estricta
+    match /{path=**} {
+      allow read, write: if false;
+    }
+  }
+}

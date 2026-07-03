@@ -1,0 +1,35 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    // Perfil y avatares de usuarios (Lectura pública si están logueados, escritura solo el dueño)
+    match /avatares_usuarios/{userId}/{allPaths=**} {
+      allow read: if signedIn();
+      allow write: if isOwner(userId);
+    }
+
+    // Fotos de reportes de mantenimiento
+    match /fotos_mantenimiento/{allPaths=**} {
+      allow read, write: if signedIn();
+    }
+
+    // Documentos oficiales de la urbanización (Reglamentos, etc.)
+    match /documentos_urbanizacion/{allPaths=**} {
+      allow read: if signedIn();
+      allow write: if false; // Solo admins via Admin SDK
+    }
+
+    // Regla por defecto: denegar acceso
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
