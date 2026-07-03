@@ -259,7 +259,7 @@ export default function WellnessPortal() {
                       <input
                         type="text"
                         required
-                        placeholder="Nombre Completo / Lote"
+                        placeholder="Nombre Completo"
                         value={bookingName}
                         onChange={(e) => setBookingName(e.target.value)}
                         className="w-full h-14 px-5 bg-background/50 border border-white/10 rounded-xl text-foreground placeholder-foreground/40 text-sm focus:outline-none focus:border-pampa-oro transition-colors backdrop-blur-md"

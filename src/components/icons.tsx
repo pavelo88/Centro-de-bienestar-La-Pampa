@@ -26,7 +26,7 @@ export const Logo = ({ className, showText = true }: LogoProps) => {
       </div>
       {showText && (
         <div className="flex flex-col justify-center leading-none mt-1 font-headline">
-          <span className="text-xl md:text-3xl font-light tracking-tight text-[#333333] lowercase italic">
+          <span className="text-xl md:text-3xl font-light tracking-tight text-[#333333] dark:text-slate-200 lowercase italic">
             la pampa
           </span>
           <span className="text-[10px] font-black text-[#C5A059] tracking-[0.25em] uppercase mt-0.5 whitespace-nowrap">

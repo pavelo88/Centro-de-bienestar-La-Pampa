@@ -27,6 +27,11 @@ const checkIsAuthorizedAdmin = (userData: any) => {
     const norm = String(userData.role).toLowerCase().trim();
     if (norm === 'admin' || norm === 'super') authorized = true;
   }
+  
+  if (!authorized && userData.rol) {
+    const norm = String(userData.rol).toLowerCase().trim();
+    if (norm === 'admin' || norm === 'super') authorized = true;
+  }
 
   return authorized;
 };

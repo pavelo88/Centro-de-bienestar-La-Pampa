@@ -95,14 +95,6 @@ export default function Navbar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-64 bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl border border-white/40 dark:border-white/10 shadow-2xl rounded-2xl p-2 mt-2">
                 <DropdownMenuItem asChild className="focus:bg-primary/10 rounded-xl cursor-pointer p-0 group">
-                  <Link href="/portal" className="flex items-center w-full px-4 py-3">
-                    <div className="bg-amber-500/10 p-2 rounded-lg mr-3 group-hover:bg-amber-500/20 transition-colors">
-                      <Home className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-                    </div>
-                    <span className="block font-bold text-sm text-slate-900 dark:text-white uppercase tracking-wider">Portal Residentes</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild className="focus:bg-primary/10 rounded-xl cursor-pointer p-0 group">
                   <Link href="/bienestar" className="flex items-center w-full px-4 py-3">
                     <div className="bg-fuchsia-500/10 p-2 rounded-lg mr-3 group-hover:bg-fuchsia-500/20 transition-colors">
                       <Sparkles className="w-4 h-4 text-fuchsia-600 dark:text-fuchsia-400" />
@@ -125,14 +117,6 @@ export default function Navbar() {
                       <LayoutDashboard className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                     </div>
                     <span className="block font-bold text-sm text-slate-900 dark:text-white uppercase tracking-wider">Gestión Administrativa</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild className="focus:bg-primary/10 rounded-xl cursor-pointer p-0 group">
-                  <Link href="/inspection" className="flex items-center w-full px-4 py-3">
-                    <div className="bg-emerald-500/10 p-2 rounded-lg mr-3 group-hover:bg-emerald-500/20 transition-colors">
-                      <Wrench className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                    </div>
-                    <span className="block font-bold text-sm text-slate-900 dark:text-white uppercase tracking-wider">Despliegue Técnico</span>
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -179,14 +163,6 @@ export default function Navbar() {
 
                   <div className="mt-auto space-y-2 pt-2 pb-4">
                     <SheetClose asChild>
-                      <Button asChild className="w-full h-11 bg-amber-500/10 text-amber-500 hover:bg-amber-500/20 rounded-xl border border-amber-500/20">
-                        <Link href="/portal" className="flex items-center justify-center gap-2">
-                          <Home className="w-4 h-4" />
-                          <span className="text-[10px] font-black uppercase tracking-widest">Portal Residentes</span>
-                        </Link>
-                      </Button>
-                    </SheetClose>
-                    <SheetClose asChild>
                       <Button asChild className="w-full h-11 bg-fuchsia-500/10 text-fuchsia-500 hover:bg-fuchsia-500/20 rounded-xl border border-fuchsia-500/20">
                         <Link href="/bienestar" className="flex items-center justify-center gap-2">
                           <Sparkles className="w-4 h-4" />
@@ -208,14 +184,6 @@ export default function Navbar() {
                         <Link href="/admin" className="flex items-center justify-center gap-2">
                           <LayoutDashboard className="w-4 h-4 text-cyan-400" />
                           <span className="text-[10px] font-black uppercase tracking-widest">Administración</span>
-                        </Link>
-                      </Button>
-                    </SheetClose>
-                    <SheetClose asChild>
-                      <Button asChild className="w-full h-11 bg-[#0a2e1f] text-emerald-400 border border-emerald-500/50 rounded-xl">
-                        <Link href="/inspection" className="flex items-center justify-center gap-2">
-                          <Wrench className="w-4 h-4" />
-                          <span className="text-[10px] font-black uppercase tracking-widest">Despliegue Técnico</span>
                         </Link>
                       </Button>
                     </SheetClose>

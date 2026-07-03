@@ -13,6 +13,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
 import { YogaIcon, TaiChiIcon, BungeeIcon, KangooIcon } from '@/components/icons';
+import { cn } from '@/lib/utils';
 
 // Magnetic Button effect for premium UX/UI
 function MagneticButton({ children, className, ...props }: any) {
@@ -80,21 +81,21 @@ const disciplinesData = [
     title: "Tai Chi", 
     subtitle: "Tai Chi Chuan", 
     desc: "El arte de la meditación en movimiento. Canalice su energía vital mediante secuencias simétricas de bajo impacto.",
-    image: "/images/hero-spa.png"
+    image: "/images/taichi-space.png"
   },
   { 
     icon: BungeeIcon, 
     title: "Bungee Jam", 
     subtitle: "Bungee Fitness VIP", 
     desc: "Desafíe la gravedad en suspensión. Entrenamiento aeróbico que cuida sus articulaciones con un control absoluto.",
-    image: "/images/yoga-space.png" // Podríamos generar más imágenes, pero reusamos por ahora
+    image: "/images/bungee-space.png"
   },
   { 
     icon: KangooIcon, 
     title: "Kangu", 
     subtitle: "Kangoo Jumps Pro", 
     desc: "Reactiva la circulación y el tono muscular con botas de rebote patentadas en entrenamientos de alto vigor.",
-    image: "/images/hero-spa.png"
+    image: "/images/kangu-space.png"
   }
 ];
 
@@ -215,18 +216,30 @@ export default function Home() {
         {/* HERO SECTION */}
         <section className="relative min-h-screen flex flex-col justify-center items-center px-4 pt-32 pb-20 overflow-hidden">
           <div 
-            className="absolute inset-0 z-0"
+            className="absolute inset-0 z-0 hidden dark:block"
             style={{ transform: `translateY(${scrollY * 0.3}px)` }}
           >
             <Image 
               src="/images/hero-spa.png" 
-              alt="La Pampa Spa Interior" 
+              alt="La Pampa Spa Interior Dark" 
               fill 
               className="object-cover" 
               priority
             />
           </div>
-          <div className="absolute inset-0 bg-background/40 dark:bg-background/60 z-0"></div>
+          <div 
+            className="absolute inset-0 z-0 dark:hidden"
+            style={{ transform: `translateY(${scrollY * 0.3}px)` }}
+          >
+            <Image 
+              src="/images/hero-spa-light.png" 
+              alt="La Pampa Spa Interior Light" 
+              fill 
+              className="object-cover" 
+              priority
+            />
+          </div>
+          <div className="absolute inset-0 bg-white/20 dark:bg-background/60 z-0"></div>
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/20 z-0"></div>
 
           <div className="max-w-6xl mx-auto text-center space-y-12 z-20 relative w-full">
@@ -271,16 +284,6 @@ export default function Home() {
             >
               <MagneticButton className="w-full sm:w-auto">
                 <Link 
-                  href="/portal"
-                  className="w-full sm:w-auto h-14 px-10 rounded-full bg-foreground text-background shadow-[0_0_40px_rgba(0,0,0,0.3)] border border-foreground/50 flex items-center justify-center gap-3 font-bold uppercase tracking-widest text-[10px] hover:scale-105 transition-transform duration-500"
-                >
-                  <span>Portal Residentes</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </MagneticButton>
-              
-              <MagneticButton className="w-full sm:w-auto">
-                <Link 
                   href="#disciplinas"
                   className="w-full sm:w-auto h-14 px-10 rounded-full glass-panel flex items-center justify-center gap-2 font-bold uppercase tracking-widest text-[10px] hover:bg-white/10 hover:border-pampa-oro transition-all duration-500"
                 >
@@ -316,22 +319,26 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Tarjetas 2x2 Desktop / Carousel Mobile */}
+              {/* Tarjetas Desktop Grid / Mobile Infinite Carousel */}
               <div className="lg:col-span-7">
-                <div className="flex overflow-x-auto lg:grid lg:grid-cols-2 gap-6 snap-x snap-mandatory custom-scrollbar pb-8 lg:pb-0">
-                  {disciplinesData.map((item, idx) => (
+                <div className="flex overflow-x-auto lg:grid lg:grid-cols-2 gap-6 snap-x snap-mandatory custom-scrollbar pb-8 lg:pb-0 hide-scrollbar">
+                  {/* Duplicate array for mobile infinite scrolling effect */}
+                  {[...disciplinesData, ...disciplinesData].map((item, idx) => (
                     <div 
                       key={idx}
                       onClick={() => setSelectedDiscipline(item)}
-                      className="w-[280px] lg:w-auto shrink-0 snap-center glass-panel bg-white/5 dark:bg-black/20 rounded-2xl overflow-hidden transition-all duration-500 hover:border-pampa-oro/80 hover:shadow-[0_10px_40px_rgba(197,160,89,0.3)] hover:-translate-y-2 cursor-pointer relative flex flex-col min-h-[380px] border border-pampa-oro/20 group"
+                      className={cn(
+                        "w-[85vw] sm:w-[320px] lg:w-auto shrink-0 snap-center glass-panel bg-white/5 dark:bg-black/20 rounded-2xl overflow-hidden transition-all duration-500 hover:border-pampa-oro/80 hover:shadow-[0_10px_40px_rgba(197,160,89,0.3)] hover:-translate-y-2 cursor-pointer relative flex flex-col min-h-[420px] border border-pampa-oro/20 group",
+                        idx >= disciplinesData.length ? "lg:hidden" : ""
+                      )}
                     >
-                      {/* Imagen dentro de cada tarjeta */}
-                      <div className="relative w-full h-40 shrink-0 overflow-hidden">
+                      {/* Imagen dentro de cada tarjeta - más alta para mejor visibilidad */}
+                      <div className="relative w-full h-56 shrink-0 overflow-hidden">
                         <Image src={item.image} fill className="object-cover transition-transform duration-700 group-hover:scale-110" alt={item.title} />
                         <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent"></div>
                       </div>
 
-                      <div className="p-6 flex flex-col justify-between grow space-y-4 relative z-10 -mt-6">
+                      <div className="p-6 flex flex-col justify-between grow space-y-4 relative z-10 -mt-8">
                         <div className="space-y-4">
                           <div className="flex justify-between items-end">
                             <div className="text-pampa-oro p-3 bg-background/80 backdrop-blur-md rounded-xl w-fit shadow-lg border border-white/5">

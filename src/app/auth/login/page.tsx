@@ -13,11 +13,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const mockUsers = [
-  { username: 'propietarios1', name: 'Familia Ortega - Lote 5', role: 'Propietario' },
-  { username: 'trabajadores1', name: 'Carlos Mendoza (Seguridad)', role: 'Trabajador' },
-  { username: 'admin1', name: 'Admin Principal', role: 'Admin' }
-];
+// Usuarios mockeados se manejarán desde el script de seeding en la Fase 3
 
 export default function LoginPage() {
   const router = useRouter();
@@ -32,42 +28,13 @@ export default function LoginPage() {
   const [showBioModal, setShowBioModal] = useState(false);
   const [bioStatus, setBioStatus] = useState<'idle' | 'scanning' | 'success'>('idle');
 
-  // Auto-seed mock users in Firestore (might fail due to permissions, ignored intentionally)
-  useEffect(() => {
-    if (!db) return;
-    const seedMocks = async () => {
-      try {
-        for (const u of mockUsers) {
-          const docRef = doc(db, 'pre_registros', u.username);
-          const snap = await getDoc(docRef);
-          if (!snap.exists()) {
-            await setDoc(docRef, {
-              nombre: u.name,
-              rol: u.role,
-              cedula: u.username,
-              primerIngreso: true
-            });
-          }
-        }
-      } catch (err) {
-        console.warn("Error sembrando mocks. Continuando flujo normal.", err);
-      }
-    };
-    seedMocks();
-  }, [db]);
-
+  // El Seeding de la BD se hará a través del script de inicialización.
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
     const cleanUsername = username.trim().toLowerCase();
-
-    // BYPASS PARA MODO DEMO: Ignorar Firebase Auth si es usuario de prueba
-    if (mockUsers.some(u => u.username === cleanUsername)) {
-      setTimeout(() => redirectByRole(cleanUsername), 500); // Pequeño delay de UX
-      return; // Termina la función aquí
-    }
 
     if (!db || !auth) {
       setError("Servicios de autenticación no están listos.");
@@ -76,10 +43,10 @@ export default function LoginPage() {
     }
 
     try {
-      // Standard login flow para usuarios reales
-      const email = `${cleanUsername}@lapampa.com`;
+      // Concatenamos el dominio de pruebas al username ingresado
+      const email = `${cleanUsername}@lapampa.test`;
       await signInWithEmailAndPassword(auth, email, password);
-      redirectByRole(cleanUsername);
+      await redirectByRole(email);
     } catch (err: any) {
       console.error(err);
       setError("Credenciales incorrectas o usuario no registrado en Firebase Auth.");
@@ -93,39 +60,37 @@ export default function LoginPage() {
     setTimeout(() => {
       setBioStatus('success');
       setTimeout(() => {
-        const defaultRole = username ? username : 'admin1';
-        redirectByRole(defaultRole);
+        // En un entorno real esto usaría WebAuthn. Por ahora redirige por defecto a QA.
+        router.replace('/portal');
       }, 1000);
     }, 2000);
   };
 
-  const redirectByRole = async (username: string) => {
+  const redirectByRole = async (email: string) => {
     try {
       if (db) {
-        const preDocRef = doc(db, 'pre_registros', username.toLowerCase());
-        const preDocSnap = await getDoc(preDocRef);
-        if (preDocSnap.exists()) {
-          const role = preDocSnap.data().rol;
-          if (role === 'Propietario') router.replace('/portal');
-          else if (role === 'Trabajador') router.replace('/biometrico');
-          else if (role === 'Admin') router.replace('/admin');
-          else router.replace('/');
+        const userDocRef = doc(db, 'usuarios', email);
+        const userDocSnap = await getDoc(userDocRef);
+        
+        if (userDocSnap.exists()) {
+          const userData = userDocSnap.data();
+          const role = String(userData.rol || userData.role || '').toLowerCase();
+          const rolesArray = Array.isArray(userData.roles) ? userData.roles.map((r: any) => String(r).toLowerCase()) : [];
+          
+          if (role === 'admin' || role === 'super' || rolesArray.includes('admin') || rolesArray.includes('super')) {
+            router.replace('/admin');
+          } else {
+            router.replace('/portal');
+          }
           return;
         }
       }
     } catch (e) {
-      console.warn('Error leyendo rol, haciendo fallback local:', e);
+      console.error('Error leyendo rol en Firestore:', e);
     }
-
-    // Fallback if firestore fails (bypassing permissions issue)
-    const localUser = mockUsers.find(u => u.username === username.toLowerCase());
-    if (localUser) {
-      if (localUser.role === 'Propietario') router.replace('/portal');
-      else if (localUser.role === 'Trabajador') router.replace('/biometrico');
-      else if (localUser.role === 'Admin') router.replace('/admin');
-    } else {
-      router.replace('/admin'); // Default demo fallback
-    }
+    
+    // Fallback de seguridad: Si no pudimos leer el rol, asumimos cliente.
+    router.replace('/portal');
   };
 
   return (

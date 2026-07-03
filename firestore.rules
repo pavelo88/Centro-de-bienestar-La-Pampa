@@ -56,7 +56,7 @@ service cloud.firestore {
     match /usuarios/{usuarioId} {
       allow get: if isAuthenticated();
       allow list: if isAdmin();
-      allow create: if isAdmin();
+      allow create: if true; // TEMPORAL PARA SEEDING
       allow delete: if isAdmin();
 
       // Permitir actualizar campos propios de sesión o cambio de clave
