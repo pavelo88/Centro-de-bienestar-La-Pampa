@@ -150,10 +150,9 @@ export default function WellnessPortal() {
         </motion.div>
 
         {/* Dynamic Class Showcase & Grid Selector */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-20">
-          
-          {/* List of Disciplines Selector */}
-          <div className="lg:col-span-5 space-y-4">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+            {/* List of Disciplines Selector */}
+            <div className="lg:col-span-4 space-y-4">
             <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-pampa-oro mb-6 px-2">Disciplinas Disponibles</h2>
             <motion.div 
               initial="hidden"
@@ -208,62 +207,77 @@ export default function WellnessPortal() {
           </div>
 
           {/* Active Discipline Details */}
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-8">
             <AnimatePresence mode="wait">
               <motion.div 
                 key={selectedDiscipline.id}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
                 transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-                className="rounded-[40px] sm:rounded-[60px] shadow-[0_40px_80px_rgba(0,0,0,0.4)] flex flex-col xl:flex-row relative overflow-hidden min-h-[600px] lg:min-h-[700px] border border-white/10 bg-[#0c120c] p-0"
+                className="rounded-3xl shadow-2xl flex flex-col lg:flex-row relative overflow-hidden bg-background border border-border"
               >
-                {/* Lado Izquierdo: Contenido y Textos (Glassmorphism & Earthy) */}
-                <div className="w-full xl:w-[55%] flex flex-col justify-between p-6 sm:p-10 lg:p-12 relative z-10 order-last xl:order-first border-r border-white/5 backdrop-blur-3xl bg-[#0c120c]/60">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#121c13]/80 to-[#0c120c]/90 z-[-1]"></div>
-
-                  <div className="space-y-8 relative z-10">
-                  <motion.div 
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="flex justify-between items-start flex-wrap gap-4 pb-4"
+                {/* Lado Izquierdo (Centro de la pantalla): Imagen */}
+                <div className="w-full lg:w-[55%] min-h-[300px] lg:min-h-[600px] relative z-0">
+                  <motion.div
+                    initial={{ scale: 1.05, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 1 }}
+                    className="absolute inset-0"
                   >
-                    <span className="px-5 py-2 bg-white/5 backdrop-blur-xl border border-white/10 text-[#e2cf9f] text-[10px] font-bold uppercase tracking-[0.2em] rounded-full shadow-lg">
+                    <Image 
+                      src={selectedDiscipline.image} 
+                      alt={selectedDiscipline.title} 
+                      fill 
+                      className="object-cover object-center"
+                    />
+                  </motion.div>
+                </div>
+
+                {/* Lado Derecho: Contenido y Textos */}
+                <div className="w-full lg:w-[45%] flex flex-col justify-between p-6 sm:p-8 lg:p-10 relative z-10 bg-background/95 backdrop-blur-xl">
+                  <div className="space-y-6 relative z-10">
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="flex justify-between items-start flex-wrap gap-4 pb-2 border-b border-border/50"
+                  >
+                    <span className="text-[#C5A059] text-[10px] font-bold uppercase tracking-[0.2em]">
                       {selectedDiscipline.duration}
                     </span>
-                    <span className="flex items-center gap-2 text-sm text-[#e2cf9f]/90 font-light bg-white/5 backdrop-blur-xl px-5 py-2 rounded-full border border-white/10 shadow-lg">
-                      <User className="w-4 h-4 text-[#C5A059]" />
+                    <span className="flex items-center gap-2 text-xs text-foreground/70 font-medium">
+                      <User className="w-3.5 h-3.5 text-[#C5A059]" />
                       {selectedDiscipline.instructor}
                     </span>
                   </motion.div>
 
                   <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="space-y-4"
+                    transition={{ delay: 0.2 }}
+                    className="space-y-3"
                   >
-                    <h2 className="text-3xl sm:text-5xl lg:text-6xl font-serif text-[#f4ecd8] tracking-tight uppercase italic drop-shadow-md leading-[1.1]">
+                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-foreground tracking-tight uppercase italic leading-[1.1]">
                       {selectedDiscipline.title}
                     </h2>
-                    <p className="text-sm sm:text-base text-[#d8dcd6] font-light leading-relaxed max-w-lg">
+                    <p className="text-sm text-foreground/70 font-light leading-relaxed">
                       {selectedDiscipline.description}
                     </p>
                   </motion.div>
                   
                   {/* Benefits list */}
                   <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 }}
-                    className="space-y-4 pt-4"
+                    transition={{ delay: 0.3 }}
+                    className="space-y-3 pt-2"
                   >
-                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#e2cf9f] mb-4">Beneficios Esenciales</h4>
-                    <div className="flex flex-wrap gap-3">
+                    <h4 className="text-[9px] font-bold uppercase tracking-widest text-foreground/50">Beneficios</h4>
+                    <div className="flex flex-col gap-2">
                       {selectedDiscipline.benefits.map((b, i) => (
-                        <div key={i} className="flex items-center gap-2 px-4 py-2 bg-white/5 backdrop-blur-xl border border-white/5 rounded-full text-sm text-[#f4ecd8] hover:border-white/20 transition-all duration-500">
-                          <Heart className="w-3.5 h-3.5 text-[#C5A059] shrink-0 stroke-[1.5]" />
+                        <div key={i} className="flex items-center gap-3 text-sm text-foreground/90">
+                          <Heart className="w-3.5 h-3.5 text-[#C5A059] shrink-0" />
                           <span className="font-light">{b}</span>
                         </div>
                       ))}
@@ -272,120 +286,79 @@ export default function WellnessPortal() {
 
                   {/* Horarios info */}
                   <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="flex items-center gap-4 p-5 bg-[#121c13]/40 backdrop-blur-2xl border border-[#C5A059]/10 rounded-3xl"
+                    transition={{ delay: 0.4 }}
+                    className="flex items-center gap-3 pt-4 border-t border-border/50"
                   >
-                    <div className="p-4 bg-[#C5A059]/10 rounded-full text-[#C5A059]">
-                      <Clock className="w-5 h-5 shrink-0" />
-                    </div>
+                    <Clock className="w-4 h-4 text-[#C5A059] shrink-0" />
                     <div>
-                      <p className="text-[#C5A059] font-bold uppercase tracking-[0.15em] text-[9px]">Horarios Programados</p>
-                      <p className="text-[#f4ecd8] text-lg font-serif italic mt-1">{selectedDiscipline.schedule}</p>
+                      <p className="text-foreground text-sm font-medium">{selectedDiscipline.schedule}</p>
                     </div>
                   </motion.div>
                 </div>
 
                 {/* Quick RSVP Form */}
                 <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6 }}
-                  className="mt-8 pt-8 border-t border-white/10 relative z-10"
+                  transition={{ delay: 0.5 }}
+                  className="mt-6 pt-6 border-t border-border/50 relative z-10"
                 >
-                  <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#C5A059] mb-6 flex items-center gap-2">
-                    <Sparkles className="w-4 h-4" />
-                    Reserva Privada de Sesión
+                  <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#C5A059] mb-4 flex items-center gap-2">
+                    <Sparkles className="w-3 h-3" />
+                    Reserva de Sesión
                   </h3>
-                  <form onSubmit={handleBookingSubmit} className="grid grid-cols-1 sm:grid-cols-12 gap-4">
-                    <div className="sm:col-span-5 relative group">
-                      <div className="absolute inset-0 bg-[#C5A059] blur-md opacity-0 group-hover:opacity-20 transition-opacity rounded-xl"></div>
-                      <input
-                        type="text"
-                        required
-                        placeholder="Nombre Completo"
-                        value={bookingName}
-                        onChange={(e) => setBookingName(e.target.value)}
-                        className="w-full h-14 px-5 bg-black/60 border border-white/10 rounded-xl text-white placeholder-white/40 text-sm focus:outline-none focus:border-[#C5A059] focus:bg-black/80 transition-all backdrop-blur-md relative z-10"
-                      />
-                    </div>
-                    <div className="sm:col-span-4 relative group">
-                      <div className="absolute inset-0 bg-[#C5A059] blur-md opacity-0 group-hover:opacity-20 transition-opacity rounded-xl"></div>
+                  <form onSubmit={handleBookingSubmit} className="flex flex-col gap-3">
+                    <input
+                      type="text"
+                      required
+                      placeholder="Nombre Completo"
+                      value={bookingName}
+                      onChange={(e) => setBookingName(e.target.value)}
+                      className="w-full h-12 px-4 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-[#C5A059] transition-all"
+                    />
+                    <div className="flex gap-3">
                       <input
                         type="date"
                         required
                         value={bookingDate}
                         onChange={(e) => setBookingDate(e.target.value)}
-                        className="w-full h-14 px-5 bg-black/60 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-[#C5A059] focus:bg-black/80 transition-all backdrop-blur-md relative z-10 [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert"
+                        className="flex-1 h-12 px-4 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-[#C5A059] transition-all dark:[&::-webkit-calendar-picker-indicator]:filter dark:[&::-webkit-calendar-picker-indicator]:invert"
                       />
-                    </div>
-                    <div className="sm:col-span-3">
                       <button
                         type="submit"
                         disabled={bookingStatus === 'loading'}
-                        className="w-full h-14 bg-gradient-to-r from-[#C5A059] to-[#ebd7a1] text-[#05140b] border-none font-black uppercase tracking-widest text-[10px] rounded-xl hover:shadow-[0_0_30px_rgba(197,160,89,0.4)] hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2"
+                        className="w-32 h-12 bg-[#C5A059] text-primary-foreground border-none font-bold uppercase tracking-widest text-[10px] rounded-lg hover:bg-[#b08d4a] transition-all flex items-center justify-center gap-2 shrink-0"
                       >
                         {bookingStatus === 'loading' ? (
-                          <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                         ) : bookingStatus === 'success' ? (
                           <>
-                            <Check className="w-5 h-5" />
-                            Listo
+                            <Check className="w-4 h-4" /> Listo
                           </>
                         ) : (
-                          <>
-                            <Calendar className="w-4 h-4" />
-                            Reservar
-                          </>
+                          "Reservar"
                         )}
                       </button>
                     </div>
                   </form>
 
                   {bookingStatus === 'success' && qrData && (
-                    <div className="mt-8 p-6 border border-green-500/30 rounded-2xl bg-green-500/10 flex flex-col sm:flex-row items-center gap-6 animate-in zoom-in-95 duration-500 backdrop-blur-md">
-                      <div className="bg-white p-3 border border-white/20 rounded-xl shrink-0 shadow-xl">
-                        <QRCode value={qrData} size={100} level="H" />
+                    <div className="mt-6 p-4 border border-green-500/30 rounded-xl bg-green-500/10 flex items-center gap-4 animate-in fade-in duration-300">
+                      <div className="bg-white p-2 rounded-lg shrink-0">
+                        <QRCode value={qrData} size={60} level="M" />
                       </div>
-                      <div className="text-center sm:text-left space-y-2">
-                        <div className="flex items-center gap-2 justify-center sm:justify-start">
-                          <Sparkles className="w-5 h-5 text-green-400 animate-bounce" />
-                          <h4 className="font-bold text-green-400 uppercase tracking-wider text-[12px]">¡Sesión Reservada VIP!</h4>
-                        </div>
-                        <p className="text-xs text-foreground/80 font-light max-w-sm">Su pase ha sido generado. Presente el código QR en la entrada del Wellness Spa.</p>
-                        <p className="text-[10px] font-mono text-foreground bg-background/50 inline-block px-3 py-1.5 rounded-md border border-white/10 mt-2">ID: {qrData}</p>
+                      <div className="space-y-1">
+                        <p className="font-bold text-green-600 dark:text-green-400 text-xs uppercase">Pase Generado</p>
+                        <p className="text-[10px] text-foreground/70">ID: {qrData}</p>
                       </div>
                     </div>
                   )}
                   </motion.div>
                 </div>
 
-                {/* Lado Derecho: Imagen Pura y Viva */}
-                <div className="w-full xl:w-[45%] h-[300px] xl:h-auto relative z-0 order-first xl:order-last overflow-hidden">
-                  <motion.div
-                    initial={{ scale: 1.1, opacity: 0, filter: 'blur(10px)' }}
-                    animate={{ scale: 1, opacity: 1, filter: 'blur(0px)' }}
-                    transition={{ duration: 1.2, ease: "easeOut" }}
-                    className="absolute inset-0"
-                  >
-                    <motion.div
-                      animate={{ scale: [1, 1.05, 1], x: [0, -20, 0] }}
-                      transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                      className="absolute inset-0"
-                    >
-                      <Image 
-                        src={selectedDiscipline.image} 
-                        alt={selectedDiscipline.title} 
-                        fill 
-                        className="object-cover object-center"
-                      />
-                    </motion.div>
-                    
-                    {/* Shadow overlay solo para transición suave en móvil */}
-                    <div className="xl:hidden absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#05140b] to-transparent"></div>
-                  </motion.div>
-                </div>
+
 
               </motion.div>
             </AnimatePresence>
