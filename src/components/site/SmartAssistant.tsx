@@ -1,160 +1,22 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import { usePathname } from 'next/navigation';
-import { Bot, X, Send, User } from 'lucide-react';
-import { askSiteAssistant } from '@/app/actions/ai-actions';
-import { cn } from '@/lib/utils';
-// import { useFirebase } from '@/firebase'; // Opcional, si queremos leer auth
-import { motion, AnimatePresence } from 'framer-motion';
-
-interface Message {
-  id: string;
-  role: 'user' | 'assistant';
-  content: string;
-}
+import { motion } from 'framer-motion';
 
 export default function SmartAssistant() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      role: 'assistant',
-      content: '¡Hola! Soy el asistente virtual de La Pampa. ¿En qué te puedo ayudar hoy?'
-    }
-  ]);
-  const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const pathname = usePathname();
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages, isLoading]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || isLoading) return;
-
-    const userMessage = input.trim();
-    setInput('');
-    setMessages(prev => [...prev, { id: Date.now().toString(), role: 'user', content: userMessage }]);
-    setIsLoading(true);
-
-    try {
-      // Por ahora enviamos 'Visitante' o 'Residente' quemado, luego lo conectamos al rol real de Firebase
-      const role = pathname.startsWith('/portal') ? 'Residente' : 'Visitante';
-      const response = await askSiteAssistant(userMessage, pathname, role);
-      
-      setMessages(prev => [...prev, { id: (Date.now() + 1).toString(), role: 'assistant', content: response }]);
-    } catch (error) {
-      setMessages(prev => [...prev, { 
-        id: (Date.now() + 1).toString(), 
-        role: 'assistant', 
-        content: 'Hubo un error de conexión. Intenta de nuevo más tarde.' 
-      }]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
     <div className="fixed bottom-6 right-6 z-50">
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div 
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-            className="absolute bottom-16 right-0 w-80 sm:w-96 bg-background border border-border rounded-2xl shadow-2xl overflow-hidden flex flex-col h-[500px] max-h-[80vh]"
-          >
-            {/* Header */}
-            <div className="bg-primary/10 border-b border-border p-4 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="bg-primary p-2 rounded-full">
-                  <Bot className="w-5 h-5 text-primary-foreground" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">Asistente Virtual</h3>
-                  <p className="text-xs text-muted-foreground">La Pampa Concierge</p>
-                </div>
-              </div>
-              <button 
-                onClick={() => setIsOpen(false)}
-                className="text-muted-foreground hover:text-foreground transition-colors p-1"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-background/50 backdrop-blur-sm">
-              {messages.map((msg) => (
-                <div 
-                  key={msg.id} 
-                  className={cn(
-                    "flex max-w-[85%]",
-                    msg.role === 'user' ? "ml-auto justify-end" : "mr-auto justify-start"
-                  )}
-                >
-                  <div className={cn(
-                    "rounded-2xl p-3 text-sm shadow-sm",
-                    msg.role === 'user' 
-                      ? "bg-primary text-primary-foreground rounded-br-none" 
-                      : "bg-secondary text-secondary-foreground rounded-bl-none"
-                  )}>
-                    {msg.content}
-                  </div>
-                </div>
-              ))}
-              {isLoading && (
-                <div className="flex max-w-[85%] mr-auto justify-start">
-                  <div className="bg-secondary text-secondary-foreground rounded-2xl rounded-bl-none p-3 text-sm shadow-sm flex items-center gap-2">
-                    <span className="animate-pulse">Escribiendo...</span>
-                  </div>
-                </div>
-              )}
-              <div ref={messagesEndRef} />
-            </div>
-
-            {/* Input */}
-            <form onSubmit={handleSubmit} className="p-3 bg-background border-t border-border">
-              <div className="flex items-center gap-2 relative">
-                <input
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="Escribe tu mensaje..."
-                  className="flex-1 bg-secondary/50 border border-border rounded-full py-2.5 pl-4 pr-12 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
-                  disabled={isLoading}
-                />
-                <button 
-                  type="submit"
-                  disabled={!input.trim() || isLoading}
-                  className="absolute right-1 top-1 bottom-1 aspect-square flex items-center justify-center bg-primary text-primary-foreground rounded-full disabled:opacity-50 transition-opacity"
-                >
-                  <Send className="w-4 h-4 ml-0.5" />
-                </button>
-              </div>
-            </form>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Floating Button */}
-      <motion.button
+      <motion.a
+        href="https://wa.me/593983992549"
+        target="_blank"
+        rel="noreferrer"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 bg-primary text-primary-foreground rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all"
+        className="w-14 h-14 bg-green-500 text-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all hover:bg-green-600"
       >
-        {isOpen ? <X className="w-6 h-6" /> : <Bot className="w-6 h-6" />}
-      </motion.button>
+        <svg className="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.825-3.113 6.938-6.938 6.938z" />
+        </svg>
+      </motion.a>
     </div>
   );
 }

@@ -7,7 +7,7 @@ import { useFirestore } from '@/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { 
   ArrowRight, Sparkles, Calendar, CheckCircle2,
-  Lock, Fingerprint, LayoutDashboard, X
+  Lock, Fingerprint, LayoutDashboard, X, Mail, Phone, MapPin, Facebook, Instagram, Linkedin
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -429,51 +429,135 @@ export default function Home() {
 
         {/* CONTACT & RESERVATIONS */}
         <section id="contacto" className="py-32 px-4 sm:px-6 relative bg-background border-t border-pampa-oro/20">
-          <div className="max-w-4xl mx-auto glass-panel rounded-3xl p-8 sm:p-16 relative shadow-2xl">
+          <div className="max-w-7xl mx-auto">
             <div className="text-center max-w-2xl mx-auto space-y-4 mb-16">
               <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-pampa-oro">Atención Preferente</span>
-              <h2 className="text-4xl sm:text-5xl font-serif text-foreground drop-shadow-sm">Agende una Visita Guiada</h2>
-              <p className="text-sm text-foreground/70 font-light leading-relaxed">Descubra la exclusividad y los espacios privados diseñados para el bienestar integral.</p>
+              <h2 className="text-4xl sm:text-5xl font-serif text-foreground drop-shadow-sm">¿NECESITAS ASISTENCIA?</h2>
+              <p className="text-sm text-foreground/70 font-light leading-relaxed">Póngase en contacto con nuestro equipo de conserjería o envíenos una solicitud directa.</p>
             </div>
 
-            {isSubmitted ? (
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-                className="flex flex-col items-center justify-center py-16 space-y-6 bg-cyan-900/10 rounded-2xl"
-              >
-                <div className="w-20 h-20 bg-cyan-900/20 rounded-full flex items-center justify-center border border-cyan-500/30">
-                  <CheckCircle2 className="w-10 h-10 text-cyan-500" />
-                </div>
-                <h3 className="text-2xl font-serif text-foreground">Solicitud Recibida Exitosamente</h3>
-                <p className="text-sm text-foreground/70 text-center max-w-sm">Un asesor de la junta directiva se comunicará con usted de forma preferente para coordinar su visita.</p>
-              </motion.div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase text-pampa-oro tracking-widest">Nombre Completo</label>
-                    <input type="text" required maxLength={80} pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$" placeholder="Ej. Alejandro Valenzuela" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full h-14 px-5 bg-background/50 border-b-2 border-transparent border-b-pampa-oro/30 rounded-t-lg text-foreground placeholder-foreground/30 text-sm focus:outline-none focus:border-b-pampa-oro focus:bg-background/80 transition-all"/>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+              
+              {/* Left Column: Contact Channels */}
+              <div className="glass-panel rounded-3xl p-8 sm:p-12 relative shadow-2xl space-y-8 h-full flex flex-col">
+                <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase text-foreground border-b border-white/10 pb-4">
+                  Canales de Comunicación
+                </h3>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <a href="mailto:administracion@lapampa.test" className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-pampa-oro/50 transition-colors group">
+                      <Mail className="w-5 h-5 text-pampa-oro" />
+                      <div className="overflow-hidden">
+                        <span className="block text-[9px] text-foreground/50 uppercase tracking-wider font-bold mb-1">Administración</span>
+                        <span className="text-xs text-foreground truncate block">admin@lapampa.test</span>
+                      </div>
+                    </a>
+                    <a href="mailto:concierge@lapampa.test" className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-pampa-oro/50 transition-colors group">
+                      <Mail className="w-5 h-5 text-pampa-oro" />
+                      <div className="overflow-hidden">
+                        <span className="block text-[9px] text-foreground/50 uppercase tracking-wider font-bold mb-1">Concierge VIP</span>
+                        <span className="text-xs text-foreground truncate block">concierge@lapampa.test</span>
+                      </div>
+                    </a>
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase text-pampa-oro tracking-widest">Teléfono de Contacto</label>
-                    <input type="tel" required maxLength={20} pattern="^\+?[0-9\s]{7,15}$" onInput={(e) => { e.currentTarget.value = e.currentTarget.value.replace(/[^\d\s\+]/g, ''); }} placeholder="Ej. +593 999 999 999" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full h-14 px-5 bg-background/50 border-b-2 border-transparent border-b-pampa-oro/30 rounded-t-lg text-foreground placeholder-foreground/30 text-sm focus:outline-none focus:border-b-pampa-oro focus:bg-background/80 transition-all"/>
+                  
+                  <div className="space-y-4">
+                    <a href="tel:+593983992549" className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-pampa-oro/50 transition-colors group">
+                      <Phone className="w-5 h-5 text-pampa-oro" />
+                      <div>
+                        <span className="block text-[9px] text-foreground/50 uppercase tracking-wider font-bold mb-1">Recepción (24/7)</span>
+                        <span className="text-sm font-medium text-foreground">+593 98 399 2549</span>
+                      </div>
+                    </a>
+                    <a href="https://wa.me/593983992549" target="_blank" rel="noreferrer" className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-green-500/50 transition-colors group">
+                      <svg className="w-5 h-5 text-green-500" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.825-3.113 6.938-6.938 6.938z" />
+                      </svg>
+                      <div>
+                        <span className="block text-[9px] text-foreground/50 uppercase tracking-wider font-bold mb-1">WhatsApp</span>
+                        <span className="text-sm font-medium text-foreground">+593 98 399 2549</span>
+                      </div>
+                    </a>
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase text-pampa-oro tracking-widest">Correo Electrónico</label>
-                  <input type="email" required maxLength={100} placeholder="ejemplo@correo.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full h-14 px-5 bg-background/50 border-b-2 border-transparent border-b-pampa-oro/30 rounded-t-lg text-foreground placeholder-foreground/30 text-sm focus:outline-none focus:border-b-pampa-oro focus:bg-background/80 transition-all"/>
+
+                <div className="flex gap-4 pt-2">
+                  <a href="#" className="p-3 bg-white/5 border border-white/10 rounded-full hover:bg-pampa-oro hover:text-white transition-colors">
+                    <Facebook className="w-5 h-5" />
+                  </a>
+                  <a href="#" className="p-3 bg-white/5 border border-white/10 rounded-full hover:bg-pampa-oro hover:text-white transition-colors">
+                    <Instagram className="w-5 h-5" />
+                  </a>
+                  <a href="#" className="p-3 bg-white/5 border border-white/10 rounded-full hover:bg-pampa-oro hover:text-white transition-colors">
+                    <Linkedin className="w-5 h-5" />
+                  </a>
                 </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase text-pampa-oro tracking-widest">Mensaje o Espacio de Interés</label>
-                  <textarea rows={4} required maxLength={1000} placeholder="Escriba aquí los detalles de su interés en el Centro de Bienestar..." value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="w-full p-5 bg-background/50 border-b-2 border-transparent border-b-pampa-oro/30 rounded-t-lg text-foreground placeholder-foreground/30 text-sm focus:outline-none focus:border-b-pampa-oro focus:bg-background/80 transition-all resize-none"/>
+
+                {/* Mapa falso */}
+                <div className="mt-auto pt-6 relative w-full h-48 rounded-2xl overflow-hidden border border-white/10 group">
+                  <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-[2px] z-10 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <MapPin className="w-8 h-8 text-pampa-oro mb-2" />
+                    <span className="text-xs font-bold uppercase tracking-widest text-white">Abrir en Google Maps</span>
+                  </div>
+                  <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15959.22724458319!2d-78.4735!3d-0.0898!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMMKwMDUnMjMuMyJTIDc4wrBMycOSJzI0LjYiVw!5e0!3m2!1ses!2sec!4v1617200000000!5m2!1ses!2sec" 
+                    width="100%" 
+                    height="100%" 
+                    style={{ border: 0, filter: 'grayscale(1) invert(0.9) contrast(1.2)' }} 
+                    allowFullScreen 
+                    loading="lazy"
+                  ></iframe>
                 </div>
-                <MagneticButton className="w-full">
-                  <button type="submit" disabled={loading} className="w-full h-16 mt-4 bg-foreground text-background font-bold uppercase tracking-[0.3em] text-[11px] rounded-full hover:bg-pampa-oro hover:text-white transition-all duration-500 flex items-center justify-center gap-3 disabled:opacity-50 shadow-xl">
-                    {loading ? <span className="w-5 h-5 border-2 border-background border-t-transparent rounded-full animate-spin" /> : <><Calendar className="w-4 h-4" /> Solicitar Visita Privada</>}
-                  </button>
-                </MagneticButton>
-              </form>
-            )}
+              </div>
+
+              {/* Right Column: Contact Form */}
+              <div className="glass-panel rounded-3xl p-8 sm:p-12 relative shadow-2xl h-full">
+                <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase text-foreground border-b border-white/10 pb-4 mb-8 text-center sm:text-left">
+                  Déjanos Tu Consulta
+                </h3>
+
+                {isSubmitted ? (
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+                    className="flex flex-col items-center justify-center py-16 space-y-6 bg-cyan-900/10 rounded-2xl border border-cyan-500/20"
+                  >
+                    <div className="w-16 h-16 bg-cyan-900/20 rounded-full flex items-center justify-center border border-cyan-500/30">
+                      <CheckCircle2 className="w-8 h-8 text-cyan-500" />
+                    </div>
+                    <h3 className="text-xl font-serif text-foreground">Solicitud Enviada</h3>
+                    <p className="text-xs text-foreground/70 text-center max-w-xs leading-relaxed">
+                      Un asesor se comunicará a la brevedad.
+                    </p>
+                  </motion.div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-[9px] font-bold uppercase text-foreground/50 tracking-widest">Nombre Completo</label>
+                        <input type="text" required maxLength={80} placeholder="Ej. Juan Pérez" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full h-12 px-4 bg-black/20 border border-white/10 rounded-xl text-foreground placeholder-foreground/30 text-sm focus:outline-none focus:border-pampa-oro transition-colors"/>
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[9px] font-bold uppercase text-foreground/50 tracking-widest">Teléfono</label>
+                        <input type="tel" required maxLength={20} onInput={(e) => { e.currentTarget.value = e.currentTarget.value.replace(/[^\d\s\+]/g, ''); }} placeholder="Ej. 099 999 9999" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full h-12 px-4 bg-black/20 border border-white/10 rounded-xl text-foreground placeholder-foreground/30 text-sm focus:outline-none focus:border-pampa-oro transition-colors"/>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[9px] font-bold uppercase text-foreground/50 tracking-widest">Correo Electrónico</label>
+                      <input type="email" required maxLength={100} placeholder="tu@correo.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full h-12 px-4 bg-black/20 border border-white/10 rounded-xl text-foreground placeholder-foreground/30 text-sm focus:outline-none focus:border-pampa-oro transition-colors"/>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[9px] font-bold uppercase text-foreground/50 tracking-widest">Detalle su requerimiento</label>
+                      <textarea rows={3} required maxLength={1000} placeholder="¿En qué le podemos ayudar?" value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="w-full p-4 bg-black/20 border border-white/10 rounded-xl text-foreground placeholder-foreground/30 text-sm focus:outline-none focus:border-pampa-oro transition-colors resize-none"/>
+                    </div>
+                    
+                    <button type="submit" disabled={loading} className="w-full h-14 mt-2 bg-foreground text-background font-bold uppercase tracking-[0.2em] text-[10px] rounded-xl hover:bg-pampa-oro hover:text-white transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50">
+                      {loading ? <span className="w-4 h-4 border-2 border-background border-t-transparent rounded-full animate-spin" /> : <>Enviar Solicitud <ArrowRight className="w-3 h-3" /></>}
+                    </button>
+                  </form>
+                )}
+              </div>
+            </div>
           </div>
         </section>
       </main>
