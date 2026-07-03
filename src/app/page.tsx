@@ -151,17 +151,17 @@ export default function Home() {
               animate={{ opacity: 1 }} 
               exit={{ opacity: 0 }} 
               onClick={() => setSelectedDiscipline(null)}
-              className="absolute inset-0 bg-background/80 backdrop-blur-xl"
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
             />
             <motion.div 
-              initial={{ opacity: 0, scale: 0.9, y: 20 }} 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }} 
               animate={{ opacity: 1, scale: 1, y: 0 }} 
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-2xl bg-background border border-pampa-oro/30 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row z-10"
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-4xl bg-[#0A1A12] border border-pampa-oro/30 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row z-10"
             >
               <button 
                 onClick={() => setSelectedDiscipline(null)}
-                className="absolute top-4 right-4 p-2 bg-background/50 hover:bg-pampa-oro hover:text-white rounded-full backdrop-blur-md transition-colors z-20"
+                className="absolute top-4 right-4 p-2.5 bg-black/40 hover:bg-pampa-oro hover:text-white rounded-full backdrop-blur-md transition-colors z-20 text-white"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -173,27 +173,26 @@ export default function Home() {
                   fill 
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-background to-transparent md:to-background/20" />
               </div>
               
-              <div className="w-full md:w-1/2 p-8 flex flex-col justify-center space-y-4 relative z-10">
-                <div className="text-pampa-oro">
+              <div className="w-full md:w-1/2 p-10 flex flex-col justify-center space-y-6 relative z-10 text-left">
+                <div className="text-pampa-oro bg-pampa-oro/10 w-fit p-4 rounded-2xl border border-pampa-oro/20">
                   <selectedDiscipline.icon className="w-10 h-10 stroke-[0.75]" />
                 </div>
                 <div>
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-cyan-600 dark:text-cyan-400">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-cyan-400">
                     {selectedDiscipline.subtitle}
                   </span>
-                  <h3 className="text-3xl font-serif text-foreground tracking-tight mt-1">
+                  <h3 className="text-4xl font-serif text-white tracking-tight mt-2">
                     {selectedDiscipline.title}
                   </h3>
                 </div>
-                <p className="text-sm text-foreground/70 font-light leading-relaxed">
+                <p className="text-base text-white/70 font-light leading-relaxed">
                   {selectedDiscipline.desc}
                 </p>
-                <div className="pt-4">
-                  <Link href="/bienestar" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-pampa-oro hover:text-foreground transition-colors">
-                    Ver más detalles <ArrowRight className="w-3 h-3" />
+                <div className="pt-6">
+                  <Link href="/bienestar" className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-pampa-oro text-white text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-pampa-oro transition-colors shadow-lg">
+                    Agendar Sesión <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
               </div>
@@ -306,47 +305,39 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Carrusel Infinito */}
-          <div className="relative w-full flex overflow-x-hidden group pb-16">
-            <motion.div 
-              className="flex gap-6 px-3"
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{ 
-                repeat: Infinity, 
-                ease: "linear", 
-                duration: 25 // Velocidad del carrusel
-              }}
-            >
-              {[...disciplinesData, ...disciplinesData].map((item, idx) => (
+          {/* Tarjetas: Grid en Desktop, Scroll Horizontal en Móvil */}
+          <div className="w-full max-w-7xl mx-auto pb-16">
+            <div className="flex overflow-x-auto sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-6 snap-x snap-mandatory custom-scrollbar pb-8">
+              {disciplinesData.map((item, idx) => (
                 <div 
                   key={idx}
                   onClick={() => setSelectedDiscipline(item)}
-                  className="w-[280px] sm:w-[350px] shrink-0 glass-panel rounded-2xl p-8 transition-all duration-500 hover:border-pampa-oro/50 hover:shadow-[0_10px_40px_rgba(197,160,89,0.2)] hover:-translate-y-2 cursor-pointer relative flex flex-col justify-between min-h-[300px]"
+                  className="w-[280px] sm:w-auto shrink-0 snap-center glass-panel bg-white/5 dark:bg-black/20 rounded-2xl p-8 transition-all duration-500 hover:border-pampa-oro/80 hover:shadow-[0_10px_40px_rgba(197,160,89,0.3)] hover:-translate-y-2 cursor-pointer relative flex flex-col justify-between min-h-[320px] border border-pampa-oro/20"
                 >
                   <div className="space-y-6">
-                    <div className="text-pampa-oro">
-                      <item.icon className="w-12 h-12 stroke-[0.75] drop-shadow-md" />
+                    <div className="text-pampa-oro p-3 bg-pampa-oro/10 rounded-xl w-fit">
+                      <item.icon className="w-10 h-10 stroke-[0.75]" />
                     </div>
                     <div className="space-y-2">
-                      <span className="text-[9px] font-bold uppercase tracking-widest text-cyan-600 dark:text-cyan-400">
+                      <span className="text-[9px] font-bold uppercase tracking-widest text-cyan-600 dark:text-cyan-400 drop-shadow-sm">
                         {item.subtitle}
                       </span>
-                      <h3 className="text-2xl font-medium text-foreground font-serif tracking-tight">
+                      <h3 className="text-2xl font-medium text-foreground font-serif tracking-tight drop-shadow-sm">
                         {item.title}
                       </h3>
                     </div>
-                    <p className="text-sm text-foreground/70 font-light leading-relaxed">
+                    <p className="text-sm text-foreground/80 font-light leading-relaxed">
                       {item.desc}
                     </p>
                   </div>
                   
-                  <div className="mt-8 flex items-center justify-between opacity-50 group-hover:opacity-100 transition-opacity">
-                    <span className="text-[9px] uppercase tracking-widest text-pampa-oro font-bold">Ver Detalles</span>
+                  <div className="mt-8 flex items-center justify-between opacity-70 group-hover:opacity-100 transition-opacity">
+                    <span className="text-[9px] uppercase tracking-widest text-pampa-oro font-bold">Abrir Galería</span>
                     <ArrowRight className="w-4 h-4 text-pampa-oro" />
                   </div>
                 </div>
               ))}
-            </motion.div>
+            </div>
           </div>
 
           <div className="flex justify-center mt-8 px-4">
