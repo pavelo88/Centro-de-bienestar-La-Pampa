@@ -216,46 +216,23 @@ export default function WellnessPortal() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
                 transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-                className="rounded-3xl p-6 sm:p-10 shadow-[0_30px_60px_rgba(0,0,0,0.4)] flex flex-col justify-between relative overflow-hidden min-h-[600px] border border-[#C5A059]/20 bg-[#05140b]"
+                className="rounded-[40px] sm:rounded-[60px] shadow-[0_40px_80px_rgba(0,0,0,0.4)] flex flex-col xl:flex-row relative overflow-hidden min-h-[600px] lg:min-h-[700px] border border-white/10 bg-[#0c120c] p-0"
               >
-                {/* Imagen de fondo de la tarjeta animada (Siempre Oscura) */}
-                <div className="absolute inset-0 z-0 overflow-hidden bg-[#05140b]">
-                  <motion.div
-                    initial={{ scale: 1.1, opacity: 0, filter: 'blur(10px)' }}
-                    animate={{ scale: 1, opacity: 1, filter: 'blur(0px)' }}
-                    transition={{ duration: 1.2, ease: "easeOut" }}
-                    className="absolute inset-0"
-                  >
-                    <motion.div
-                      animate={{ scale: [1, 1.05, 1], x: [0, -10, 0] }}
-                      transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                      className="absolute inset-0 right-0 w-[100%] sm:w-[80%] left-auto"
-                    >
-                      <Image 
-                        src={selectedDiscipline.image} 
-                        alt={selectedDiscipline.title} 
-                        fill 
-                        className="object-cover object-right"
-                      />
-                    </motion.div>
-                    {/* Gradientes Oscuros Absolutos */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#05140b] via-[#05140b]/80 to-transparent"></div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#05140b] via-[#05140b]/80 to-transparent"></div>
-                    <div className="absolute inset-0 bg-[#05140b]/20 mix-blend-multiply"></div>
-                  </motion.div>
-                </div>
+                {/* Lado Izquierdo: Contenido y Textos (Glassmorphism & Earthy) */}
+                <div className="w-full xl:w-[55%] flex flex-col justify-between p-6 sm:p-10 lg:p-12 relative z-10 order-last xl:order-first border-r border-white/5 backdrop-blur-3xl bg-[#0c120c]/60">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#121c13]/80 to-[#0c120c]/90 z-[-1]"></div>
 
-                <div className="space-y-8 relative z-10">
+                  <div className="space-y-8 relative z-10">
                   <motion.div 
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.2 }}
                     className="flex justify-between items-start flex-wrap gap-4 pb-4"
                   >
-                    <span className="px-4 py-1.5 bg-[#0A1A12]/80 backdrop-blur-md border border-[#C5A059]/40 text-[#C5A059] text-[10px] font-bold uppercase tracking-wider rounded-full shadow-[0_0_15px_rgba(197,160,89,0.15)]">
+                    <span className="px-5 py-2 bg-white/5 backdrop-blur-xl border border-white/10 text-[#e2cf9f] text-[10px] font-bold uppercase tracking-[0.2em] rounded-full shadow-lg">
                       {selectedDiscipline.duration}
                     </span>
-                    <span className="flex items-center gap-2 text-sm text-white/90 font-light bg-black/40 backdrop-blur-sm px-4 py-1.5 rounded-full border border-white/10">
+                    <span className="flex items-center gap-2 text-sm text-[#e2cf9f]/90 font-light bg-white/5 backdrop-blur-xl px-5 py-2 rounded-full border border-white/10 shadow-lg">
                       <User className="w-4 h-4 text-[#C5A059]" />
                       {selectedDiscipline.instructor}
                     </span>
@@ -267,10 +244,10 @@ export default function WellnessPortal() {
                     transition={{ delay: 0.3 }}
                     className="space-y-4"
                   >
-                    <h2 className="text-4xl sm:text-6xl font-serif text-white tracking-tight uppercase italic drop-shadow-lg">
+                    <h2 className="text-3xl sm:text-5xl lg:text-6xl font-serif text-[#f4ecd8] tracking-tight uppercase italic drop-shadow-md leading-[1.1]">
                       {selectedDiscipline.title}
                     </h2>
-                    <p className="text-sm sm:text-base text-white/80 font-light leading-relaxed max-w-xl">
+                    <p className="text-sm sm:text-base text-[#d8dcd6] font-light leading-relaxed max-w-lg">
                       {selectedDiscipline.description}
                     </p>
                   </motion.div>
@@ -282,11 +259,11 @@ export default function WellnessPortal() {
                     transition={{ delay: 0.4 }}
                     className="space-y-4 pt-4"
                   >
-                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#C5A059]">Beneficios Destacados</h4>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#e2cf9f] mb-4">Beneficios Esenciales</h4>
+                    <div className="flex flex-wrap gap-3">
                       {selectedDiscipline.benefits.map((b, i) => (
-                        <div key={i} className="flex items-center gap-3 p-4 bg-black/40 backdrop-blur-md border border-white/5 rounded-xl text-sm text-white hover:border-[#C5A059]/40 hover:bg-[#C5A059]/5 transition-all duration-300">
-                          <Heart className="w-4 h-4 text-[#C5A059] shrink-0 stroke-[1.5]" />
+                        <div key={i} className="flex items-center gap-2 px-4 py-2 bg-white/5 backdrop-blur-xl border border-white/5 rounded-full text-sm text-[#f4ecd8] hover:border-white/20 transition-all duration-500">
+                          <Heart className="w-3.5 h-3.5 text-[#C5A059] shrink-0 stroke-[1.5]" />
                           <span className="font-light">{b}</span>
                         </div>
                       ))}
@@ -298,14 +275,14 @@ export default function WellnessPortal() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 }}
-                    className="flex items-center gap-4 p-5 bg-black/40 backdrop-blur-md border border-[#C5A059]/20 rounded-xl"
+                    className="flex items-center gap-4 p-5 bg-[#121c13]/40 backdrop-blur-2xl border border-[#C5A059]/10 rounded-3xl"
                   >
-                    <div className="p-3 bg-[#C5A059]/10 rounded-full text-[#C5A059] shadow-[0_0_20px_rgba(197,160,89,0.2)]">
+                    <div className="p-4 bg-[#C5A059]/10 rounded-full text-[#C5A059]">
                       <Clock className="w-5 h-5 shrink-0" />
                     </div>
                     <div>
-                      <p className="text-[#C5A059] font-bold uppercase tracking-wider text-[9px]">Horarios Programados</p>
-                      <p className="text-white text-lg font-medium mt-1">{selectedDiscipline.schedule}</p>
+                      <p className="text-[#C5A059] font-bold uppercase tracking-[0.15em] text-[9px]">Horarios Programados</p>
+                      <p className="text-[#f4ecd8] text-lg font-serif italic mt-1">{selectedDiscipline.schedule}</p>
                     </div>
                   </motion.div>
                 </div>
@@ -381,7 +358,34 @@ export default function WellnessPortal() {
                       </div>
                     </div>
                   )}
-                </motion.div>
+                  </motion.div>
+                </div>
+
+                {/* Lado Derecho: Imagen Pura y Viva */}
+                <div className="w-full xl:w-[45%] h-[300px] xl:h-auto relative z-0 order-first xl:order-last overflow-hidden">
+                  <motion.div
+                    initial={{ scale: 1.1, opacity: 0, filter: 'blur(10px)' }}
+                    animate={{ scale: 1, opacity: 1, filter: 'blur(0px)' }}
+                    transition={{ duration: 1.2, ease: "easeOut" }}
+                    className="absolute inset-0"
+                  >
+                    <motion.div
+                      animate={{ scale: [1, 1.05, 1], x: [0, -20, 0] }}
+                      transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                      className="absolute inset-0"
+                    >
+                      <Image 
+                        src={selectedDiscipline.image} 
+                        alt={selectedDiscipline.title} 
+                        fill 
+                        className="object-cover object-center"
+                      />
+                    </motion.div>
+                    
+                    {/* Shadow overlay solo para transición suave en móvil */}
+                    <div className="xl:hidden absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#05140b] to-transparent"></div>
+                  </motion.div>
+                </div>
 
               </motion.div>
             </AnimatePresence>
