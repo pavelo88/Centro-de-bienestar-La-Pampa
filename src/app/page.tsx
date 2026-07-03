@@ -188,11 +188,11 @@ export default function Home() {
 
           {/* Interactive Parallax Background Image */}
           <div 
-            className="absolute inset-0 -z-10 w-full h-full opacity-35 transition-transform duration-500 ease-out"
+            className="absolute inset-0 -z-10 w-full h-full opacity-40 transition-transform duration-1000 ease-out"
             style={{ transform: `scale(${1 + scrollY * 0.0005}) translateY(${scrollY * 0.1}px)` }}
           >
             <img 
-              src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=1600" 
+              src="/images/hero_bg_luxury.png" 
               alt="Mansión de lujo La Pampa" 
               className="w-full h-full object-cover"
             />
@@ -228,9 +228,9 @@ export default function Home() {
                   className="col-span-8 rounded-[2rem] overflow-hidden aspect-video relative shadow-2xl"
                 >
                   <img 
-                    src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800" 
+                    src="/images/clubhouse_luxury.png" 
                     alt="Club de Campo" 
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover hover:scale-105 premium-transition"
                   />
                 </motion.div>
                 <motion.div 
@@ -241,9 +241,9 @@ export default function Home() {
                   className="col-span-4 rounded-[1.5rem] overflow-hidden aspect-square relative shadow-2xl mt-12"
                 >
                   <img 
-                    src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=600" 
+                    src="/images/wellness_luxury.png" 
                     alt="Wellness Club" 
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover hover:scale-105 premium-transition"
                   />
                 </motion.div>
               </div>
@@ -275,7 +275,7 @@ export default function Home() {
                   key={idx}
                   whileHover={{ y: -8, scale: 1.02 }}
                   transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                  className="group bg-[#062113]/5 dark:bg-[#0b2616]/30 border border-[#062113]/10 dark:border-white/5 rounded-[2.5rem] p-8 hover:border-[#D4AF37]/30 transition-all duration-700 backdrop-blur-xl relative overflow-hidden"
+                  className="group glass-panel dark:glass-panel-dark hover:border-[#D4AF37]/40 premium-transition rounded-[2.5rem] p-8 relative overflow-hidden"
                 >
                   <div className="absolute top-0 right-0 w-32 h-32 bg-[#D4AF37]/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-700" />
                   <span className="text-[9px] font-black uppercase tracking-widest text-[#D4AF37] bg-[#D4AF37]/10 px-3 py-1 rounded-full border border-[#D4AF37]/20">
@@ -293,8 +293,8 @@ export default function Home() {
 
         {/* CONTACT & RESERVATIONS (MINIMALIST FORM) */}
         <section id="contacto" className="py-32 px-4 sm:px-6 relative bg-transparent">
-          <div className="max-w-4xl mx-auto bg-white/70 dark:bg-[#0b2616]/30 border border-[#062113]/10 dark:border-white/10 rounded-[3rem] p-8 sm:p-12 md:p-16 backdrop-blur-xl relative overflow-hidden shadow-2xl">
-            <div className="absolute top-[-10%] right-[-10%] w-[300px] h-[300px] bg-[#D4AF37]/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="max-w-4xl mx-auto glass-panel dark:glass-panel-dark rounded-[3rem] p-8 sm:p-12 md:p-16 relative overflow-hidden">
+            <div className="absolute top-[-10%] right-[-10%] w-[300px] h-[300px] bg-[#D4AF37]/10 rounded-full blur-[100px] pointer-events-none" />
 
             <div className="text-center max-w-2xl mx-auto space-y-4 mb-12">
               <span className="text-[10px] font-black tracking-[0.25em] uppercase text-[#D4AF37]">

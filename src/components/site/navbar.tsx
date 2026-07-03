@@ -174,7 +174,7 @@ export default function Navbar() {
 
                   {/* Imagen reducida para dar espacio a los botones */}
                   <div className="relative w-full flex-shrink-0 flex items-center justify-center my-4 h-32">
-                    <img src="/hamburguesa.png" alt="Energy Engine" className="max-h-full object-contain drop-shadow-[0_0_15px_rgba(34,211,238,0.4)]" />
+                    <img src="/logo.png" alt="La Pampa" className="max-h-full object-contain rounded-2xl drop-shadow-[0_0_15px_rgba(212,175,55,0.4)]" />
                   </div>
 
                   <div className="mt-auto space-y-2 pt-2 pb-4">

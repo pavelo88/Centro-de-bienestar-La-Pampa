@@ -61,7 +61,7 @@
     --pampa-seda: #082117;
     --pampa-oro: #D4AF37;
     --pampa-arena: #C5B39C;
-    --pampa-card: rgba(11, 38, 22, 0.40);
+    --pampa-card: rgba(11, 38, 22, 0.25);
   }
 }
 
@@ -114,6 +114,19 @@
 
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Ultra Luxury Glassmorphism Utilities */
+  .glass-panel {
+    @apply bg-white/5 border border-white/10 backdrop-blur-3xl shadow-[0_8px_32px_rgba(0,0,0,0.12)];
+  }
+  
+  .glass-panel-dark {
+    @apply bg-[#0b2616]/20 border border-[#D4AF37]/10 backdrop-blur-3xl shadow-[0_8px_32px_rgba(0,0,0,0.4)];
+  }
+
+  .premium-transition {
+    @apply transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)];
   }
 }
 

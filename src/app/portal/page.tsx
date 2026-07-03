@@ -13,6 +13,7 @@ import { useFirebase } from '@/firebase';
 import { collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, updateDoc, increment } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import AgendaView from '@/components/portal/AgendaView';
+import { motion, AnimatePresence } from 'framer-motion';
 
 type UserRole = 'Administrador' | 'Guardia' | 'Contador' | 'Residente';
 
@@ -439,7 +440,15 @@ export default function ResidentPortal() {
         </div>
 
         {/* Tab Contents */}
-        <div className="space-y-8 animate-in fade-in duration-500">
+        <AnimatePresence mode="wait">
+          <motion.div 
+            key={activeTab}
+            initial={{ opacity: 0, y: 15, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: -15, filter: 'blur(10px)' }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="space-y-8 w-full"
+          >
           
           {/* AGENDA VIEW */}
           {activeTab === 'agenda' && (
@@ -453,7 +462,7 @@ export default function ResidentPortal() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               
               {/* Write new message */}
-              <div className="lg:col-span-4 bg-white/5 border border-white/10 rounded-[2.5rem] p-6 sm:p-8 backdrop-blur-xl h-fit">
+              <div className="lg:col-span-4 glass-panel dark:glass-panel-dark rounded-[2.5rem] p-6 sm:p-8 h-fit">
                 <h2 className="text-lg font-bold text-white uppercase tracking-wider mb-6 flex items-center gap-2">
                   <Plus className="w-5 h-5 text-[#C5B39C]" />
                   Publicar Anuncio
@@ -511,7 +520,7 @@ export default function ResidentPortal() {
                 <h2 className="text-xs font-black uppercase tracking-[0.25em] text-[#C5B39C]">Mensajes Recientes</h2>
                 <div className="space-y-6">
                   {posts.map((post) => (
-                    <div key={post.id} className="bg-white/5 border border-white/10 rounded-[2.5rem] p-6 sm:p-8 backdrop-blur-xl transition-all hover:border-[#C5B39C]/30 relative overflow-hidden group">
+                    <div key={post.id} className="glass-panel dark:glass-panel-dark rounded-[2.5rem] p-6 sm:p-8 transition-all hover:border-[#C5B39C]/40 relative overflow-hidden group premium-transition">
                       <div className="flex justify-between items-start gap-4 flex-wrap mb-4">
                         <div className="space-y-1">
                           <span className="text-[10px] font-black uppercase tracking-wider text-[#C5B39C] bg-[#C5B39C]/10 border border-[#C5B39C]/20 px-3 py-1 rounded-full">
@@ -545,7 +554,7 @@ export default function ResidentPortal() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               
               {/* Report ticket */}
-              <div className="lg:col-span-5 bg-white/5 border border-white/10 rounded-[2.5rem] p-6 sm:p-8 backdrop-blur-xl">
+              <div className="lg:col-span-5 glass-panel dark:glass-panel-dark rounded-[2.5rem] p-6 sm:p-8">
                 <h2 className="text-lg font-bold text-white uppercase tracking-wider mb-6 flex items-center gap-2">
                   <Wrench className="w-5 h-5 text-[#C5B39C]" />
                   Nueva Solicitud de Mantenimiento
@@ -622,7 +631,7 @@ export default function ResidentPortal() {
                 <h2 className="text-xs font-black uppercase tracking-[0.25em] text-[#C5B39C]">Historial de Solicitudes</h2>
                 <div className="space-y-4">
                   {tickets.map((t) => (
-                    <div key={t.id} className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl flex flex-col sm:flex-row gap-6 items-center justify-between">
+                    <div key={t.id} className="glass-panel dark:glass-panel-dark rounded-3xl p-6 flex flex-col sm:flex-row gap-6 items-center justify-between premium-transition hover:scale-[1.01]">
                       <div className="flex gap-4 items-center">
                         {t.fotoUrl ? (
                           <img src={t.fotoUrl} alt={t.areaComun} className="w-16 h-16 rounded-2xl object-cover border border-white/10" />
@@ -662,7 +671,7 @@ export default function ResidentPortal() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               
               {/* Summary panel */}
-              <div className="lg:col-span-4 bg-white/5 border border-white/10 rounded-[2.5rem] p-6 sm:p-8 backdrop-blur-xl space-y-6 h-fit">
+              <div className="lg:col-span-4 glass-panel dark:glass-panel-dark rounded-[2.5rem] p-6 sm:p-8 space-y-6 h-fit">
                 <h2 className="text-lg font-bold text-white uppercase tracking-wider flex items-center gap-2">
                   <DollarSign className="w-5 h-5 text-[#C5B39C]" />
                   Estado Financiero
@@ -700,7 +709,7 @@ export default function ResidentPortal() {
 
                 <div className="space-y-4">
                   {expenses.map((exp) => (
-                    <div key={exp.id} className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
+                    <div key={exp.id} className="glass-panel dark:glass-panel-dark rounded-3xl p-6 flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center premium-transition hover:border-[#D4AF37]/30">
                       <div className="space-y-1 text-left">
                         <div className="flex items-center gap-2">
                           <span className="text-sm font-black text-white">{exp.mes}</span>
@@ -746,7 +755,7 @@ export default function ResidentPortal() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               
               {/* Form */}
-              <div className="lg:col-span-5 bg-white/5 border border-white/10 rounded-[2.5rem] p-6 sm:p-8 backdrop-blur-xl h-fit">
+              <div className="lg:col-span-5 glass-panel dark:glass-panel-dark rounded-[2.5rem] p-6 sm:p-8 h-fit">
                 <h2 className="text-lg font-bold text-white uppercase tracking-wider mb-6 flex items-center gap-2">
                   <QrCode className="w-5 h-5 text-[#C5B39C]" />
                   Crear Código de Acceso VIP
@@ -787,7 +796,7 @@ export default function ResidentPortal() {
               </div>
 
               {/* QR display screen */}
-              <div className="lg:col-span-7 bg-white/5 border border-white/10 rounded-[2.5rem] p-8 sm:p-10 backdrop-blur-xl flex flex-col items-center justify-center text-center relative overflow-hidden min-h-[400px]">
+              <div className="lg:col-span-7 glass-panel dark:glass-panel-dark rounded-[2.5rem] p-8 sm:p-10 flex flex-col items-center justify-center text-center relative overflow-hidden min-h-[400px]">
                 
                 {generatedCode ? (
                   <div className="space-y-6 relative z-10 w-full max-w-sm">
@@ -834,7 +843,8 @@ export default function ResidentPortal() {
             </div>
           )}
 
-        </div>
+          </motion.div>
+        </AnimatePresence>
 
       </main>
 

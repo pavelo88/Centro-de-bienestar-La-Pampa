@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
     const htmlBody = `
 	      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e5e7eb; border-radius: 12px;">
 	        <div style="background: #0f5b3a; padding: 20px; border-radius: 8px; margin-bottom: 20px; text-align: center;">
-	          <h1 style="color: white; margin: 0; font-size: 20px; letter-spacing: 2px; text-transform: uppercase;">⚡ Nuevo Lead — Energy Engine</h1>
+	          <h1 style="color: white; margin: 0; font-size: 20px; letter-spacing: 2px; text-transform: uppercase;">⚡ Nuevo Lead — La Pampa</h1>
 	        </div>
         
         <p style="color: #6b7280; font-size: 14px;">Se ha recibido una nueva consulta a través del chat de la web:</p>
@@ -101,7 +101,7 @@ export async function POST(req: NextRequest) {
         </div>
 
         <p style="color: #9ca3af; font-size: 11px; text-align: center; margin-top: 24px;">
-          Energy Engine · Sistema de gestión de leads · energyengine.es
+          La Pampa · Sistema de gestión de leads · urbanizacionlapampa.com
         </p>
       </div>
     `;
@@ -113,7 +113,7 @@ export async function POST(req: NextRequest) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'Energy Engine Web <noreply@energyengine.es>',
+        from: 'La Pampa Web <noreply@urbanizacionlapampa.com>',
         to: [adminEmail],
         subject: `Nuevo Lead: ${name} - ${service}`,
         html: htmlBody,

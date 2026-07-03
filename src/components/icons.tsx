@@ -39,7 +39,7 @@ export const Logo = ({ className, showText = true }: LogoProps) => {
       <div className="relative w-14 h-14 flex items-center justify-center shrink-0">
         <img
           src={logoSrc}
-          alt="energy engine logo"
+          alt="La Pampa Logo"
           width={56}
           height={56}
           className="object-contain transition-opacity duration-300"

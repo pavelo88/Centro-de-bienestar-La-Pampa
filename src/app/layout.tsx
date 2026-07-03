@@ -18,13 +18,13 @@ const fontBody = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://urbanizacionlapampa.com'),
-  title: 'Urbanización La Pampa  |  Barrio Exclusivo y Bienestar',
+  title: 'Urbanización La Pampa | El Mejor Barrio del Mundo',
   applicationName: 'La Pampa',
-  description: 'Urbanización La Pampa: El mejor barrio del mundo. Vida en comunidad de alto nivel, seguridad privada con tecnología de vanguardia, amplias áreas verdes exclusivas y Wellness Center.',
+  description: 'Urbanización La Pampa es catalogado como El Mejor Barrio del Mundo. Vida en comunidad de ultra-lujo, seguridad privada con IA de vanguardia, acceso biométrico, amplias áreas verdes exclusivas y un Wellness Center de 5 estrellas.',
   keywords: [
-    'urbanizacion la pampa', 'la pampa barrio cerrado', 'barrio de lujo',
-    'seguridad privada', 'wellness center la pampa', 'lotes exclusivos', 'consorcio la pampa',
-    'exclusividad', 'bienestar', 'vida en comunidad'
+    'urbanizacion la pampa', 'la pampa barrio cerrado', 'mejor barrio del mundo', 'barrio de ultra lujo',
+    'seguridad privada ia', 'wellness center la pampa', 'lotes exclusivos pomasqui', 'consorcio la pampa',
+    'exclusividad', 'bienestar', 'vida en comunidad', 'inmobiliaria de lujo'
   ],
   manifest: '/manifest.json',
   appleWebApp: {
@@ -39,8 +39,8 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'es_ES',
     url: 'https://urbanizacionlapampa.com',
-    title: 'Urbanización La Pampa | Exclusividad, Seguridad y Bienestar',
-    description: 'Vida en comunidad de alto nivel con seguridad de punta y centro wellness de 5 estrellas.',
+    title: 'Urbanización La Pampa | El Mejor Barrio del Mundo',
+    description: 'Experimenta la vida en el mejor barrio del mundo. Comunidad de ultra-lujo, seguridad impulsada por IA y un centro wellness de categoría mundial.',
     siteName: 'La Pampa',
     images: [
       {
@@ -53,8 +53,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Urbanización La Pampa | Exclusividad, Seguridad y Bienestar',
-    description: 'El mejor barrio del mundo: seguridad de vanguardia y bienestar integral.',
+    title: 'Urbanización La Pampa | El Mejor Barrio del Mundo',
+    description: 'El pináculo del ultra-lujo inmobiliario. Seguridad de vanguardia y bienestar integral en el mejor barrio del mundo.',
     images: ['/hero.png'],
   },
 };
