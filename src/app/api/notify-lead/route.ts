@@ -101,7 +101,7 @@ export async function POST(req: NextRequest) {
         </div>
 
         <p style="color: #9ca3af; font-size: 11px; text-align: center; margin-top: 24px;">
-          La Pampa · Sistema de gestión de leads · urbanizacionlapampa.com
+          La Pampa · Sistema de gestión de leads · lapampawellness.com
         </p>
       </div>
     `;
@@ -113,7 +113,7 @@ export async function POST(req: NextRequest) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'La Pampa Web <noreply@urbanizacionlapampa.com>',
+        from: 'La Pampa Web <noreply@lapampawellness.com>',
         to: [adminEmail],
         subject: `Nuevo Lead: ${name} - ${service}`,
         html: htmlBody,

@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import { 
   Sparkles, MessageSquare, Wrench, 
   DollarSign, QrCode, Plus, Calendar, Clock, 
-  ThumbsUp, CheckCircle2, UserCheck, Lock 
+  ThumbsUp, CheckCircle2, UserCheck, Lock, Gift, Copy 
 } from 'lucide-react';
 import { useFirebase } from '@/firebase';
 import { collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, updateDoc, increment } from 'firebase/firestore';
@@ -15,7 +15,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { QRCodeSVG } from 'qrcode.react';
 import { generateDynamicQRToken } from '@/lib/qr-utils';
 
-type UserRole = 'Administrador' | 'Guardia' | 'Contador' | 'Residente';
+type UserRole = 'Administrador' | 'Recepción' | 'Contador' | 'Cliente';
 
 interface Post {
   id: string;
@@ -49,18 +49,18 @@ interface Expense {
 const initialAnnouncements: Post[] = [
   {
     id: '1',
-    autor: 'Administración - La Pampa II',
-    titulo: 'Servicios de Conserjería Premium Activos',
-    contenido: 'Para mantener la comodidad de nuestros residentes, el sistema de agendamiento y reserva de disciplinas wellness ya cuenta con confirmación inmediata vía QR.',
+    autor: 'Administración Wellness La Pampa',
+    titulo: 'Servicios de Concierge Premium Activos',
+    contenido: 'Para mantener la comodidad de nuestros clientes, el sistema de agendamiento y reserva de disciplinas wellness ya cuenta con confirmación inmediata vía QR.',
     categoria: 'Anuncio',
     fecha: null,
     likes: 12
   },
   {
     id: '2',
-    autor: 'Familia Ortega - Lote 05',
+    autor: 'Cliente VIP - Plan Black',
     titulo: 'Prácticas de Yoga al Amanecer',
-    contenido: 'Estaremos organizando sesiones espontáneas en el deck los sábados a las 6:30 AM. Residentes invitados a unirse para respiración guiada.',
+    contenido: 'Estaremos organizando sesiones espontáneas en el deck los sábados a las 6:30 AM. Clientes invitados a unirse para respiración guiada.',
     categoria: 'Social',
     fecha: null,
     likes: 8
@@ -68,21 +68,21 @@ const initialAnnouncements: Post[] = [
 ];
 
 const initialExpenses: Expense[] = [
-  { id: 'exp-1', mes: 'Julio 2026', monto: 250.00, tipo: 'Expensa Ordinaria de Lujo', estado: 'Pendiente', vencimiento: '10/07/2026' },
-  { id: 'exp-2', mes: 'Junio 2026', monto: 250.00, tipo: 'Expensa Ordinaria de Lujo', estado: 'Pagado', vencimiento: '10/06/2026' }
+  { id: 'exp-1', mes: 'Julio 2026', monto: 250.00, tipo: 'Membresía Black - Mensual', estado: 'Pendiente', vencimiento: '10/07/2026' },
+  { id: 'exp-2', mes: 'Junio 2026', monto: 250.00, tipo: 'Membresía Black - Mensual', estado: 'Pagado', vencimiento: '10/06/2026' }
 ];
 
-export default function ResidentPortal() {
+export default function ClientPortal() {
   const firebase = useFirebase();
   const db = firebase?.firestore;
 
-  const [userRole, setUserRole] = useState<UserRole>('Residente');
+  const [userRole, setUserRole] = useState<UserRole>('Cliente');
   const [activeTab, setActiveTab] = useState<string>('finanzas'); // Focus on Finanzas tab first for payment flow
   
   // States
   const [posts, setPosts] = useState<Post[]>(initialAnnouncements);
   const [tickets, setTickets] = useState<Ticket[]>([
-    { id: 't-1', areaComun: 'Gimnasio Wellness', descripcion: 'Mantenimiento en poleas elípticas.', estado: 'En proceso', reportadoPor: 'Lote 05', fechaCreacion: null }
+    { id: 't-1', areaComun: 'Gimnasio Wellness', descripcion: 'Mantenimiento en poleas elípticas.', estado: 'En proceso', reportadoPor: 'Cliente VIP', fechaCreacion: null }
   ]);
   const [expenses, setExpenses] = useState<Expense[]>(() => {
     if (typeof window !== 'undefined') {
@@ -98,6 +98,10 @@ export default function ResidentPortal() {
   const [newPostTitle, setNewPostTitle] = useState('');
   const [newPostContent, setNewPostContent] = useState('');
   const [newPostCategory, setNewPostCategory] = useState('Social');
+
+  // Promociones & Referidos States
+  const [referralCode, setReferralCode] = useState('WELLNESS2026-VIP');
+  const [copied, setCopied] = useState(false);
 
   const [newTicketArea, setNewTicketArea] = useState('Gimnasio Wellness');
   const [newTicketDesc, setNewTicketDesc] = useState('');
@@ -131,7 +135,7 @@ export default function ResidentPortal() {
         const data = docSnap.data();
         list.push({
           id: docSnap.id,
-          autor: data.autor || 'Residente',
+          autor: data.autor || 'Cliente',
           titulo: data.titulo || '',
           contenido: data.contenido || '',
           categoria: data.categoria || 'Social',
@@ -154,7 +158,7 @@ export default function ResidentPortal() {
           estado: data.estado || 'Pendiente',
           fechaCreacion: data.fechaCreacion,
           fotoUrl: data.fotoUrl || '',
-          reportadoPor: data.reportadoPor || 'Lote 05'
+          reportadoPor: data.reportadoPor || 'Cliente VIP'
         });
       });
       if (list.length > 0) setTickets(list);
@@ -173,7 +177,7 @@ export default function ResidentPortal() {
       setQrTimeLeft((prev) => {
         if (prev <= 1) {
           // Generamos un nuevo token dinámico (rotación)
-          const newToken = generateDynamicQRToken('residente_05', vipDni);
+          const newToken = generateDynamicQRToken('cliente_vip_01', vipDni);
           setGeneratedCode(newToken);
           
           if (db) {
@@ -195,7 +199,7 @@ export default function ResidentPortal() {
     if (!newPostTitle || !newPostContent) return;
 
     const data = {
-      autor: 'Lote 05 - Familia Ortega',
+      autor: 'Cliente VIP - Plan Black',
       titulo: newPostTitle,
       contenido: newPostContent,
       categoria: newPostCategory,
@@ -209,7 +213,7 @@ export default function ResidentPortal() {
       } catch (err) {
         const post: Post = {
           id: String(Date.now()),
-          autor: 'Lote 05 - Familia Ortega',
+          autor: 'Cliente VIP - Plan Black',
           titulo: newPostTitle,
           contenido: newPostContent,
           categoria: newPostCategory,
@@ -221,7 +225,7 @@ export default function ResidentPortal() {
     } else {
       const post: Post = {
         id: String(Date.now()),
-        autor: 'Lote 05 - Familia Ortega',
+        autor: 'Cliente VIP - Plan Black',
         titulo: newPostTitle,
         contenido: newPostContent,
         categoria: newPostCategory,
@@ -257,7 +261,7 @@ export default function ResidentPortal() {
       descripcion: newTicketDesc,
       estado: 'Pendiente' as const,
       fechaCreacion: serverTimestamp(),
-      reportadoPor: 'Lote 05 - Familia Ortega'
+      reportadoPor: 'Cliente VIP - Plan Black'
     };
 
     if (db) {
@@ -287,7 +291,7 @@ export default function ResidentPortal() {
       if (db) {
         try {
           await addDoc(collection(db, 'registro_pagos'), {
-            residente: 'Familia Ortega - Lote 05',
+            cliente: 'Cliente VIP - Plan Black',
             monto: 250.00,
             concepto: 'Expensa Ordinaria de Lujo - Julio 2026',
             fechaPago: serverTimestamp()
@@ -315,7 +319,7 @@ export default function ResidentPortal() {
     if (!vipName || !vipDni) return;
 
     // Generamos el primer token dinámico (duración 60 segundos antes de rotar)
-    const token = generateDynamicQRToken('residente_05', vipDni);
+    const token = generateDynamicQRToken('cliente_vip_01', vipDni);
 
     if (db) {
       try {
@@ -323,7 +327,7 @@ export default function ResidentPortal() {
           invitado: vipName,
           documento: vipDni,
           token_inicial: token,
-          residente: 'Lote 05',
+          cliente: 'Cliente VIP - Plan Black',
           fechaCreacion: serverTimestamp(),
           usado: false
         });
@@ -346,7 +350,7 @@ export default function ResidentPortal() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mt-8 mb-12 border-b border-[#C5A059]/20 pb-8">
           <div className="space-y-2">
             <h1 className="text-3xl sm:text-4xl font-serif text-[#333333] uppercase italic">
-              Portal Residencial
+              Portal del Cliente
             </h1>
             <p className="text-[10px] text-[#C5A059] font-bold tracking-[0.25em] uppercase flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
@@ -370,7 +374,7 @@ export default function ResidentPortal() {
                 onChange={(e) => setUserRole(e.target.value as UserRole)}
                 className="bg-transparent text-[9px] font-bold uppercase tracking-wider text-[#333333] focus:outline-none"
               >
-                <option value="Residente">Vista Residente</option>
+                <option value="Cliente">Vista Cliente</option>
                 <option value="Administrador">Vista Administrador</option>
                 <option value="Contador">Vista Contador</option>
               </select>
@@ -381,11 +385,12 @@ export default function ResidentPortal() {
         {/* Navigation Tabs */}
         <div className="flex flex-wrap gap-2 border-b border-[#C5A059]/20 pb-4 mb-8">
           {[
-            { id: 'finanzas', label: 'Finanzas y Pagos', icon: DollarSign, roles: ['Residente', 'Contador', 'Administrador'] },
-            { id: 'comunidad', label: 'Comunidad', icon: MessageSquare, roles: ['Residente', 'Administrador'] },
-            { id: 'agenda', label: 'Agenda de Visitas', icon: Calendar, roles: ['Guardia', 'Administrador', 'Residente'] },
-            { id: 'mantenimiento', label: 'Concierge', icon: Wrench, roles: ['Residente', 'Administrador'] },
-            { id: 'vip', label: 'Acceso VIP QR', icon: QrCode, roles: ['Residente', 'Administrador'] }
+            { id: 'finanzas', label: 'Mi Membresía', icon: DollarSign, roles: ['Cliente', 'Contador', 'Administrador'] },
+            { id: 'referidos', label: 'Promociones & Referidos', icon: Gift, roles: ['Cliente'] },
+            { id: 'comunidad', label: 'Comunidad Wellness', icon: MessageSquare, roles: ['Cliente', 'Administrador'] },
+            { id: 'agenda', label: 'Agenda VIP', icon: Calendar, roles: ['Recepción', 'Administrador', 'Cliente'] },
+            { id: 'mantenimiento', label: 'Concierge', icon: Wrench, roles: ['Cliente', 'Administrador'] },
+            { id: 'vip', label: 'Acceso QR', icon: QrCode, roles: ['Cliente', 'Administrador'] }
           ].filter(tab => tab.roles.includes(userRole)).map((tab) => {
             const isActive = activeTab === tab.id;
             return (
@@ -423,7 +428,7 @@ export default function ResidentPortal() {
               <div className="lg:col-span-4 border border-[#C5A059]/20 p-6 space-y-6">
                 <h2 className="text-sm font-bold text-[#333333] uppercase tracking-wider flex items-center gap-2">
                   <DollarSign className="w-4 h-4 text-[#C5A059]" />
-                  Estado de Cuenta
+                  Mi Suscripción
                 </h2>
 
                 <div className="p-6 border border-[#C5A059]/30 bg-[#FDFBF7] relative">
@@ -435,8 +440,8 @@ export default function ResidentPortal() {
 
                 <div className="space-y-3 pt-2 text-xs border-t border-[#C5A059]/10">
                   <div className="flex justify-between items-center">
-                    <span className="text-[#777777] font-bold uppercase text-[9px] tracking-wider">Lote</span>
-                    <span className="text-[#333333] font-medium">Familia Ortega (Lote 05)</span>
+                    <span className="text-[#777777] font-bold uppercase text-[9px] tracking-wider">Plan Activo</span>
+                    <span className="text-[#333333] font-medium">Membresía Black</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-[#777777] font-bold uppercase text-[9px] tracking-wider">Estado de Acceso</span>
@@ -502,7 +507,63 @@ export default function ResidentPortal() {
             </div>
           )}
 
-          {/* TAB 2: FORUM */}
+          {/* TAB: PROMOCIONES Y REFERIDOS */}
+          {activeTab === 'referidos' && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              <div className="lg:col-span-4 border border-[#C5A059]/20 p-6 space-y-6">
+                <h2 className="text-sm font-bold text-[#333333] uppercase tracking-wider flex items-center gap-2">
+                  <Gift className="w-4 h-4 text-[#C5A059]" />
+                  Mi Código de Referido
+                </h2>
+
+                <div className="p-6 border border-[#C5A059]/30 bg-[#FDFBF7] relative text-center space-y-4">
+                  <p className="text-[10px] text-[#777777] font-bold uppercase tracking-wider">
+                    Comparte este código para ganar <span className="text-[#C5A059]">15 días gratis</span>
+                  </p>
+                  
+                  <div className="flex items-center justify-between border border-[#C5A059]/20 p-3 bg-white">
+                    <span className="font-mono font-bold text-lg text-[#333333] tracking-widest">{referralCode}</span>
+                    <button 
+                      onClick={() => {
+                        navigator.clipboard.writeText(referralCode);
+                        setCopied(true);
+                        setTimeout(() => setCopied(false), 2000);
+                      }}
+                      className="text-[#C5A059] hover:text-[#333333] transition-colors"
+                      title="Copiar Código"
+                    >
+                      {copied ? <CheckCircle2 className="w-5 h-5 text-emerald-500" /> : <Copy className="w-5 h-5" />}
+                    </button>
+                  </div>
+                  
+                  {copied && <p className="text-emerald-500 text-[10px] font-bold uppercase animate-pulse">¡Copiado al portapapeles!</p>}
+                </div>
+              </div>
+
+              <div className="lg:col-span-8 space-y-6">
+                <h2 className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#C5A059]">Promociones Activas</h2>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="border border-[#C5A059]/20 p-6 bg-[#FDFBF7] hover:border-[#C5A059] transition-all">
+                    <h3 className="text-sm font-bold text-[#333333] uppercase mb-2">Pase 3x2 en Terapias</h3>
+                    <p className="text-xs text-[#777777] mb-4">Reserva tres terapias de relajación profunda y paga solo dos durante este mes.</p>
+                    <button className="text-[9px] font-bold uppercase tracking-widest text-[#C5A059] border border-[#C5A059] px-4 py-2 hover:bg-[#C5A059] hover:text-white transition-colors">
+                      Reclamar Promoción
+                    </button>
+                  </div>
+                  <div className="border border-[#C5A059]/20 p-6 bg-[#FDFBF7] hover:border-[#C5A059] transition-all">
+                    <h3 className="text-sm font-bold text-[#333333] uppercase mb-2">Upgrade a Plan Black</h3>
+                    <p className="text-xs text-[#777777] mb-4">Realiza el upgrade a tu membresía y obtén un bolso deportivo premium y acceso VIP.</p>
+                    <button className="text-[9px] font-bold uppercase tracking-widest text-[#C5A059] border border-[#C5A059] px-4 py-2 hover:bg-[#C5A059] hover:text-white transition-colors">
+                      Conoce Más
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB: FORUM */}
           {activeTab === 'comunidad' && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               

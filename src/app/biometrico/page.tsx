@@ -23,9 +23,9 @@ interface BiometricLog {
 }
 
 const mockStaff = [
-  'Familia Ortega - Lote 05 (Residente)',
+  'Cliente VIP - Membresía Black',
   'Carlos Mendoza (Seguridad)',
-  'Mariana Rivas (Jardinería)',
+  'Mariana Rivas (Wellness Spa)',
   'Juan Diego Pérez (Mantenimiento)'
 ];
 
@@ -94,12 +94,12 @@ export default function BiometricPortal() {
       let accessResult: 'Aprobado' | 'Denegado' = 'Aprobado';
       let denyReason = '';
 
-      if (staffName.includes('Residente')) {
+      if (staffName.includes('Cliente')) {
         const paymentStatus = localStorage.getItem('pampa_membership_payment_status');
         if (paymentStatus !== 'paid') {
           accessResult = 'Denegado';
-          denyReason = 'Expensas Pendientes (Mora Financiera)';
-          setErrorMessage('Acceso Denegado: Su cuenta registra saldo pendiente en el portal de residentes.');
+          denyReason = 'Membresía Pendiente de Pago';
+          setErrorMessage('Acceso Denegado: Su cuenta registra saldo pendiente en el portal de cliente.');
         }
       }
 

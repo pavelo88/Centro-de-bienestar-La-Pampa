@@ -17,14 +17,14 @@ const fontBody = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://urbanizacionlapampa.com'),
+  metadataBase: new URL('https://lapampawellness.com'),
   title: 'Centro de Bienestar La Pampa | Santuario Wellness',
   applicationName: 'La Pampa',
-  description: 'Centro de Bienestar La Pampa es catalogado como el mejor santuario wellness. Vida en comunidad de ultra-lujo, seguridad privada con IA de vanguardia, acceso biométrico, amplias áreas verdes exclusivas y un Wellness Center de 5 estrellas.',
+  description: 'Centro de Bienestar La Pampa es catalogado como el mejor santuario wellness comercial. Accesos automatizados, disciplinas exclusivas de ultra-lujo, acceso biométrico, ambientes zen y un Wellness Center de 5 estrellas.',
   keywords: [
     'centro de bienestar la pampa', 'santuario wellness la pampa', 'mejor centro de bienestar', 'spa de ultra lujo',
-    'seguridad privada ia', 'wellness center la pampa', 'lotes exclusivos pomasqui', 'consorcio la pampa',
-    'exclusividad', 'bienestar', 'vida en comunidad', 'inmobiliaria de lujo'
+    'tecnologia qr ia', 'wellness center la pampa', 'yoga', 'membresias premium',
+    'exclusividad', 'bienestar', 'disciplinas', 'santuario zen'
   ],
   manifest: '/manifest.json',
   appleWebApp: {
@@ -39,9 +39,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'es_ES',
-    url: 'https://urbanizacionlapampa.com',
+    url: 'https://lapampawellness.com',
     title: 'Centro de Bienestar La Pampa | Santuario Wellness',
-    description: 'Experimenta la vida en el mejor barrio del mundo. Comunidad de ultra-lujo, seguridad impulsada por IA y un centro wellness de categoría mundial.',
+    description: 'Experimenta las mejores disciplinas en el mejor centro wellness. Instalaciones de ultra-lujo, tecnología impulsada por IA y un centro wellness de categoría mundial.',
     siteName: 'La Pampa',
     images: [
       {
@@ -55,13 +55,13 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Centro de Bienestar La Pampa | Santuario Wellness',
-    description: 'El pináculo del ultra-lujo inmobiliario. Seguridad de vanguardia y bienestar integral en el mejor barrio del mundo.',
+    description: 'El pináculo del ultra-lujo en bienestar. Tecnología de vanguardia y bienestar integral en el mejor centro de la ciudad.',
     images: ['/hero.png'],
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#10b981',
+  themeColor: '#C5A059',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,

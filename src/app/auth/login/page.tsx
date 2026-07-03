@@ -60,8 +60,8 @@ export default function LoginPage() {
     setTimeout(() => {
       setBioStatus('success');
       setTimeout(() => {
-        // En un entorno real esto usaría WebAuthn. Por ahora redirige por defecto a QA.
-        router.replace('/portal');
+        // En un entorno real esto usaría WebAuthn. Por ahora redirige por defecto a la PWA.
+        router.replace('/app/perfil');
       }, 1000);
     }, 2000);
   };
@@ -80,7 +80,7 @@ export default function LoginPage() {
           if (role === 'admin' || role === 'super' || rolesArray.includes('admin') || rolesArray.includes('super')) {
             router.replace('/admin');
           } else {
-            router.replace('/portal');
+            router.replace('/app/perfil');
           }
           return;
         }
@@ -90,7 +90,7 @@ export default function LoginPage() {
     }
     
     // Fallback de seguridad: Si no pudimos leer el rol, asumimos cliente.
-    router.replace('/portal');
+    router.replace('/app/perfil');
   };
 
   return (

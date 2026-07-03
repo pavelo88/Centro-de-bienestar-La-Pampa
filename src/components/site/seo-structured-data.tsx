@@ -5,16 +5,16 @@ import { brands, contactInfo, services } from '@/lib/data';
 export default function SEOStructuredData() {
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": ["RealEstateAgent", "LocalBusiness"],
-    "name": "Centro de Bienestar La Pampa | El Mejor Centro de Bienestar del Mundo",
-    "description": "Barrio de ultra-lujo con seguridad de IA y amenities 5 estrellas. Catalogado como el mejor barrio del mundo.",
-    "image": "https://urbanizacionlapampa.com/hero.png",
-    "@id": "https://urbanizacionlapampa.com",
-    "url": "https://urbanizacionlapampa.com",
+    "@type": ["HealthAndBeautyBusiness", "LocalBusiness"],
+    "name": "Centro de Bienestar La Pampa | El Mejor Santuario Wellness",
+    "description": "Centro comercial independiente de ultra-lujo enfocado en disciplinas wellness y bienestar físico-mental.",
+    "image": "https://lapampawellness.com/hero.png",
+    "@id": "https://lapampawellness.com",
+    "url": "https://lapampawellness.com",
     "telephone": contactInfo.phone,
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Av. Principal del Bosque, Lote 1",
+      "streetAddress": "Av. Principal del Bosque, Edificio Wellness",
       "addressLocality": "La Pampa",
       "addressRegion": "Madrid",
       "postalCode": "28001",
@@ -40,11 +40,11 @@ export default function SEOStructuredData() {
       "closes": "23:59"
     },
     "sameAs": [
-      "https://urbanizacionlapampa.com/portal"
+      "https://lapampawellness.com/portal"
     ],
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
-      "name": "Servicios Residenciales de Ultra-Lujo",
+      "name": "Servicios Wellness de Ultra-Lujo",
       "itemListElement": services.map((service) => ({
         "@type": "Offer",
         "itemOffered": {
@@ -60,13 +60,13 @@ export default function SEOStructuredData() {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Centro de Bienestar La Pampa",
-    "slogan": "El Mejor Barrio del Mundo",
+    "slogan": "El Mejor Santuario Wellness",
     "knowsAbout": [
       ...brands,
-      "Barrio Cerrado de Ultra-Lujo",
-      "Seguridad Residencial de Alta Gama e Inteligencia Artificial",
-      "Wellness & Club House 5 Estrellas",
-      "El Mejor Barrio del Mundo"
+      "Centro Wellness Premium",
+      "Disciplinas Holisticas y Fitness",
+      "Wellness & Spa 5 Estrellas",
+      "El Mejor Centro de Bienestar"
     ]
   };
 

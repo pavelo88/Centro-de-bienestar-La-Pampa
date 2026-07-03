@@ -44,7 +44,7 @@ export function validateQRToken(tokenBase64: string): { valid: boolean; message:
 
     // Validar expiración temporal (Previene captura de pantalla compartida)
     if (Date.now() > payload.exp) {
-      return { valid: false, message: 'Código QR Expirado. El residente debe generar uno nuevo.' };
+      return { valid: false, message: 'Código QR Expirado. El cliente debe generar uno nuevo.' };
     }
 
     return { valid: true, message: 'Acceso Permitido', data: payload };

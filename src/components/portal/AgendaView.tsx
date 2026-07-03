@@ -9,16 +9,16 @@ interface Visita {
   id: string;
   invitado: string;
   documento: string;
-  residente: string;
+  cliente: string;
   estado: 'Esperando' | 'Ingresó' | 'Rechazado';
   fechaLlegada?: string;
   vehiculo?: string;
 }
 
 const mockVisitas: Visita[] = [
-  { id: '1', invitado: 'Juan Pérez', documento: '1720493829', residente: 'Lote 05', estado: 'Esperando', vehiculo: 'PCH-1234' },
-  { id: '2', invitado: 'María Gómez', documento: '0918273645', residente: 'Lote 14', estado: 'Ingresó', fechaLlegada: '10:30 AM' },
-  { id: '3', invitado: 'Carlos Ruiz (Delivery)', documento: 'N/A', residente: 'Lote 22', estado: 'Rechazado' },
+  { id: '1', invitado: 'Juan Pérez', documento: '1720493829', cliente: 'Cliente VIP - 05', estado: 'Esperando', vehiculo: 'PCH-1234' },
+  { id: '2', invitado: 'María Gómez', documento: '0918273645', cliente: 'Membresía Black - 14', estado: 'Ingresó', fechaLlegada: '10:30 AM' },
+  { id: '3', invitado: 'Carlos Ruiz (Delivery)', documento: 'N/A', cliente: 'Cliente Gold - 22', estado: 'Rechazado' },
 ];
 
 export default function AgendaView({ userRole }: { userRole: string }) {
@@ -37,7 +37,7 @@ export default function AgendaView({ userRole }: { userRole: string }) {
           id: doc.id,
           invitado: data.invitado || '',
           documento: data.documento || '',
-          residente: data.residente || '',
+          cliente: data.cliente || '',
           estado: data.estado || 'Esperando',
           fechaLlegada: data.fechaLlegada || '',
           vehiculo: data.vehiculo || ''
@@ -51,7 +51,7 @@ export default function AgendaView({ userRole }: { userRole: string }) {
   }, [db]);
 
   const handleUpdateStatus = (id: string, newStatus: Visita['estado']) => {
-    if (userRole !== 'Guardia' && userRole !== 'Administrador') return;
+    if (userRole !== 'Recepción' && userRole !== 'Administrador') return;
     setVisitas(visitas.map(v => v.id === id ? { ...v, estado: newStatus, fechaLlegada: newStatus === 'Ingresó' ? new Date().toLocaleTimeString() : v.fechaLlegada } : v));
     // Aquí iría la lógica para actualizar Firestore
   };
@@ -78,7 +78,7 @@ export default function AgendaView({ userRole }: { userRole: string }) {
               <div>
                 <h4 className="text-white font-bold">{v.invitado}</h4>
                 <div className="flex items-center gap-3 text-xs text-slate-400 mt-1">
-                  <span className="flex items-center gap-1"><User className="w-3 h-3" /> {v.residente}</span>
+                  <span className="flex items-center gap-1"><User className="w-3 h-3" /> {v.cliente}</span>
                   {v.vehiculo && <span className="flex items-center gap-1"><Car className="w-3 h-3" /> {v.vehiculo}</span>}
                 </div>
               </div>
@@ -92,7 +92,7 @@ export default function AgendaView({ userRole }: { userRole: string }) {
                 </span>
               </div>
               
-              {(userRole === 'Guardia' || userRole === 'Administrador') && v.estado === 'Esperando' && (
+              {(userRole === 'Recepción' || userRole === 'Administrador') && v.estado === 'Esperando' && (
                 <div className="flex gap-2">
                   <button 
                     onClick={() => handleUpdateStatus(v.id, 'Ingresó')}

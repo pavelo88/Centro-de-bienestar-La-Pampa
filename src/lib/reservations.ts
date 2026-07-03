@@ -1,5 +1,7 @@
 import { doc, getDoc, runTransaction } from 'firebase/firestore';
-import { db } from '@/firebase';
+import { initializeFirebase } from '@/firebase';
+
+const { firestore: db } = initializeFirebase();
 
 /**
  * Realiza una reserva segura usando una Transacción de Firestore.
@@ -8,7 +10,7 @@ import { db } from '@/firebase';
 export async function bookWellnessSession(
   userId: string,
   sessionId: string,
-  maxCapacity: number = 25
+  maxCapacity: number = 15
 ): Promise<{ success: boolean; message: string }> {
   
   const sessionRef = doc(db, 'reservas_wellness', sessionId);
@@ -26,7 +28,7 @@ export async function bookWellnessSession(
         capacityCount = currentAttendees.length;
       }
 
-      // 1. Validar límite de capacidad
+      // 1. Validar límite de capacidad estricto de 15 por clase
       if (capacityCount >= maxCapacity) {
         throw new Error("CAPACITY_REACHED");
       }
@@ -50,7 +52,7 @@ export async function bookWellnessSession(
 
   } catch (error: any) {
     if (error.message === 'CAPACITY_REACHED') {
-      return { success: false, message: 'Lo sentimos, el cupo de 25 personas por hora está lleno.' };
+      return { success: false, message: 'Lo sentimos, el cupo máximo de 15 personas está lleno.' };
     }
     if (error.message === 'ALREADY_BOOKED') {
       return { success: false, message: 'Ya tienes una reserva activa para esta sesión.' };

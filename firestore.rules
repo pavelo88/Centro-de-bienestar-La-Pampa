@@ -31,12 +31,16 @@ service cloud.firestore {
       return hasRole('seguridad') || isAdmin();
     }
 
-    function isOwner() {
-      return hasRole('propietario');
+    function isReception() {
+      return hasRole('recepcion') || isAdmin();
     }
 
-    function isWorker() {
-      return hasRole('trabajador');
+    function isClient() {
+      return hasRole('cliente');
+    }
+
+    function isStaff() {
+      return hasRole('staff');
     }
 
     function isPublicContactDataValid() {
@@ -70,43 +74,43 @@ service cloud.firestore {
       );
     }
 
-    // Registros del terminal biométrico en garita
+    // Registros del terminal biométrico en recepción
     match /registros_biometricos/{id} {
-      allow read: if isSecurity();
-      allow create: if isSecurity();
+      allow read: if isReception();
+      allow create: if isReception();
       allow update: if isAdmin();
       allow delete: if isAdmin();
     }
 
-    // Reportes de mantenimiento de la urbanización
+    // Reportes de mantenimiento del centro
     match /tickets_mantenimiento/{id} {
-      allow read: if isOwner() || isWorker() || isAdmin();
-      allow create: if isOwner() || isWorker() || isAdmin();
-      allow update: if isOwner() || isWorker() || isAdmin();
+      allow read: if isClient() || isStaff() || isAdmin();
+      allow create: if isClient() || isStaff() || isAdmin();
+      allow update: if isClient() || isStaff() || isAdmin();
       allow delete: if isAdmin();
     }
 
-    // Reservas de Spa, Yoga, Canchas (Centro Wellness)
+    // Reservas de Clases y Disciplinas
     match /reservas_wellness/{id} {
-      allow read: if isOwner() || isAdmin();
-      allow create: if isOwner();
-      allow update: if isOwner() || isAdmin();
+      allow read: if isClient() || isAdmin();
+      allow create: if isClient();
+      allow update: if isClient() || isAdmin();
       allow delete: if isAdmin();
     }
 
-    // Agenda de Visitas
+    // Agenda de Clientes (Acceso VIP)
     match /agenda_visitas/{id} {
-      allow read: if isSecurity() || isOwner();
-      allow create: if isSecurity() || isOwner();
-      allow update: if isSecurity() || isOwner();
+      allow read: if isReception() || isClient();
+      allow create: if isReception() || isClient();
+      allow update: if isReception() || isClient();
       allow delete: if isAdmin();
     }
 
-    // Foro de la Comunidad
+    // Comunidad y Testimonios
     match /mensajes_foro/{id} {
-      allow read: if isOwner() || isAdmin();
-      allow create: if isOwner() || isAdmin();
-      allow update: if isOwner() || isAdmin();
+      allow read: if isClient() || isAdmin();
+      allow create: if isClient() || isAdmin();
+      allow update: if isClient() || isAdmin();
       allow delete: if isAdmin();
     }
 
