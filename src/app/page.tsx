@@ -14,6 +14,7 @@ import Image from 'next/image';
 import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
 import { YogaIcon, TaiChiIcon, BungeeIcon, KangooIcon } from '@/components/icons';
 import { cn } from '@/lib/utils';
+import { InfiniteCarousel } from '@/components/site/infinite-carousel';
 
 // Magnetic Button effect for premium UX/UI
 function MagneticButton({ children, className, ...props }: any) {
@@ -321,49 +322,44 @@ export default function Home() {
 
               {/* Tarjetas Desktop Grid / Mobile Infinite Carousel */}
               <div className="lg:col-span-7">
-                <div className="flex overflow-x-auto lg:grid lg:grid-cols-2 gap-6 snap-x snap-mandatory custom-scrollbar pb-8 lg:pb-0 hide-scrollbar">
-                  {/* Duplicate array for mobile infinite scrolling effect */}
-                  {[...disciplinesData, ...disciplinesData].map((item, idx) => (
+                
+                {/* Mobile Infinite Carousel */}
+                <div className="block lg:hidden w-full max-w-sm mx-auto">
+                  <InfiniteCarousel items={disciplinesData} onItemClick={setSelectedDiscipline} />
+                </div>
+
+                {/* Desktop Grid (No images, text only) */}
+                <div className="hidden lg:grid lg:grid-cols-2 gap-6">
+                  {disciplinesData.map((item, idx) => (
                     <div 
                       key={idx}
                       onClick={() => setSelectedDiscipline(item)}
-                      className={cn(
-                        "w-[85vw] sm:w-[320px] lg:w-auto shrink-0 snap-center glass-panel bg-white/5 dark:bg-black/20 rounded-2xl overflow-hidden transition-all duration-500 hover:border-pampa-oro/80 hover:shadow-[0_10px_40px_rgba(197,160,89,0.3)] hover:-translate-y-2 cursor-pointer relative flex flex-col min-h-[420px] border border-pampa-oro/20 group",
-                        idx >= disciplinesData.length ? "lg:hidden" : ""
-                      )}
+                      className="glass-panel bg-white/5 dark:bg-black/20 rounded-2xl overflow-hidden transition-all duration-500 hover:border-pampa-oro/80 hover:shadow-[0_10px_40px_rgba(197,160,89,0.3)] hover:-translate-y-2 cursor-pointer flex flex-col justify-between p-8 border border-pampa-oro/20 group h-full min-h-[320px]"
                     >
-                      {/* Imagen dentro de cada tarjeta - más alta para mejor visibilidad */}
-                      <div className="relative w-full h-56 shrink-0 overflow-hidden">
-                        <Image src={item.image} fill className="object-cover transition-transform duration-700 group-hover:scale-110" alt={item.title} />
-                        <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent"></div>
-                      </div>
-
-                      <div className="p-6 flex flex-col justify-between grow space-y-4 relative z-10 -mt-8">
-                        <div className="space-y-4">
-                          <div className="flex justify-between items-end">
-                            <div className="text-pampa-oro p-3 bg-background/80 backdrop-blur-md rounded-xl w-fit shadow-lg border border-white/5">
-                              <item.icon className="w-8 h-8 stroke-[0.75]" />
-                            </div>
+                      <div className="space-y-6">
+                        <div className="flex justify-between items-start">
+                          <div className="text-pampa-oro p-4 bg-background/80 backdrop-blur-md rounded-2xl w-fit shadow-lg border border-white/5 group-hover:scale-110 transition-transform duration-500">
+                            <item.icon className="w-10 h-10 stroke-[0.75]" />
                           </div>
-                          
-                          <div className="space-y-1 mt-2">
-                            <span className="text-[9px] font-bold uppercase tracking-widest text-cyan-600 dark:text-cyan-400 drop-shadow-sm">
-                              {item.subtitle}
-                            </span>
-                            <h3 className="text-2xl font-medium text-foreground font-serif tracking-tight drop-shadow-sm">
-                              {item.title}
-                            </h3>
-                          </div>
-                          
-                          <p className="text-sm text-foreground/80 font-light leading-relaxed line-clamp-3">
-                            {item.desc}
-                          </p>
                         </div>
                         
-                        <div className="pt-4 flex items-center justify-between opacity-70 group-hover:opacity-100 transition-opacity border-t border-white/10 mt-4">
-                          <span className="text-[9px] uppercase tracking-widest text-pampa-oro font-bold mt-4">Abrir Galería</span>
-                          <ArrowRight className="w-4 h-4 text-pampa-oro mt-4" />
+                        <div className="space-y-2">
+                          <span className="text-[10px] font-bold uppercase tracking-widest text-cyan-600 dark:text-cyan-400 drop-shadow-sm">
+                            {item.subtitle}
+                          </span>
+                          <h3 className="text-3xl font-medium text-foreground font-serif tracking-tight drop-shadow-sm">
+                            {item.title}
+                          </h3>
                         </div>
+                        
+                        <p className="text-sm text-foreground/80 font-light leading-relaxed">
+                          {item.desc}
+                        </p>
+                      </div>
+                      
+                      <div className="pt-6 flex items-center justify-between opacity-70 group-hover:opacity-100 transition-opacity border-t border-white/10 mt-6">
+                        <span className="text-[10px] uppercase tracking-widest text-pampa-oro font-bold">Abrir Galería</span>
+                        <ArrowRight className="w-5 h-5 text-pampa-oro" />
                       </div>
                     </div>
                   ))}
