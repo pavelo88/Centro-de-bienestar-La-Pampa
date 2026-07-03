@@ -155,12 +155,28 @@ export default function WellnessPortal() {
           {/* List of Disciplines Selector */}
           <div className="lg:col-span-5 space-y-4">
             <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-pampa-oro mb-6 px-2">Disciplinas Disponibles</h2>
-            <div className="space-y-4">
+            <motion.div 
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              variants={{
+                visible: {
+                  transition: {
+                    staggerChildren: 0.1
+                  }
+                }
+              }}
+              className="space-y-4"
+            >
               {disciplines.map((d) => {
                 const isActive = selectedDiscipline.id === d.id;
                 const DisciplineIcon = d.icon;
                 return (
                   <motion.button
+                    variants={{
+                      hidden: { opacity: 0, x: -20 },
+                      visible: { opacity: 1, x: 0 }
+                    }}
                     key={d.id}
                     onClick={() => setSelectedDiscipline(d)}
                     whileHover={{ scale: 1.02 }}
@@ -188,7 +204,7 @@ export default function WellnessPortal() {
                   </motion.button>
                 );
               })}
-            </div>
+            </motion.div>
           </div>
 
           {/* Active Discipline Details */}
@@ -202,15 +218,30 @@ export default function WellnessPortal() {
                 transition={{ type: 'spring', stiffness: 200, damping: 20 }}
                 className="glass-panel rounded-3xl p-6 sm:p-10 shadow-2xl flex flex-col justify-between relative overflow-hidden min-h-[600px] border border-white/10"
               >
-                {/* Imagen de fondo de la tarjeta */}
-                <div className="absolute inset-0 z-0">
-                  <Image 
-                    src={selectedDiscipline.image} 
-                    alt={selectedDiscipline.title} 
-                    fill 
-                    className="object-cover opacity-30 mix-blend-overlay"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent"></div>
+                {/* Imagen de fondo de la tarjeta animada */}
+                <div className="absolute inset-0 z-0 overflow-hidden bg-background">
+                  <motion.div
+                    initial={{ scale: 1.1, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.8 }}
+                    className="absolute inset-0"
+                  >
+                    <motion.div
+                      animate={{ scale: [1, 1.05, 1] }}
+                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                      className="absolute inset-0"
+                    >
+                      <Image 
+                        src={selectedDiscipline.image} 
+                        alt={selectedDiscipline.title} 
+                        fill 
+                        className="object-cover object-right-top"
+                      />
+                    </motion.div>
+                    {/* Gradientes para asegurar lectura de texto mientras se mantiene la viveza de la imagen */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/90 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent"></div>
+                  </motion.div>
                 </div>
 
                 <div className="space-y-8 relative z-10">
