@@ -72,7 +72,7 @@ export default function AgendaView({ userRole }: { userRole: string }) {
         {visitas.map((v) => (
           <div key={v.id} className="bg-black/20 border border-white/5 rounded-2xl p-4 flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-4 w-full md:w-auto">
-              <div className={\`w-12 h-12 rounded-full flex items-center justify-center \${v.estado === 'Ingresó' ? 'bg-emerald-500/20 text-emerald-400' : v.estado === 'Rechazado' ? 'bg-rose-500/20 text-rose-400' : 'bg-[#D4AF37]/20 text-[#D4AF37]'}\`}>
+              <div className={`w-12 h-12 rounded-full flex items-center justify-center ${v.estado === 'Ingresó' ? 'bg-emerald-500/20 text-emerald-400' : v.estado === 'Rechazado' ? 'bg-rose-500/20 text-rose-400' : 'bg-[#D4AF37]/20 text-[#D4AF37]'}`}>
                 {v.estado === 'Ingresó' ? <CheckCircle className="w-6 h-6" /> : v.estado === 'Rechazado' ? <XCircle className="w-6 h-6" /> : <Clock className="w-6 h-6 animate-pulse" />}
               </div>
               <div>
@@ -87,8 +87,8 @@ export default function AgendaView({ userRole }: { userRole: string }) {
             <div className="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
               <div className="text-right mr-4">
                 <span className="block text-[10px] text-slate-500 uppercase tracking-widest">Estado</span>
-                <span className={\`text-xs font-bold uppercase \${v.estado === 'Ingresó' ? 'text-emerald-400' : v.estado === 'Rechazado' ? 'text-rose-400' : 'text-[#D4AF37]'}\`}>
-                  {v.estado} {v.fechaLlegada && \`(\${v.fechaLlegada})\`}
+                <span className={`text-xs font-bold uppercase ${v.estado === 'Ingresó' ? 'text-emerald-400' : v.estado === 'Rechazado' ? 'text-rose-400' : 'text-[#D4AF37]'}`}>
+                  {v.estado} {v.fechaLlegada && `(${v.fechaLlegada})`}
                 </span>
               </div>
               
